@@ -5,14 +5,34 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-<f:view>
-	<h:head>
-		<title>RidesJSF</title>
-	</h:head>
-	<h:body>
-		<h1>Ongi Etorri RidesJSF!!</h1>
-		<p:button value="Create Ride" />
-		<p:button value="Query Rides" />
-	</h:body>
-</f:view>
+
+<h:head>
+	<title>RidesJSF</title>
+</h:head>
+
+<h:body>
+	<f:event type="postAddToView" listener="#{languageBean.initializeLocaleForView}" />
+	<h:form id="mainForm">
+		<h1>#{msg["sarrera.title"]}</h1>
+
+		<p:commandButton value="#{msg['sarrera.createRide']}"
+			style="margin-right: 10px;" />
+		<p:commandButton value="#{msg['sarrera.fetchRide']}"
+			style="margin-right: 10px;" />
+
+		<br />
+		<br />
+
+		<p:selectOneButton value="#{languageBean.selectedLanguage}">
+			<f:selectItem itemLabel="ES" itemValue="es" />
+			<f:selectItem itemLabel="EN" itemValue="en" />
+			<f:selectItem itemLabel="EU" itemValue="eu" />
+			<p:ajax update="mainForm" />
+		</p:selectOneButton>
+
+		<br />
+		<br />
+		<p:commandButton value="Debug" action="#{debugBean.checkLocale()}" />
+	</h:form>
+</h:body>
 </html>
