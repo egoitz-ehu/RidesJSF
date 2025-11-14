@@ -15,7 +15,7 @@
 	<h:form id="mainForm">
 		<h1>#{msg["sarrera.title"]}</h1>
 
-		<p:commandButton value="#{msg['sarrera.createRide']}"
+		<p:commandButton value="#{msg['sarrera.createRide']}" action="CreateRide"
 			style="margin-right: 10px;" />
 		<p:commandButton value="#{msg['sarrera.fetchRide']}"
 			style="margin-right: 10px;" />
@@ -29,10 +29,6 @@
 			<f:selectItem itemLabel="EU" itemValue="eu" />
 			<p:ajax update="mainForm" />
 		</p:selectOneButton>
-
-		<br />
-		<br />
-		<p:commandButton value="Debug" action="#{debugBean.checkLocale()}" />
 	</h:form>
 </h:body>
 </html>

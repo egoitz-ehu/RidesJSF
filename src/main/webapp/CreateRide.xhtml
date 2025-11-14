@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>RidesJSF</title>
+</h:head>
+
+<h:body>
+	<h:form id="rideForm">
+		<p:wizard flowListener="#{rideBean.onFlowProcess}">
+			<p:tab id="step1" title="Cities">
+				<p:panel header="Cities">
+					<p:inputText id="departingCity" value="#{rideBean.departingCity}"
+						label="Departing City" required="true" />
+					<p:inputText id="arrivalCity" value="#{rideBean.arrivalCity}"
+						label="Arrival City" required="true" />
+				</p:panel>
+			</p:tab>
+			<p:tab id="step2" title="Seats and Price">
+				<p:panel header="Seats and Price">
+					<p:spinner id="seats" value="#{rideBean.seats}" min="1"
+						label="Seats" required="true" />
+					<p:inputNumber id="price" value="#{rideBean.price}" label="Price"
+						required="true" minValue="0" />
+				</p:panel>
+			</p:tab>
+			<p:tab id="step3" title="Date">
+				<p:panel header="Date">
+					<p:calendar id="rideDate" value="#{rideBean.rideDate}"
+						label="Ride Date" required="true" showIcon="true" />
+				</p:panel>
+			</p:tab>
+		</p:wizard>
+	</h:form>
+</h:body>
+</html>
