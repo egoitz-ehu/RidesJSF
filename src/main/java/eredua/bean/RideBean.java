@@ -80,7 +80,7 @@ public class RideBean implements Serializable {
 	
 	public void createRide() {
 		try {
-			FacadeBean.getBusinessLogic().createRide(departingCity, arrivalCity, rideDate, seats, seats, "proba@gmail.com");
+			FacadeBean.getBusinessLogic().createRide(departingCity, arrivalCity, rideDate, seats, seats, "driver1@gmail.com");
 		} catch (RideMustBeLaterThanTodayException | RideAlreadyExistException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
