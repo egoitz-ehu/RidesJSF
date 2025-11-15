@@ -3,9 +3,12 @@ package eredua.bean;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import domain.Ride;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 
 @Named("searchRideBean")
@@ -29,6 +32,11 @@ public class SearchRideBean implements Serializable{
 	
 	public void searchRides() {
 		this.results = FacadeBean.getBusinessLogic().getRides(departingCity, arrivalCity, rideDate);
+		if(this.results.isEmpty()) {
+			ResourceBundle bundle = ResourceBundle.getBundle("messages", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+			String msgBody = bundle.getString("fetchRide.noResults");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, null, msgBody));
+		}
 	}
 
 	public String getDepartingCity() {
