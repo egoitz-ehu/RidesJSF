@@ -1,58 +1,75 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-    <title>RidesJSF</title>
+	<title>RidesJSF</title>
 </h:head>
 
 <h:body>
-    <f:event type="postAddToView"
-        listener="#{languageBean.initializeLocaleForView}" />
-    <h:form id="rideForm">
-        <p:wizard flowListener="#{rideBean.onFlowProcess}">
-            <p:tab id="step1" title="#{msg['createRide.cities']}">
-                <p:panel header="#{msg['createRide.cities']}">
-                    <p:messages />
-                    <h:panelGrid columns="1">
-                        <h:outputText value="#{msg['createRide.departingCity']}" />
-                        <p:inputText id="departingCity" value="#{rideBean.departingCity}"
-                            label="Departing City" required="true"
-                            requiredMessage="#{msg['createRide.errorDepartingCity']}" />
-                        <h:outputText value="#{msg['createRide.arrivalCity']}" />
-                        <p:inputText id="arrivalCity" value="#{rideBean.arrivalCity}"
-                            label="Arrival City" required="true"
-                            requiredMessage="#{msg['createRide.errorArrivalCity']}" />
-                    </h:panelGrid>
-                </p:panel>
-            </p:tab>
-            <p:tab id="step2" title="#{msg['createRide.pricePerSeat']}">
-                <p:panel header="#{msg['createRide.pricePerSeat']}">
-                    <p:messages />
-                    <h:panelGrid columns="1">
-                        <h:outputText value="#{msg['createRide.numberOfSeats']}" />
-                        <p:spinner id="seats" value="#{rideBean.seats}" min="1"
-                            label="#{msg['createRide.numberOfSeats']}" required="true" />
-                        <h:outputText value="#{msg['createRide.pricePerSeat']}" />
-                        <p:inputNumber id="price" value="#{rideBean.price}" label="Price"
-                            required="true" minValue="0" />
-                    </h:panelGrid>
-                </p:panel>
-            </p:tab>
-            <p:tab id="step3" title="#{msg['createRide.date']}">
-                <p:panel header="#{msg['createRide.date']}">
-                    <p:messages />
-                    <h:panelGrid columns="1">
-                        <h:outputText value="#{msg['createRide.datePlaceholder']}" />
-                        <p:calendar id="rideDate" value="#{rideBean.rideDate}"
-                            label="#{msg['createRide.datePlaceholder']}" required="true"
-                            requiredMessage="#{msg['createRide.errorDate']}" inline="true"/>
-                    </h:panelGrid>
-                </p:panel>
-            </p:tab>
-        </p:wizard>
-    </h:form>
+	<f:event type="postAddToView"
+		listener="#{languageBean.initializeLocaleForView}" />
+	<h:form id="rideForm">
+		<p:wizard flowListener="#{rideBean.onFlowProcess}">
+			<p:tab id="step1" title="#{msg['createRide.cities']}">
+				<p:panel header="#{msg['createRide.cities']}">
+					<p:messages />
+					<h:panelGrid columns="1">
+						<h:outputText value="#{msg['createRide.departingCity']}" />
+						<p:inputText id="departingCity" value="#{rideBean.departingCity}"
+							label="Departing City" required="true"
+							requiredMessage="#{msg['createRide.errorDepartingCity']}" />
+						<h:outputText value="#{msg['createRide.arrivalCity']}" />
+						<p:inputText id="arrivalCity" value="#{rideBean.arrivalCity}"
+							label="Arrival City" required="true"
+							requiredMessage="#{msg['createRide.errorArrivalCity']}" />
+					</h:panelGrid>
+				</p:panel>
+			</p:tab>
+			<p:tab id="step2" title="#{msg['createRide.pricePerSeat']}">
+				<p:panel header="#{msg['createRide.pricePerSeat']}">
+					<p:messages />
+					<h:panelGrid columns="1">
+						<h:outputText value="#{msg['createRide.numberOfSeats']}" />
+						<p:spinner id="seats" value="#{rideBean.seats}" min="1"
+							label="#{msg['createRide.numberOfSeats']}" required="true" />
+						<h:outputText value="#{msg['createRide.pricePerSeat']}" />
+						<p:inputNumber id="price" value="#{rideBean.price}" label="Price"
+							required="true" minValue="0" />
+					</h:panelGrid>
+				</p:panel>
+			</p:tab>
+			<p:tab id="step3" title="#{msg['createRide.date']}">
+				<p:panel header="#{msg['createRide.date']}">
+					<p:messages />
+					<h:panelGrid columns="1">
+						<h:outputText value="#{msg['createRide.datePlaceholder']}" />
+						<p:calendar id="rideDate" value="#{rideBean.rideDate}"
+							label="#{msg['createRide.datePlaceholder']}" required="true"
+							requiredMessage="#{msg['createRide.errorDate']}" inline="true" />
+					</h:panelGrid>
+				</p:panel>
+			</p:tab>
+			<p:tab id="step4" title="#{msg['createRide.confirmation']}">
+				<p:panel header="#{msg['createRide.confirmation']}">
+					<h:panelGrid columns="1">
+						<b>#{msg['createRide.confirmationMessage']}</b>
+						<h:outputText
+							value="#{msg['createRide.departingCity']}: #{rideBean.departingCity}" />
+						<h:outputText
+							value="#{msg['createRide.arrivalCity']}: #{rideBean.arrivalCity}" />
+						<h:outputText
+							value="#{msg['createRide.numberOfSeats']}: #{rideBean.seats}" />
+						<h:outputText
+							value="#{msg['createRide.pricePerSeat']}: #{rideBean.price}" />
+						<h:outputText
+							value="#{msg['createRide.datePlaceholder']}: #{rideBean.rideDate}"/>
+					</h:panelGrid>
+				</p:panel>
+			</p:tab>
+		</p:wizard>
+	</h:form>
 </h:body>
 </html>
