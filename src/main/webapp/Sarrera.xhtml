@@ -27,7 +27,7 @@
 			<f:selectItem itemLabel="ES" itemValue="es" />
 			<f:selectItem itemLabel="EN" itemValue="en" />
 			<f:selectItem itemLabel="EU" itemValue="eu" />
-			<p:ajax update="mainForm" />
+			<p:ajax listener="#{languageBean.updateLocale}" update="@all" />
 		</p:selectOneButton>
 	</h:form>
 </h:body>
