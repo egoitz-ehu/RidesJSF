@@ -2,15 +2,20 @@ package eredua.bean;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.ResourceBundle;
 
 import org.primefaces.event.FlowEvent;
 
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.validator.ValidatorException;
 import jakarta.inject.Named;
 
 @Named("rideBean")
 @SessionScoped
-public class RideBean implements Serializable{
+public class RideBean implements Serializable {
 	private String departingCity;
 	private String arrivalCity;
 	private int seats;
@@ -56,8 +61,19 @@ public class RideBean implements Serializable{
 	public void setRideDate(Date rideDate) {
 		this.rideDate = rideDate;
 	}
+
+	public String onFlowProcess(FlowEvent event) {
+		return event.getNewStep();
+	}
 	
-	 public String onFlowProcess(FlowEvent event) {
-	        return event.getNewStep();
+	public void validateRideDate(FacesContext context, UIComponent component, Object value) {
+	    Date selectedDate = (Date) value;
+	    if (selectedDate == null || selectedDate.before(new Date())) {
+	        ResourceBundle bundle = ResourceBundle.getBundle("messages", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+	        String msg = bundle.getString("createRide.errorDate");
+	        FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, null);
+	        throw new ValidatorException(facesMessage);
 	    }
+	}
+
 }
