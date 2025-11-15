@@ -1,0 +1,58 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Search Rides</title>
+</h:head>
+<h:body>
+	<f:event type="postAddToView"
+		listener="#{languageBean.initializeLocaleForView}" />
+	<f:event type="preRenderView" listener="#{searchRideBean.init}" />
+	<h:form id="searchForm">
+		<h:panelGrid columns="2" cellpadding="5">
+			<h:outputLabel for="departingCity" value="Departing City:" />
+			<p:selectOneMenu id="departingCity"
+				value="#{searchRideBean.departingCity}">
+				<f:selectItems value="#{searchRideBean.departingCities}" />
+				<p:ajax event="change"
+					listener="#{searchRideBean.onDepartingCityChange}"
+					update="arrivalCity" />
+			</p:selectOneMenu>
+
+			<h:outputLabel for="arrivalCity" value="Arrival City:" />
+			<p:selectOneMenu id="arrivalCity"
+				value="#{searchRideBean.arrivalCity}">
+				<f:selectItems value="#{searchRideBean.arrivalCities}" />
+			</p:selectOneMenu>
+
+			<h:outputLabel for="rideDate" value="Date:" />
+			<p:calendar id="rideDate" value="#{searchRideBean.rideDate}"
+				showButtonPanel="true" />
+
+			<h:outputLabel />
+			<p:commandButton value="Search"
+				action="#{searchRideBean.searchRides}" update="resultsTable" />
+		</h:panelGrid>
+
+		<p:dataTable id="resultsTable" value="#{searchRideBean.results}"
+			var="ride">
+			<p:column headerText="Departing City">
+				<h:outputText value="#{ride.from}" />
+			</p:column>
+			<p:column headerText="Arrival City">
+				<h:outputText value="#{ride.to}" />
+			</p:column>
+			<p:column headerText="Date">
+				<h:outputText value="#{ride.date}" />
+			</p:column>
+			<p:column headerText="Seats">
+				<h:outputText value="#{ride.nPlaces}" />
+			</p:column>
+			<p:column headerText="Price">
+				<h:outputText value="#{ride.price}" />
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>

@@ -22,8 +22,12 @@ https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_3_0.xsd"
 		<display-name>Sarrera.xhtml</display-name>
 		<from-view-id>/Sarrera.xhtml</from-view-id>
 		<navigation-case>
-			<from-outcome>ok</from-outcome>
+			<from-outcome>createRide</from-outcome>
 			<to-view-id>/CreateRide.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>fetchRide</from-outcome>
+			<to-view-id>/SearchRide.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 </faces-config>

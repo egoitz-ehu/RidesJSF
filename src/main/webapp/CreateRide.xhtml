@@ -48,8 +48,9 @@
 						<h:outputText value="#{msg['createRide.datePlaceholder']}" />
 						<p:calendar id="rideDate" value="#{rideBean.rideDate}"
 							label="#{msg['createRide.datePlaceholder']}" required="true"
-							requiredMessage="#{msg['createRide.errorDate']}" inline="true" 
-							validator="#{rideBean.validateRideDate}"/>
+							requiredMessage="#{msg['createRide.errorDate']}"
+							validator="#{rideBean.validateRideDate}"
+							mode="inline"/>
 					</h:panelGrid>
 				</p:panel>
 			</p:tab>
