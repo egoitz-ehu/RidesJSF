@@ -6,6 +6,8 @@ import java.util.ResourceBundle;
 
 import org.primefaces.event.FlowEvent;
 
+import exceptions.RideAlreadyExistException;
+import exceptions.RideMustBeLaterThanTodayException;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
@@ -74,6 +76,15 @@ public class RideBean implements Serializable {
 	        FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, null);
 	        throw new ValidatorException(facesMessage);
 	    }
+	}
+	
+	public void createRide() {
+		try {
+			FacadeBean.getBusinessLogic().createRide(departingCity, arrivalCity, rideDate, seats, seats, "proba@gmail.com");
+		} catch (RideMustBeLaterThanTodayException | RideAlreadyExistException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

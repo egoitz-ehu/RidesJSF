@@ -67,6 +67,7 @@
 							value="#{msg['createRide.pricePerSeat']}: #{rideBean.price}" />
 						<h:outputText
 							value="#{msg['createRide.datePlaceholder']}: #{rideBean.rideDate}"/>
+						<p:commandButton value="#{msg['createRide.submitButton']}" action="#{rideBean.createRide}" />
 					</h:panelGrid>
 				</p:panel>
 			</p:tab>
