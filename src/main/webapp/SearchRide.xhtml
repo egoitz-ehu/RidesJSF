@@ -1,10 +1,19 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
-<h:head>
-	<title>Search Rides</title>
-	<style>
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/facelets/templates/Txantiloia.xhtml">
+
+	<ui:define name="menu">
+		<!-- Example menu, replace as needed -->
+		<h:panelGroup>
+			<h:outputText value="Menu goes here" />
+		</h:panelGroup>
+	</ui:define>
+
+	<ui:define name="content">
+		<style>
 .main-container {
 	max-width: 1000px;
 	margin: 20px auto;
@@ -19,79 +28,78 @@
 	margin-bottom: 15px;
 }
 </style>
-</h:head>
-<h:body>
-	<f:event type="postAddToView"
-		listener="#{languageBean.initializeLocaleForView}" />
-	<f:event type="preRenderView" listener="#{searchRideBean.init}" />
+		<f:event type="postAddToView"
+			listener="#{languageBean.initializeLocaleForView}" />
+		<f:event type="preRenderView" listener="#{searchRideBean.init}" />
 
-	<div class="main-container">
-		<p:card styleClass="search-card">
-			<f:facet name="title">
-				<i class="pi pi-search"></i> #{msg['fetchRide.title']}
-   </f:facet>
-			<h:form id="searchForm">
-				<div class="ui-g ui-fluid">
-					<div class="ui-g-12 ui-md-4">
-						<p:outputLabel for="departingCity"
-							value="#{msg['fetchRide.departingCity']}" />
-						<p:selectOneMenu id="departingCity"
-							value="#{searchRideBean.departingCity}" filter="true"
-							filterMatchMode="startsWith" emptyLabel="Select departing city">
-							<f:selectItems value="#{searchRideBean.departingCities}" />
-							<p:ajax event="change"
-								listener="#{searchRideBean.onDepartingCityChange}"
-								update="arrivalCity" />
-						</p:selectOneMenu>
+		<div class="main-container">
+			<p:card styleClass="search-card">
+				<f:facet name="title">
+					<i class="pi pi-search"></i> #{msg['fetchRide.title']}
+                </f:facet>
+				<h:form id="searchForm">
+					<div class="ui-g ui-fluid">
+						<div class="ui-g-12 ui-md-4">
+							<p:outputLabel for="departingCity"
+								value="#{msg['fetchRide.departingCity']}" />
+							<p:selectOneMenu id="departingCity"
+								value="#{searchRideBean.departingCity}" filter="true"
+								filterMatchMode="startsWith" emptyLabel="Select departing city">
+								<f:selectItems value="#{searchRideBean.departingCities}" />
+								<p:ajax event="change"
+									listener="#{searchRideBean.onDepartingCityChange}"
+									update="arrivalCity" />
+							</p:selectOneMenu>
+						</div>
+						<div class="ui-g-12 ui-md-4">
+							<p:outputLabel for="arrivalCity"
+								value="#{msg['fetchRide.arrivalCity']}" />
+							<p:selectOneMenu id="arrivalCity"
+								value="#{searchRideBean.arrivalCity}" filter="true"
+								filterMatchMode="startsWith" emptyLabel="Select arrival city">
+								<f:selectItems value="#{searchRideBean.arrivalCities}" />
+							</p:selectOneMenu>
+						</div>
+						<div class="ui-g-12 ui-md-4">
+							<p:outputLabel for="rideDate" value="#{msg['fetchRide.date']}" />
+							<p:calendar id="rideDate" value="#{searchRideBean.rideDate}"
+								showButtonPanel="true" showIcon="true" />
+						</div>
 					</div>
-					<div class="ui-g-12 ui-md-4">
-						<p:outputLabel for="arrivalCity"
-							value="#{msg['fetchRide.arrivalCity']}" />
-						<p:selectOneMenu id="arrivalCity"
-							value="#{searchRideBean.arrivalCity}" filter="true"
-							filterMatchMode="startsWith" emptyLabel="Select arrival city">
-							<f:selectItems value="#{searchRideBean.arrivalCities}" />
-						</p:selectOneMenu>
+					<div style="text-align: center; margin-top: 20px;">
+						<p:commandButton value="#{msg['fetchRide.searchButton']}"
+							icon="pi pi-search" styleClass="ui-button-success"
+							action="#{searchRideBean.searchRides}"
+							update="resultsPanel messages" />
 					</div>
-					<div class="ui-g-12 ui-md-4">
-						<p:outputLabel for="rideDate" value="#{msg['fetchRide.date']}" />
-						<p:calendar id="rideDate" value="#{searchRideBean.rideDate}"
-							showButtonPanel="true" showIcon="true" />
-					</div>
-				</div>
-				<div style="text-align: center; margin-top: 20px;">
-					<p:commandButton value="#{msg['fetchRide.searchButton']}"
-						icon="pi pi-search" styleClass="ui-button-success"
-						action="#{searchRideBean.searchRides}" update="resultsPanel messages" />
-				</div>
-			</h:form>
-		</p:card>
+				</h:form>
+			</p:card>
 
-		<p:messages id="messages" showDetail="true" closable="true" />
-		<h:panelGroup id="resultsPanel">
-			<p:repeat value="#{searchRideBean.results}" var="ride">
-				<p:card styleClass="ride-card">
-					<f:facet name="title">
-						<div
-							style="display: flex; justify-content: space-between; align-items: center;">
-							<span> <i class="pi pi-user"></i> #{ride.driver.name}
-							</span>
-							<p:badge value="#{ride.price} €" severity="success" size="large" />
+			<p:messages id="messages" showDetail="true" closable="true" />
+			<h:panelGroup id="resultsPanel">
+				<p:repeat value="#{searchRideBean.results}" var="ride">
+					<p:card styleClass="ride-card">
+						<f:facet name="title">
+							<div
+								style="display: flex; justify-content: space-between; align-items: center;">
+								<span> <i class="pi pi-user"></i> #{ride.driver.name}
+								</span>
+								<p:badge value="#{ride.price} €" severity="success" size="large" />
+							</div>
+						</f:facet>
+						<div class="p-grid">
+							<div class="p-col-6">
+								<i class="pi pi-users"></i> <strong>#{msg['fetchRide.seats']}:</strong>
+								#{ride.nPlaces}
+							</div>
+							<div class="p-col-6" style="text-align: right;">
+								<p:commandButton value="#{msg['fetchRide.bookButton']}"
+									icon="pi pi-check" styleClass="ui-button-sm ui-button-outlined" />
+							</div>
 						</div>
-					</f:facet>
-					<div class="p-grid">
-						<div class="p-col-6">
-							<i class="pi pi-users"></i> <strong>#{msg['fetchRide.seats']}:</strong>
-							#{ride.nPlaces}
-						</div>
-						<div class="p-col-6" style="text-align: right;">
-							<p:commandButton value="#{msg['fetchRide.bookButton']}"
-								icon="pi pi-check" styleClass="ui-button-sm ui-button-outlined" />
-						</div>
-					</div>
-				</p:card>
-			</p:repeat>
-		</h:panelGroup>
-	</div>
-</h:body>
-</html>
+					</p:card>
+				</p:repeat>
+			</h:panelGroup>
+		</div>
+	</ui:define>
+</ui:composition>

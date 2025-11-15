@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<title>My Rides App</title>
+	<style>
+body {
+	margin: 0;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.layout-grid {
+	display: grid;
+	grid-template-areas: "header header" "menu content" "footer footer";
+	grid-template-columns: 220px 1fr;
+	grid-template-rows: 70px 1fr 50px;
+	min-height: 100vh;
+}
+
+.header {
+	grid-area: header;
+	background: #007ad9;
+	color: #fff;
+	display: flex;
+	align-items: center;
+	padding-left: 30px;
+	font-size: 2em;
+	font-weight: bold;
+}
+
+.menu {
+	grid-area: menu;
+	background: #e3e3e3;
+	padding: 20px 10px;
+	min-width: 200px;
+}
+
+.content {
+	grid-area: content;
+	background: #f8f9fa;
+	padding: 30px;
+	min-height: 300px;
+}
+
+.footer {
+	grid-area: footer;
+	background: #222;
+	color: #fff;
+	text-align: center;
+	padding: 15px 0;
+	font-size: 1em;
+}
+/* Debug colors */
+.header {
+	background: #007ad9;
+}
+
+.menu {
+	background: #ffe082;
+}
+
+.content {
+	background: #b3e5fc;
+}
+
+.footer {
+	background: #8bc34a;
+}
+</style>
+</h:head>
+<h:body>
+	<div class="layout-grid">
+		<div class="header">My Rides App</div>
+		<div class="menu">
+			<ui:insert name="menu">
+				<h:outputText value="Menu goes here" />
+			</ui:insert>
+		</div>
+		<div class="content">
+			<ui:insert name="content">
+				<h:outputText value="Main content goes here" />
+			</ui:insert>
+		</div>
+		<div class="footer">&#169; Software Ingeniaritza II</div>
+	</div>
+</h:body>
+</html>
