@@ -1,34 +1,44 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/facelets/templates/Txantiloia.xhtml">
+	<ui:define name="menu">
+		<ui:include src="/WEB-INF/facelets/menu/menu-driver.xhtml" />
+	</ui:define>
 
-<h:head>
-	<title>RidesJSF</title>
-</h:head>
-
-<h:body>
-	<f:event type="postAddToView" listener="#{languageBean.initializeLocaleForView}" />
-	<h:form id="mainForm">
-		<h1>#{msg["sarrera.title"]}</h1>
-
-		<p:commandButton value="#{msg['sarrera.createRide']}" action="createRide"
-			style="margin-right: 10px;" />
-		<p:commandButton value="#{msg['sarrera.fetchRide']}" action="fetchRide"
-			style="margin-right: 10px;" />
-
-		<br />
-		<br />
-
-		<p:selectOneButton value="#{languageBean.selectedLanguage}">
-			<f:selectItem itemLabel="ES" itemValue="es" />
-			<f:selectItem itemLabel="EN" itemValue="en" />
-			<f:selectItem itemLabel="EU" itemValue="eu" />
-			<p:ajax listener="#{languageBean.updateLocale}" update="@all" />
-		</p:selectOneButton>
-	</h:form>
-</h:body>
-</html>
+	<ui:define name="content">
+		<f:event type="postAddToView"
+			listener="#{languageBean.initializeLocaleForView}" />
+		<div style="max-width: 600px; margin: 40px auto;">
+			<p:card styleClass="ui-card-shadow">
+				<f:facet name="title">
+					<i class="pi pi-car" style="font-size:2em; color:#007ad9; margin-right:10px;"></i>
+					#{msg["sarrera.title"]}
+				</f:facet>
+				<f:facet name="subtitle">
+					#{msg["sarrera.welcomeMessage"]}
+				</f:facet>
+				<h:form id="mainForm">
+					<div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 30px;">
+						<p:commandButton value="#{msg['sarrera.createRide']}"
+							action="createRide" icon="pi pi-plus"
+							styleClass="ui-button-success" />
+						<p:commandButton value="#{msg['sarrera.fetchRide']}"
+							action="fetchRide" icon="pi pi-search"
+							styleClass="ui-button-info" />
+					</div>
+					<div style="text-align: center;">
+						<p:selectOneButton value="#{languageBean.selectedLanguage}" style="margin-top: 10px;">
+							<f:selectItem itemLabel="ES" itemValue="es" />
+							<f:selectItem itemLabel="EN" itemValue="en" />
+							<f:selectItem itemLabel="EU" itemValue="eu" />
+							<p:ajax listener="#{languageBean.updateLocale}" update="@all" />
+						</p:selectOneButton>
+					</div>
+				</h:form>
+			</p:card>
+		</div>
+	</ui:define>
+</ui:composition>

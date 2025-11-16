@@ -30,7 +30,7 @@ https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_3_0.xsd"
 			<to-view-id>/SearchRide.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
-	
+
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
@@ -39,7 +39,11 @@ https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_3_0.xsd"
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>createRide</from-outcome>
-            <to-view-id>/CreateRide.xhtml</to-view-id>
+			<to-view-id>/CreateRide.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>home</from-outcome>
+			<to-view-id>/Sarrera.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 </faces-config>
