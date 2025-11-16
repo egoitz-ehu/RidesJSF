@@ -11,7 +11,8 @@
 		<f:event type="postAddToView"
 			listener="#{languageBean.initializeLocaleForView}" />
 		<h:form id="rideForm">
-			<p:wizard flowListener="#{rideBean.onFlowProcess}">
+			<p:wizard flowListener="#{rideBean.onFlowProcess}"
+			nextLabel="#{msg['createRide.nextButton']}">
 		<p:tab id="step1" title="#{msg['createRide.cities']}">
 			<p:panel header="#{msg['createRide.cities']}">
 				<p:messages />

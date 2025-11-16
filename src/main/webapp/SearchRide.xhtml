@@ -74,7 +74,7 @@
 
 			<p:messages id="messages" showDetail="true" closable="true" />
 			<h:panelGroup id="resultsPanel">
-				<p:repeat value="#{searchRideBean.results}" var="ride">
+				<ui:repeat value="#{searchRideBean.results}" var="ride">
 					<p:card styleClass="ride-card">
 						<f:facet name="title">
 							<div
@@ -95,7 +95,7 @@
 							</div>
 						</div>
 					</p:card>
-				</p:repeat>
+				</ui:repeat>
 			</h:panelGroup>
 		</div>
 	</ui:define>
