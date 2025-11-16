@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:head>
 	<title>My Rides App</title>
@@ -24,9 +26,30 @@ body {
 	color: #fff;
 	display: flex;
 	align-items: center;
-	padding-left: 30px;
+	justify-content: space-between;
+	padding: 0 30px;
 	font-size: 2em;
 	font-weight: bold;
+}
+
+.language-selector {
+	font-size: 0.6em;
+}
+
+.language-selector .ui-selectonemenu {
+	min-width: 120px;
+}
+
+.language-selector .ui-selectonemenu .ui-selectonemenu-label {
+	color: #007ad9;
+	font-weight: bold;
+}
+
+.flag-icon {
+	width: 20px;
+	height: 15px;
+	margin-right: 8px;
+	vertical-align: middle;
 }
 
 .menu {
@@ -51,27 +74,24 @@ body {
 	padding: 15px 0;
 	font-size: 1em;
 }
-/* Debug colors */
-.header {
-	background: #007ad9;
-}
-
-.menu {
-	background: #ffe082;
-}
-
-.content {
-	background: #b3e5fc;
-}
-
-.footer {
-	background: #8bc34a;
-}
 </style>
 </h:head>
 <h:body>
 	<div class="layout-grid">
-		<div class="header">My Rides App</div>
+		<div class="header">
+			<span>My Rides App</span>
+			<div class="language-selector">
+				<h:form>
+					<p:selectOneMenu value="#{languageBean.selectedLanguage}">
+					    <f:selectItem itemLabel="Español" itemValue="es" />
+					    <f:selectItem itemLabel="English" itemValue="en" />
+					    <f:selectItem itemLabel="Euskera" itemValue="eu" />
+					    <p:ajax listener="#{languageBean.updateLocale}" update="@all" />
+					</p:selectOneMenu>
+
+				</h:form>
+			</div>
+		</div>
 		<div class="menu">
 			<ui:insert name="menu">
 				<h:outputText value="Menu goes here" />

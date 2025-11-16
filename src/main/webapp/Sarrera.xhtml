@@ -29,14 +29,6 @@
 							action="fetchRide" icon="pi pi-search"
 							styleClass="ui-button-info" />
 					</div>
-					<div style="text-align: center;">
-						<p:selectOneButton value="#{languageBean.selectedLanguage}" style="margin-top: 10px;">
-							<f:selectItem itemLabel="ES" itemValue="es" />
-							<f:selectItem itemLabel="EN" itemValue="en" />
-							<f:selectItem itemLabel="EU" itemValue="eu" />
-							<p:ajax listener="#{languageBean.updateLocale}" update="@all" />
-						</p:selectOneButton>
-					</div>
 				</h:form>
 			</p:card>
 		</div>
