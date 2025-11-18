@@ -55,6 +55,7 @@
 		</p:tab>
 		<p:tab id="step4" title="#{msg['createRide.confirmation']}">
 			<p:panel header="#{msg['createRide.confirmation']}">
+						<p:growl id="messages" showDetail="true" life="5000" />
 				<h:panelGrid columns="1">
 					<b>#{msg['createRide.confirmationMessage']}</b>
 					<h:outputText
@@ -68,7 +69,7 @@
 					<h:outputText
 						value="#{msg['createRide.datePlaceholder']}: #{rideBean.rideDate}" />
 					<p:commandButton value="#{msg['createRide.submitButton']}"
-						action="#{rideBean.createRide}" />
+						action="#{rideBean.createRide}" update="messages"/>
 				</h:panelGrid>
 			</p:panel>
 		</p:tab>

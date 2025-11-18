@@ -81,6 +81,9 @@ public class RideBean implements Serializable {
 	public void createRide() {
 		try {
 			FacadeBean.getBusinessLogic().createRide(departingCity, arrivalCity, rideDate, seats, seats, "driver1@gmail.com");
+			ResourceBundle bundle = ResourceBundle.getBundle("messages", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+	        String msg = bundle.getString("createRide.rideCreatedMessage");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", msg));
 		} catch (RideMustBeLaterThanTodayException | RideAlreadyExistException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
