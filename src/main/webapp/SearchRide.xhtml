@@ -42,6 +42,7 @@
 							<p:selectOneMenu id="departingCity"
 								value="#{searchRideBean.departingCity}" filter="true"
 								filterMatchMode="startsWith" emptyLabel="Select departing city">
+								<f:selectItem itemLabel="#{msg['fetchRide.selectDepartingCity']}" itemValue=""/>
 								<f:selectItems value="#{searchRideBean.departingCities}" />
 								<p:ajax event="change"
 									listener="#{searchRideBean.onDepartingCityChange}"
@@ -54,6 +55,7 @@
 							<p:selectOneMenu id="arrivalCity"
 								value="#{searchRideBean.arrivalCity}" filter="true"
 								filterMatchMode="startsWith" emptyLabel="Select arrival city">
+								<f:selectItem itemLabel="#{msg['fetchRide.selectArrivalCity']}" itemValue=""/>
 								<f:selectItems value="#{searchRideBean.arrivalCities}" />
 								<p:ajax event="change"
 								    listener="#{searchRideBean.onArrivalCityChange}"/>

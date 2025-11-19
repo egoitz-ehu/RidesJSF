@@ -35,6 +35,7 @@ public class SearchRideBean implements Serializable{
 	
 	public void onDepartingCityChange() {
 		this.arrivalCities = FacadeBean.getBusinessLogic().getDestinationCities(departingCity);
+		System.out.println("Arrival cities updated: " + arrivalCities);
 		checkAndLoadAvailableDates();
 	}
 	
@@ -78,9 +79,9 @@ public class SearchRideBean implements Serializable{
 			List<Date> availableDates = FacadeBean.getBusinessLogic().getThisMonthDatesWithRides(departingCity, arrivalCity, dateToCheck);
 			
 			// Debug info
-			System.out.println("=== Fechas disponibles ===");
+			System.out.println("=== Datak ===");
 			if (availableDates != null && !availableDates.isEmpty()) {
-				System.out.println("Se encontraron " + availableDates.size() + " fechas disponibles:");
+				System.out.println(availableDates.size() + " data aurkitu dira:");
 				availableDates.forEach(date -> System.out.println("  - " + date));
 			} else {
 				System.out.println("No se encontraron fechas disponibles");
@@ -88,9 +89,9 @@ public class SearchRideBean implements Serializable{
 			
 			// TODO: Más adelante aquí procesarás las fechas para colorear el calendario
 		} else {
-			System.out.println("=== Esperando selección completa ===");
-			System.out.println("Ciudad origen: " + (departingCity != null ? departingCity : "no seleccionada"));
-			System.out.println("Ciudad destino: " + (arrivalCity != null ? arrivalCity : "no seleccionada"));
+			System.out.println("=== Datuak falta ===");
+			System.out.println("Departing city: " + (departingCity != null ? departingCity : "ez aukeratu"));
+			System.out.println("Arrival city: " + (arrivalCity != null ? arrivalCity : "ez aukeratu"));
 		}
 	}
 
