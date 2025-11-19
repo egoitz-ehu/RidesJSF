@@ -1,9 +1,13 @@
 package eredua.bean;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import org.primefaces.event.DateViewChangeEvent;
+import org.primefaces.event.SelectEvent;
 
 import domain.Ride;
 import jakarta.enterprise.context.SessionScoped;
@@ -21,14 +25,23 @@ public class SearchRideBean implements Serializable{
 
 	private List<String> departingCities;
 	private List<String> arrivalCities;
+	
+	private Date currentViewDate;
 
 	public void init() {
 		this.departingCities = FacadeBean.getBusinessLogic().getDepartCities();
+		currentViewDate = new Date();
 	}
 	
 	public void onDepartingCityChange() {
 		this.arrivalCities = FacadeBean.getBusinessLogic().getDestinationCities(departingCity);
+		checkAndLoadAvailableDates();
 	}
+	
+	public void onArrivalCityChange() {
+		checkAndLoadAvailableDates();
+	}
+	
 	
 	public void searchRides() {
 		this.results = FacadeBean.getBusinessLogic().getRides(departingCity, arrivalCity, rideDate);
@@ -36,6 +49,48 @@ public class SearchRideBean implements Serializable{
 			ResourceBundle bundle = ResourceBundle.getBundle("messages", FacesContext.getCurrentInstance().getViewRoot().getLocale());
 			String msgBody = bundle.getString("fetchRide.noResults");
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, null, msgBody));
+		}
+	}
+	
+	public void onMonthChange(DateViewChangeEvent event) {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, event.getYear());
+		cal.set(Calendar.MONTH, event.getMonth()-1);
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		
+		this.currentViewDate = cal.getTime();
+		
+		System.out.println("=== Hilabete aldaketa ===");
+		System.out.println("Hilabetea: " + (event.getMonth() + 1));
+		System.out.println("Urtea: " + event.getYear());
+		System.out.println("Departing city: " + departingCity);
+		System.out.println("Arrival city: " + arrivalCity);
+		
+		checkAndLoadAvailableDates();
+	}
+	
+	private void checkAndLoadAvailableDates() {
+		if (departingCity != null && !departingCity.isEmpty() 
+				&& arrivalCity != null && !arrivalCity.isEmpty()) {
+			
+			Date dateToCheck = (currentViewDate != null) ? currentViewDate : new Date();
+			
+			List<Date> availableDates = FacadeBean.getBusinessLogic().getThisMonthDatesWithRides(departingCity, arrivalCity, dateToCheck);
+			
+			// Debug info
+			System.out.println("=== Fechas disponibles ===");
+			if (availableDates != null && !availableDates.isEmpty()) {
+				System.out.println("Se encontraron " + availableDates.size() + " fechas disponibles:");
+				availableDates.forEach(date -> System.out.println("  - " + date));
+			} else {
+				System.out.println("No se encontraron fechas disponibles");
+			}
+			
+			// TODO: Más adelante aquí procesarás las fechas para colorear el calendario
+		} else {
+			System.out.println("=== Esperando selección completa ===");
+			System.out.println("Ciudad origen: " + (departingCity != null ? departingCity : "no seleccionada"));
+			System.out.println("Ciudad destino: " + (arrivalCity != null ? arrivalCity : "no seleccionada"));
 		}
 	}
 

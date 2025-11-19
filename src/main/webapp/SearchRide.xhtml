@@ -55,12 +55,19 @@
 								value="#{searchRideBean.arrivalCity}" filter="true"
 								filterMatchMode="startsWith" emptyLabel="Select arrival city">
 								<f:selectItems value="#{searchRideBean.arrivalCities}" />
+								<p:ajax event="change"
+								    listener="#{searchRideBean.onArrivalCityChange}"/>
 							</p:selectOneMenu>
 						</div>
 						<div class="ui-g-12 ui-md-4">
 							<p:outputLabel for="rideDate" value="#{msg['fetchRide.date']}" />
-							<p:calendar id="rideDate" value="#{searchRideBean.rideDate}"
-								showButtonPanel="true" showIcon="true" />
+							<p:calendar id="rideDate" 
+								value="#{searchRideBean.rideDate}"
+								mode="inline"
+								showButtonPanel="true">
+								<p:ajax event="viewChange" 
+									listener="#{searchRideBean.onMonthChange}" />
+							</p:calendar>
 						</div>
 					</div>
 					<div style="text-align: center; margin-top: 20px;">
