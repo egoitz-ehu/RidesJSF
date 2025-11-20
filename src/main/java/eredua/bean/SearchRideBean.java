@@ -1,6 +1,9 @@
 package eredua.bean;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -27,10 +30,12 @@ public class SearchRideBean implements Serializable{
 	private List<String> arrivalCities;
 	
 	private Date currentViewDate;
+	private List<LocalDate> disabledDates;
 
 	public void init() {
 		this.departingCities = FacadeBean.getBusinessLogic().getDepartCities();
 		currentViewDate = new Date();
+		disabledDates = new ArrayList<>();
 	}
 	
 	public void onDepartingCityChange() {
@@ -62,7 +67,7 @@ public class SearchRideBean implements Serializable{
 		this.currentViewDate = cal.getTime();
 		
 		System.out.println("=== Hilabete aldaketa ===");
-		System.out.println("Hilabetea: " + (event.getMonth() + 1));
+		System.out.println("Hilabetea: " + (event.getMonth()));
 		System.out.println("Urtea: " + event.getYear());
 		System.out.println("Departing city: " + departingCity);
 		System.out.println("Arrival city: " + arrivalCity);
@@ -75,6 +80,7 @@ public class SearchRideBean implements Serializable{
 				&& arrivalCity != null && !arrivalCity.isEmpty()) {
 			
 			Date dateToCheck = (currentViewDate != null) ? currentViewDate : new Date();
+			System.out.println("Aztertzen den data: " + dateToCheck);
 			
 			List<Date> availableDates = FacadeBean.getBusinessLogic().getThisMonthDatesWithRides(departingCity, arrivalCity, dateToCheck);
 			
@@ -87,12 +93,57 @@ public class SearchRideBean implements Serializable{
 				System.out.println("No se encontraron fechas disponibles");
 			}
 			
-			// TODO: Más adelante aquí procesarás las fechas para colorear el calendario
+			this.disabledDates = convertToDisabledDates(availableDates, dateToCheck);
 		} else {
 			System.out.println("=== Datuak falta ===");
 			System.out.println("Departing city: " + (departingCity != null ? departingCity : "ez aukeratu"));
 			System.out.println("Arrival city: " + (arrivalCity != null ? arrivalCity : "ez aukeratu"));
 		}
+	}
+	
+
+	private List<LocalDate> convertToDisabledDates(List<Date> availableDatesList, Date referenceDate) {
+		List<LocalDate> disabledList = new ArrayList<>();
+		
+		if (referenceDate == null) {
+			referenceDate = new Date();
+		}
+		
+		if (availableDatesList == null) {
+			availableDatesList = new ArrayList<>();
+		}
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(referenceDate);
+		
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH);
+		int maxDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+		
+		System.out.println("\n=== Calculando fechas deshabilitadas ===");
+		System.out.println("Mes: " + (month + 1) + "/" + year + " - Días: " + maxDay);
+		System.out.println("Fechas disponibles: " + availableDatesList.size());
+		
+		List<LocalDate> availableLocalDates = new ArrayList<>();
+		for (Date date : availableDatesList) {
+			LocalDate localDate = date.toInstant()
+					.atZone(ZoneId.systemDefault())
+					.toLocalDate();
+			availableLocalDates.add(localDate);
+			System.out.println("  Disponible: " + localDate);
+		}
+		
+		for (int day = 1; day <= maxDay; day++) {
+			LocalDate currentDate = LocalDate.of(year, month + 1, day);
+			
+			if (!availableLocalDates.contains(currentDate)) {
+				disabledList.add(currentDate);
+				System.out.println("  ✗ Deshabilitado: " + currentDate);
+			}
+		}
+		
+		System.out.println("Total deshabilitadas: " + disabledList.size());
+		return disabledList;
 	}
 
 	public String getDepartingCity() {
@@ -142,4 +193,22 @@ public class SearchRideBean implements Serializable{
 	public void setArrivalCities(List<String> arrivalCities) {
 		this.arrivalCities = arrivalCities;
 	}
+
+	public Date getCurrentViewDate() {
+		return currentViewDate;
+	}
+
+	public void setCurrentViewDate(Date currentViewDate) {
+		this.currentViewDate = currentViewDate;
+	}
+
+	public List<LocalDate> getDisabledDates() {
+		return disabledDates;
+	}
+
+	public void setDisabledDates(List<LocalDate> disabledDates) {
+		this.disabledDates = disabledDates;
+	}
+	
+	
 }

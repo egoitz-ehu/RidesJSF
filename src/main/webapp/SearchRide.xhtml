@@ -25,6 +25,24 @@
 	margin-bottom: 15px;
 }
 </style>
+		<script type="text/javascript">
+			//<![CDATA[
+			function egunakAztertu(date) {
+			    const datak = '#{searchRideBean.disabledDates}';
+			    if(datak){
+			    	console.log('Disabled dates from server: ' + datak);
+			    	return !datak.includes(date.toISOString().split('T')[0]);
+			    } else {
+			    	return false;
+			    }
+			}
+			
+			document.addEventListener('DOMContentLoaded', function() {
+			    console.log('Kargatu da');
+			});
+			//]]>
+		</script>
+
 		<f:event type="postAddToView"
 			listener="#{languageBean.initializeLocaleForView}" />
 		<f:event type="preRenderView" listener="#{searchRideBean.init}" />
@@ -58,7 +76,8 @@
 								<f:selectItem itemLabel="#{msg['fetchRide.selectArrivalCity']}" itemValue=""/>
 								<f:selectItems value="#{searchRideBean.arrivalCities}" />
 								<p:ajax event="change"
-								    listener="#{searchRideBean.onArrivalCityChange}"/>
+								    listener="#{searchRideBean.onArrivalCityChange}"
+								    update="rideDate"/>
 							</p:selectOneMenu>
 						</div>
 						<div class="ui-g-12 ui-md-4">
@@ -66,7 +85,8 @@
 							<p:calendar id="rideDate" 
 								value="#{searchRideBean.rideDate}"
 								mode="inline"
-								showButtonPanel="true">
+								showButtonPanel="true"
+								beforeShowDay="egunakAztertu">
 								<p:ajax event="viewChange" 
 									listener="#{searchRideBean.onMonthChange}" />
 							</p:calendar>
