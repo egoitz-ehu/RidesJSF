@@ -4,6 +4,10 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     template="/WEB-INF/facelets/templates/Txantiloia.xhtml">
+    
+    <ui:define name="scripts">
+    	<h:outputScript library="js" name="calendar.js"/>
+    </ui:define>
 
     <ui:define name="menu">
         <ui:include src="/WEB-INF/facelets/menu/menu-driver.xhtml" />
@@ -25,21 +29,6 @@
     margin-bottom: 15px;
 }
 </style>
-        <script type="text/javascript">
-        //<![CDATA[
-        function egunakAztertu(date) {
-            const availableDates = document.getElementById('searchForm:activeDatesData');
-            let availableDatesStr = availableDates.value;
-            availableDatesStr = availableDatesStr.replace(/[\[\]]/g, '');
-            const availableDatesArray = availableDatesStr
-                ? availableDatesStr.split(',').map(date => date.trim()).filter(date => date.length > 0)
-                : [];
-            const formattedDate = $.datepicker.formatDate('yy-mm-dd', date);
-            const isEnabled = availableDatesArray.includes(formattedDate);
-            return [isEnabled];
-        }
-        //]]>
-        </script>
         <f:event type="postAddToView"
             listener="#{languageBean.initializeLocaleForView}" />
         <f:event type="preRenderView" listener="#{searchRideBean.init}" />
