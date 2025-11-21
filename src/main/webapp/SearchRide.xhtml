@@ -1,130 +1,130 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	template="/WEB-INF/facelets/templates/Txantiloia.xhtml">
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    template="/WEB-INF/facelets/templates/Txantiloia.xhtml">
 
-	<ui:define name="menu">
-		<ui:include src="/WEB-INF/facelets/menu/menu-driver.xhtml" />
-	</ui:define>
+    <ui:define name="menu">
+        <ui:include src="/WEB-INF/facelets/menu/menu-driver.xhtml" />
+    </ui:define>
 
-	<ui:define name="content">
-		<style>
+    <ui:define name="content">
+        <style>
 .main-container {
-	max-width: 1000px;
-	margin: 20px auto;
-	padding: 20px;
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
 }
 
 .search-card {
-	margin-bottom: 30px;
+    margin-bottom: 30px;
 }
 
 .ride-card {
-	margin-bottom: 15px;
+    margin-bottom: 15px;
 }
 </style>
-<script type="text/javascript">
-//<![CDATA[
-function egunakAztertu(date) {
-    const availableDates = document.getElementById('searchForm:activeDatesData');
-    let availableDatesStr = availableDates.value;
-    availableDatesStr = availableDatesStr.replace(/[\[\]]/g, '');
-    const availableDatesArray = availableDatesStr
-        ? availableDatesStr.split(',').map(date => date.trim()).filter(date => date.length > 0)
-        : [];
-    const formattedDate = $.datepicker.formatDate('yy-mm-dd', date);
-    const isEnabled = availableDatesArray.includes(formattedDate);
-    return [isEnabled];
-}
-//]]>
-</script>
-		<f:event type="postAddToView"
-			listener="#{languageBean.initializeLocaleForView}" />
-		<f:event type="preRenderView" listener="#{searchRideBean.init}" />
+        <script type="text/javascript">
+        //<![CDATA[
+        function egunakAztertu(date) {
+            const availableDates = document.getElementById('searchForm:activeDatesData');
+            let availableDatesStr = availableDates.value;
+            availableDatesStr = availableDatesStr.replace(/[\[\]]/g, '');
+            const availableDatesArray = availableDatesStr
+                ? availableDatesStr.split(',').map(date => date.trim()).filter(date => date.length > 0)
+                : [];
+            const formattedDate = $.datepicker.formatDate('yy-mm-dd', date);
+            const isEnabled = availableDatesArray.includes(formattedDate);
+            return [isEnabled];
+        }
+        //]]>
+        </script>
+        <f:event type="postAddToView"
+            listener="#{languageBean.initializeLocaleForView}" />
+        <f:event type="preRenderView" listener="#{searchRideBean.init}" />
 
-		<div class="main-container">
-			<p:card styleClass="search-card">
-				<f:facet name="title">
-					<i class="pi pi-search"></i> #{msg['fetchRide.title']}
+        <div class="main-container">
+            <p:card styleClass="search-card">
+                <f:facet name="title">
+                    <i class="pi pi-search"></i> #{msg['fetchRide.title']}
                 </f:facet>
-				<h:form id="searchForm">
-					<h:inputHidden id="activeDatesData" value="#{searchRideBean.availableDatesStr}"/>
-					<div class="ui-g ui-fluid">
-						<div class="ui-g-12 ui-md-4">
-							<p:outputLabel for="departingCity"
-								value="#{msg['fetchRide.departingCity']}" />
-							<p:selectOneMenu id="departingCity"
-								value="#{searchRideBean.departingCity}" filter="true"
-								filterMatchMode="startsWith" emptyLabel="Select departing city">
-								<f:selectItem itemLabel="#{msg['fetchRide.selectDepartingCity']}" itemValue=""/>
-								<f:selectItems value="#{searchRideBean.departingCities}" />
-								<p:ajax event="change"
-									listener="#{searchRideBean.onDepartingCityChange}"
-									update="arrivalCity" />
-							</p:selectOneMenu>
-						</div>
-						<div class="ui-g-12 ui-md-4">
-							<p:outputLabel for="arrivalCity"
-								value="#{msg['fetchRide.arrivalCity']}" />
-							<p:selectOneMenu id="arrivalCity"
-								value="#{searchRideBean.arrivalCity}" filter="true"
-								filterMatchMode="startsWith" emptyLabel="Select arrival city">
-								<f:selectItem itemLabel="#{msg['fetchRide.selectArrivalCity']}" itemValue=""/>
-								<f:selectItems value="#{searchRideBean.arrivalCities}" />
-								<p:ajax event="change"
-								    listener="#{searchRideBean.onArrivalCityChange}"
-								    update="rideDate activeDatesData"
-								    oncomplete="$('#searchForm\\:rideDate').datepicker('refresh');"/>
-							</p:selectOneMenu>
-						</div>
-						<div class="ui-g-12 ui-md-4">
-							<p:outputLabel for="rideDate" value="#{msg['fetchRide.date']}" />
-							<p:calendar id="rideDate" 
-								value="#{searchRideBean.rideDate}"
-								mode="inline"
-								showButtonPanel="true"
-								beforeShowDay="egunakAztertu">
-								<p:ajax event="viewChange" 
-									listener="#{searchRideBean.onMonthChange}" />
-							</p:calendar>
-						</div>
-					</div>
-					<div style="text-align: center; margin-top: 20px;">
-						<p:commandButton value="#{msg['fetchRide.searchButton']}"
-							icon="pi pi-search" styleClass="ui-button-success"
-							action="#{searchRideBean.searchRides}"
-							update="resultsPanel messages" />
-					</div>
-				</h:form>
-			</p:card>
+                <h:form id="searchForm">
+                    <h:inputHidden id="activeDatesData" value="#{searchRideBean.availableDatesStr}"/>
+                    <div class="ui-g ui-fluid">
+                        <!-- First row: two columns for selects -->
+                        <div class="ui-g-12 ui-md-6">
+                            <p:outputLabel for="departingCity" value="#{msg['fetchRide.departingCity']}" />
+                            <p:selectOneMenu id="departingCity"
+                                value="#{searchRideBean.departingCity}" filter="true"
+                                filterMatchMode="startsWith" emptyLabel="Select departing city">
+                                <f:selectItem itemLabel="#{msg['fetchRide.selectDepartingCity']}" itemValue=""/>
+                                <f:selectItems value="#{searchRideBean.departingCities}" />
+                                <p:ajax event="change"
+                                    listener="#{searchRideBean.onDepartingCityChange}"
+                                    update="arrivalCity" />
+                            </p:selectOneMenu>
+                        </div>
+                        <div class="ui-g-12 ui-md-6">
+                            <p:outputLabel for="arrivalCity" value="#{msg['fetchRide.arrivalCity']}" />
+                            <p:selectOneMenu id="arrivalCity"
+                                value="#{searchRideBean.arrivalCity}" filter="true"
+                                filterMatchMode="startsWith" emptyLabel="Select arrival city">
+                                <f:selectItem itemLabel="#{msg['fetchRide.selectArrivalCity']}" itemValue=""/>
+                                <f:selectItems value="#{searchRideBean.arrivalCities}" />
+                                <p:ajax event="change"
+                                    listener="#{searchRideBean.onArrivalCityChange}"
+                                    update="rideDate activeDatesData"
+                                    oncomplete="$('#searchForm\\:rideDate').datepicker('refresh');"/>
+                            </p:selectOneMenu>
+                        </div>
+                        <!-- Second row: one column for calendar -->
+                        <div class="ui-g-12">
+                            <p:outputLabel for="rideDate" value="#{msg['fetchRide.date']}" />
+                            <p:calendar id="rideDate"
+                                value="#{searchRideBean.rideDate}"
+                                mode="inline"
+                                showButtonPanel="true"
+                                beforeShowDay="egunakAztertu">
+                                <p:ajax event="viewChange"
+                                    listener="#{searchRideBean.onMonthChange}" />
+                            </p:calendar>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin-top: 20px;">
+                        <p:commandButton value="#{msg['fetchRide.searchButton']}"
+                            icon="pi pi-search" styleClass="ui-button-success"
+                            action="#{searchRideBean.searchRides}"
+                            update="resultsPanel messages" />
+                    </div>
+                </h:form>
+            </p:card>
 
-			<p:messages id="messages" showDetail="true" closable="true" />
-			<h:panelGroup id="resultsPanel">
-				<ui:repeat value="#{searchRideBean.results}" var="ride">
-					<p:card styleClass="ride-card">
-						<f:facet name="title">
-							<div
-								style="display: flex; justify-content: space-between; align-items: center;">
-								<span> <i class="pi pi-user"></i> #{ride.driver.name}
-								</span>
-								<p:badge value="#{ride.price} €" severity="success" size="large" />
-							</div>
-						</f:facet>
-						<div class="p-grid">
-							<div class="p-col-6">
-								<i class="pi pi-users"></i> <strong>#{msg['fetchRide.seats']}:</strong>
-								#{ride.nPlaces}
-							</div>
-							<div class="p-col-6" style="text-align: right;">
-								<p:commandButton value="#{msg['fetchRide.bookButton']}"
-									icon="pi pi-check" styleClass="ui-button-sm ui-button-outlined" />
-							</div>
-						</div>
-					</p:card>
-				</ui:repeat>
-			</h:panelGroup>
-		</div>
-	</ui:define>
+            <p:messages id="messages" showDetail="true" closable="true" />
+            <h:panelGroup id="resultsPanel">
+                <ui:repeat value="#{searchRideBean.results}" var="ride">
+                    <p:card styleClass="ride-card">
+                        <f:facet name="title">
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center;">
+                                <span> <i class="pi pi-user"></i> #{ride.driver.name}
+                                </span>
+                                <p:badge value="#{ride.price} €" severity="success" size="large" />
+                            </div>
+                        </f:facet>
+                        <div class="p-grid">
+                            <div class="p-col-6">
+                                <i class="pi pi-users"></i> <strong>#{msg['fetchRide.seats']}:</strong>
+                                #{ride.nPlaces}
+                            </div>
+                            <div class="p-col-6" style="text-align: right;">
+                                <p:commandButton value="#{msg['fetchRide.bookButton']}"
+                                    icon="pi pi-check" styleClass="ui-button-sm ui-button-outlined" />
+                            </div>
+                        </div>
+                    </p:card>
+                </ui:repeat>
+            </h:panelGroup>
+        </div>
+    </ui:define>
 </ui:composition>

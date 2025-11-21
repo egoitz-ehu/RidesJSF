@@ -86,9 +86,6 @@ public class SearchRideBean implements Serializable{
 		
 		this.currentViewDate = cal.getTime();
 		
-		System.out.println("Mes: " + event.getMonth() + ", Año: " + event.getYear());
-		System.out.println("Current view: " + currentViewDate);
-		
 		checkAndLoadAvailableDates();
 	}
 	
@@ -97,30 +94,19 @@ public class SearchRideBean implements Serializable{
 				&& arrivalCity != null && !arrivalCity.isEmpty()) {
 			
 			Date dateToCheck = (currentViewDate != null) ? currentViewDate : new Date();
-			System.out.println("Aztertzen den data: " + dateToCheck);
-			
+
 			List<Date> availableDates = FacadeBean.getBusinessLogic()
 					.getThisMonthDatesWithRides(departingCity, arrivalCity, dateToCheck);
 			
 			if (availableDates == null) {
 				availableDates = new ArrayList<>();
 			}
-			
-			System.out.println("=== Datak ===");
-			System.out.println(availableDates.size() + " data aurkitu dira:");
-			availableDates.forEach(date -> System.out.println("  ✓ " + date));
-			
+
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			this.availableDatesStr = availableDates.stream()
 					.map(date -> sdf.format(date))
 					.collect(Collectors.toList()).toString();
-			
-		System.out.println("Available dates str: " + availableDatesStr);
-			
 		} else {
-			System.out.println("=== Datuak falta ===");
-			System.out.println("Departing: " + departingCity);
-			System.out.println("Arrival: " + arrivalCity);
 			this.availableDatesStr = "";
 		}
 	}
