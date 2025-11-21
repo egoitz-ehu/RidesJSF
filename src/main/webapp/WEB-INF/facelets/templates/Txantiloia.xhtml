@@ -7,75 +7,8 @@
 <h:head>
 	<title>My Rides App</title>
 	<ui:insert name="scripts"></ui:insert>
-	<style>
-body {
-	margin: 0;
-	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.layout-grid {
-	display: grid;
-	grid-template-areas: "header header" "menu content" "footer footer";
-	grid-template-columns: 220px 1fr;
-	grid-template-rows: 70px 1fr 50px;
-	min-height: 100vh;
-}
-
-.header {
-	grid-area: header;
-	background: #007ad9;
-	color: #fff;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: 0 30px;
-	font-size: 2em;
-	font-weight: bold;
-}
-
-.language-selector {
-	font-size: 0.6em;
-}
-
-.language-selector .ui-selectonemenu {
-	min-width: 120px;
-}
-
-.language-selector .ui-selectonemenu .ui-selectonemenu-label {
-	color: #007ad9;
-	font-weight: bold;
-}
-
-.flag-icon {
-	width: 20px;
-	height: 15px;
-	margin-right: 8px;
-	vertical-align: middle;
-}
-
-.menu {
-	grid-area: menu;
-	background: #e3e3e3;
-	padding: 20px 10px;
-	min-width: 200px;
-}
-
-.content {
-	grid-area: content;
-	background: #f8f9fa;
-	padding: 30px;
-	min-height: 300px;
-}
-
-.footer {
-	grid-area: footer;
-	background: #222;
-	color: #fff;
-	text-align: center;
-	padding: 15px 0;
-	font-size: 1em;
-}
-</style>
+	<ui:insert name="styles"></ui:insert>
+	<h:outputStylesheet library="css" name="txantiloia.css" />
 </h:head>
 <h:body>
 	<div class="layout-grid">

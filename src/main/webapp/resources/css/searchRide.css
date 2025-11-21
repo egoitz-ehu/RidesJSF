@@ -1,0 +1,13 @@
+.main-container {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.search-card {
+    margin-bottom: 30px;
+}
+
+.ride-card {
+    margin-bottom: 15px;
+}
