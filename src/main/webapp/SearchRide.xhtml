@@ -25,24 +25,21 @@
 	margin-bottom: 15px;
 }
 </style>
-		<script type="text/javascript">
-			//<![CDATA[
-			function egunakAztertu(date) {
-			    const datak = '#{searchRideBean.disabledDates}';
-			    if(datak){
-			    	console.log('Disabled dates from server: ' + datak);
-			    	return !datak.includes(date.toISOString().split('T')[0]);
-			    } else {
-			    	return false;
-			    }
-			}
-			
-			document.addEventListener('DOMContentLoaded', function() {
-			    console.log('Kargatu da');
-			});
-			//]]>
-		</script>
-
+<script type="text/javascript">
+//<![CDATA[
+function egunakAztertu(date) {
+    const availableDates = document.getElementById('searchForm:activeDatesData');
+    let availableDatesStr = availableDates.value;
+    availableDatesStr = availableDatesStr.replace(/[\[\]]/g, '');
+    const availableDatesArray = availableDatesStr
+        ? availableDatesStr.split(',').map(date => date.trim()).filter(date => date.length > 0)
+        : [];
+    const formattedDate = $.datepicker.formatDate('yy-mm-dd', date);
+    const isEnabled = availableDatesArray.includes(formattedDate);
+    return [isEnabled];
+}
+//]]>
+</script>
 		<f:event type="postAddToView"
 			listener="#{languageBean.initializeLocaleForView}" />
 		<f:event type="preRenderView" listener="#{searchRideBean.init}" />
@@ -53,6 +50,7 @@
 					<i class="pi pi-search"></i> #{msg['fetchRide.title']}
                 </f:facet>
 				<h:form id="searchForm">
+					<h:inputHidden id="activeDatesData" value="#{searchRideBean.availableDatesStr}"/>
 					<div class="ui-g ui-fluid">
 						<div class="ui-g-12 ui-md-4">
 							<p:outputLabel for="departingCity"
@@ -77,7 +75,8 @@
 								<f:selectItems value="#{searchRideBean.arrivalCities}" />
 								<p:ajax event="change"
 								    listener="#{searchRideBean.onArrivalCityChange}"
-								    update="rideDate"/>
+								    update="rideDate activeDatesData"
+								    oncomplete="$('#searchForm\\:rideDate').datepicker('refresh');"/>
 							</p:selectOneMenu>
 						</div>
 						<div class="ui-g-12 ui-md-4">
