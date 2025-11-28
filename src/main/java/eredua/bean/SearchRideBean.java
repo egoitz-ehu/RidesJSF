@@ -38,10 +38,10 @@ public class SearchRideBean implements Serializable{
 	private boolean initialized = false;
 
 	public void init() {
+		this.departingCities = FacadeBean.getBusinessLogic().getDepartCities();
 		if (initialized) {
 			return;
 		}
-		this.departingCities = FacadeBean.getBusinessLogic().getDepartCities();
 		this.currentViewDate = new Date();
 		this.availableDatesStr = "";
 		initialized = true;
