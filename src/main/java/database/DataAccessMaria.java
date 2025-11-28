@@ -7,8 +7,11 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import domain.Driver;
 import domain.Ride;
 import eredua.JPAUtil;
+import exceptions.RideAlreadyExistException;
+import exceptions.RideMustBeLaterThanTodayException;
 import util.UtilDate;
 
 public class DataAccessMaria {
@@ -31,7 +34,8 @@ public class DataAccessMaria {
 
 	public List<String> getArrivalCities(String departingCity) {
 		TypedQuery<String> query = db.createQuery(
-				"SELECT DISTINCT r.arrivalCity FROM Ride r WHERE r.departingCity=:from ORDER BY r.arrivalCity", String.class);
+				"SELECT DISTINCT r.arrivalCity FROM Ride r WHERE r.departingCity=:from ORDER BY r.arrivalCity",
+				String.class);
 		query.setParameter("from", departingCity);
 		return query.getResultList();
 	}
@@ -63,5 +67,29 @@ public class DataAccessMaria {
 		query.setParameter(3, firstDayMonthDate);
 		query.setParameter(4, lastDayMonthDate);
 		return query.getResultList();
+	}
+
+	public Ride createRide(String from, String to, Date date, int nPlaces, float price, String driverEmail)
+			throws RideAlreadyExistException, RideMustBeLaterThanTodayException {
+		if (from == null || to == null || date == null || nPlaces <= 0 || price < 0 || driverEmail == null)
+			return null;
+		if (new Date().compareTo(date) > 0) {
+			throw new RideMustBeLaterThanTodayException("Ride date must be later than today");
+		}
+		db.getTransaction().begin();
+		Driver driver = db.find(Driver.class, driverEmail);
+		if (driver == null) {
+			System.out.println("Driver ez da aurkitu");
+			db.getTransaction().rollback();
+			return null;
+		}
+		if (driver.doesRideExists(from, to, date)) {
+			db.getTransaction().rollback();
+			throw new RideAlreadyExistException("Driver already has a equal ride");
+		}
+		Ride ride = driver.addRide(from, to, date, nPlaces, price);
+		db.persist(driver);
+		db.getTransaction().commit();
+		return ride;
 	}
 }

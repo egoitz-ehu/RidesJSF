@@ -17,6 +17,6 @@ public interface BLFacade {
 
 	public List<Date> getThisMonthDatesWithRides(String from, String to, Date date);
 
-	public void createRide(String departingCity, String arrivalCity, Date rideDate, int nPlaces, double price,
+	public Ride createRide(String departingCity, String arrivalCity, Date rideDate, int nPlaces, double price,
 			String driverEmail) throws RideAlreadyExistException, RideMustBeLaterThanTodayException;
 }

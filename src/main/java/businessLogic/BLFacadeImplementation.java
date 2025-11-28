@@ -48,9 +48,11 @@ public class BLFacadeImplementation implements BLFacade {
 	}
 
 	@Override
-	public void createRide(String departingCity, String arrivalCity, Date rideDate, int nPlaces, double price,
-			String driverEmail)  throws RideAlreadyExistException, RideMustBeLaterThanTodayException {
-		// TODO Auto-generated method stub
-		
+	public Ride createRide(String departingCity, String arrivalCity, Date rideDate, int nPlaces, double price,
+			String driverEmail) throws RideAlreadyExistException, RideMustBeLaterThanTodayException {
+		dataAccess.open();
+		Ride r = dataAccess.createRide(departingCity, arrivalCity, rideDate, nPlaces, nPlaces, driverEmail);
+		dataAccess.close();
+		return r;
 	}
 }
