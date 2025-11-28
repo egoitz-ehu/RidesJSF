@@ -9,6 +9,9 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <!-- Entitate-klaseak -->
         <class>domain.Ride</class>
+        <class>domain.User</class>
+        <class>domain.Traveler</class>
+        <class>domain.Driver</class>
         <properties>
             <property name="javax.persistence.jdbc.driver"
                 value="org.mariadb.jdbc.Driver" />

@@ -3,9 +3,11 @@ package domain;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Ride {
@@ -18,15 +20,20 @@ public class Ride {
 	private int availableSeats;
 	private double pricePerSeat;
 
+	@ManyToOne(fetch=FetchType.EAGER)
+	private Driver driver;
+
 	public Ride() {
 	}
-	
-	public Ride(String departingCity, String arrivalCity, Date rideDate, int availableSeats, double pricePerSeat) {
+
+	public Ride(String departingCity, String arrivalCity, Date rideDate, int availableSeats, double pricePerSeat,
+			Driver driver) {
 		this.departingCity = departingCity;
 		this.arrivalCity = arrivalCity;
 		this.rideDate = rideDate;
 		this.availableSeats = availableSeats;
 		this.pricePerSeat = pricePerSeat;
+		this.driver = driver;
 	}
 
 	public Long getId() {
@@ -76,4 +83,13 @@ public class Ride {
 	public void setPricePerSeat(double pricePerSeat) {
 		this.pricePerSeat = pricePerSeat;
 	}
+
+	public Driver getDriver() {
+		return driver;
+	}
+
+	public void setDriver(Driver driver) {
+		this.driver = driver;
+	}
+
 }
