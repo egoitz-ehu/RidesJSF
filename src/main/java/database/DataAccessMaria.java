@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 import domain.Ride;
 import eredua.JPAUtil;
@@ -20,6 +21,17 @@ public class DataAccessMaria {
 		if (db != null && db.isOpen()) {
 			db.close();
 		}
+	}
+	
+	public List<String> getDepartCities() {
+		TypedQuery<String> query = db.createQuery("SELECT DISTINCT r.departingCity FROM Ride r", String.class);
+		return query.getResultList();
+	}
+	
+	public List<String> getArrivalCities(String departingCity) {
+		TypedQuery<String> query = db.createQuery("SELECT DISTINCT r.arrivalCity FROM Ride r WHERE r.from=:from ORDER BY r.to", String.class);
+		query.setParameter("from", departingCity);
+		return query.getResultList();
 	}
 
 	public List<Ride> getRidesByValues(String departingCity, String arrivalCity, Date rideDate) {

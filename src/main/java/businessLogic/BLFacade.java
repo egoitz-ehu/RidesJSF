@@ -6,5 +6,10 @@ import java.util.List;
 import domain.Ride;
 
 public interface BLFacade {
-	public List<Ride> getThisMonthDatesWithRides(String departingCity, String arrivalCity, Date rideDate);
+	
+	public List<String> getDepartCities();
+	
+	public List<String> getDestinationCities(String departingCity);
+	
+	public List<Ride> getRides(String departingCity, String arrivalCity, Date rideDate);
 }
