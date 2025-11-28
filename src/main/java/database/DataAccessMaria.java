@@ -31,7 +31,7 @@ public class DataAccessMaria {
 
 	public List<String> getArrivalCities(String departingCity) {
 		TypedQuery<String> query = db.createQuery(
-				"SELECT DISTINCT r.arrivalCity FROM Ride r WHERE r.departingCity=:from ORDER BY r.to", String.class);
+				"SELECT DISTINCT r.arrivalCity FROM Ride r WHERE r.departingCity=:from ORDER BY r.arrivalCity", String.class);
 		query.setParameter("from", departingCity);
 		return query.getResultList();
 	}
@@ -55,7 +55,7 @@ public class DataAccessMaria {
 		Date lastDayMonthDate = UtilDate.lastDayMonth(date);
 
 		TypedQuery<Date> query = db.createQuery(
-				"SELECT DISTINCT r.date FROM Ride r WHERE r.departingCity=?1 AND r.arrivalCity=?2 AND r.rideDate BETWEEN ?3 and ?4",
+				"SELECT DISTINCT r.rideDate FROM Ride r WHERE r.departingCity=?1 AND r.arrivalCity=?2 AND r.rideDate BETWEEN ?3 and ?4",
 				Date.class);
 
 		query.setParameter(1, from);
