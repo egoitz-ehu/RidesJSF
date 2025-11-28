@@ -5,6 +5,8 @@ import java.util.List;
 
 import database.DataAccessMaria;
 import domain.Ride;
+import exceptions.RideAlreadyExistException;
+import exceptions.RideMustBeLaterThanTodayException;
 
 public class BLFacadeImplementation implements BLFacade {
 	private DataAccessMaria dataAccess;
@@ -43,5 +45,12 @@ public class BLFacadeImplementation implements BLFacade {
 		List<Date> dates = dataAccess.getThisMonthDatesWithRides(from, to, date);
 		dataAccess.close();
 		return dates;
+	}
+
+	@Override
+	public void createRide(String departingCity, String arrivalCity, Date rideDate, int nPlaces, double price,
+			String driverEmail)  throws RideAlreadyExistException, RideMustBeLaterThanTodayException {
+		// TODO Auto-generated method stub
+		
 	}
 }
