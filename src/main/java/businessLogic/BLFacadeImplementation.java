@@ -36,4 +36,12 @@ public class BLFacadeImplementation implements BLFacade {
 		dataAccess.close();
 		return rides;
 	}
+
+	@Override
+	public List<Date> getThisMonthDatesWithRides(String from, String to, Date date) {
+		dataAccess.open();
+		List<Date> dates = dataAccess.getThisMonthDatesWithRides(from, to, date);
+		dataAccess.close();
+		return dates;
+	}
 }

@@ -9,27 +9,29 @@ import javax.persistence.TypedQuery;
 
 import domain.Ride;
 import eredua.JPAUtil;
+import util.UtilDate;
 
 public class DataAccessMaria {
 	private EntityManager db;
-	
+
 	public void open() {
 		db = JPAUtil.getEntityManager();
 	}
-	
+
 	public void close() {
 		if (db != null && db.isOpen()) {
 			db.close();
 		}
 	}
-	
+
 	public List<String> getDepartCities() {
 		TypedQuery<String> query = db.createQuery("SELECT DISTINCT r.departingCity FROM Ride r", String.class);
 		return query.getResultList();
 	}
-	
+
 	public List<String> getArrivalCities(String departingCity) {
-		TypedQuery<String> query = db.createQuery("SELECT DISTINCT r.arrivalCity FROM Ride r WHERE r.from=:from ORDER BY r.to", String.class);
+		TypedQuery<String> query = db.createQuery(
+				"SELECT DISTINCT r.arrivalCity FROM Ride r WHERE r.from=:from ORDER BY r.to", String.class);
 		query.setParameter("from", departingCity);
 		return query.getResultList();
 	}
@@ -45,6 +47,21 @@ public class DataAccessMaria {
 		} catch (Exception e) {
 			System.out.println(e);
 			return new ArrayList<Ride>();
-		} 
+		}
+	}
+
+	public List<Date> getThisMonthDatesWithRides(String from, String to, Date date) {
+		Date firstDayMonthDate = UtilDate.firstDayMonth(date);
+		Date lastDayMonthDate = UtilDate.lastDayMonth(date);
+
+		TypedQuery<Date> query = db.createQuery(
+				"SELECT DISTINCT r.date FROM Ride r WHERE r.from=?1 AND r.to=?2 AND r.date BETWEEN ?3 and ?4",
+				Date.class);
+
+		query.setParameter(1, from);
+		query.setParameter(2, to);
+		query.setParameter(3, firstDayMonthDate);
+		query.setParameter(4, lastDayMonthDate);
+		return query.getResultList();
 	}
 }

@@ -12,4 +12,6 @@ public interface BLFacade {
 	public List<String> getDestinationCities(String departingCity);
 	
 	public List<Ride> getRides(String departingCity, String arrivalCity, Date rideDate);
+	
+	public List<Date> getThisMonthDatesWithRides(String from, String to, Date date);
 }
