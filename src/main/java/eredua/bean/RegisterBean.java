@@ -1,6 +1,7 @@
 package eredua.bean;
 
 import java.io.Serializable;
+import java.util.ResourceBundle;
 
 import businessLogic.BLFacade;
 import domain.User;
@@ -22,33 +23,34 @@ public class RegisterBean implements Serializable {
 
 	public void register() {
 		FacesContext context = FacesContext.getCurrentInstance();
+		ResourceBundle bundle = ResourceBundle.getBundle("messages", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+		String msg;
 		if(context.isValidationFailed()) return;
-		if (!password.equals(confirmPassword)) {
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Passwords do not match"));
-		}
 		BLFacade businessLogic = FacadeBean.getBusinessLogic();
 		try {
 			if (driver) {
 				User newDriver = businessLogic.register(email, name, password, true);
 				if (newDriver != null) {
+			        msg = bundle.getString("register.successMessage");
 					FacesContext.getCurrentInstance().addMessage(null,
-							new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Driver registered successfully"));
+							new FacesMessage(FacesMessage.SEVERITY_INFO, "", msg));
 				}
 			} else {
 				User newTraveler = businessLogic.register(email, name, password, false);
 				if (newTraveler != null) {
+			        msg = bundle.getString("createRide.errorDate");
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-							"Success", "Traveler registered successfully"));
+							"Success", msg));
 				}
 			}
-
+	        msg = bundle.getString("register.emailExists");
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Email already exists"));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", msg));
 
 		} catch (Exception e) {
+	        msg = bundle.getString("createRide.errorDate");
 			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Registration failed: " + e.getMessage()));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", msg));
 		}
 	}
 
