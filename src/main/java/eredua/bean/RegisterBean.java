@@ -21,6 +21,8 @@ public class RegisterBean implements Serializable {
 	private boolean driver;
 
 	public void register() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		if(context.isValidationFailed()) return;
 		if (!password.equals(confirmPassword)) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Passwords do not match"));
