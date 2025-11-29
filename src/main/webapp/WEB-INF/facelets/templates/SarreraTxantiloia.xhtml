@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<title>My Rides App</title>
+	<ui:insert name="scripts"></ui:insert>
+	<ui:insert name="styles"></ui:insert>
+	<h:outputStylesheet library="css" name="sarreraTxantiloia.css" />
+</h:head>
+<h:body>
+	<div class="layout-grid">
+		<div class="header">
+			<span>My Rides App</span>
+			<div class="language-selector">
+				<h:form>
+					<p:selectOneMenu value="#{languageBean.selectedLanguage}">
+					    <f:selectItem itemLabel="Español" itemValue="es" />
+					    <f:selectItem itemLabel="English" itemValue="en" />
+					    <f:selectItem itemLabel="Euskera" itemValue="eu" />
+					    <p:ajax listener="#{languageBean.updateLocale}" update="@all" />
+					</p:selectOneMenu>
+
+				</h:form>
+			</div>
+		</div>
+		<div class="content">
+			<ui:insert name="content">
+				<h:outputText value="Main content goes here" />
+			</ui:insert>
+		</div>
+		<div class="footer">&#169; Software Ingeniaritza II</div>
+	</div>
+</h:body>
+</html>
