@@ -9,9 +9,12 @@ import javax.persistence.TypedQuery;
 
 import domain.Driver;
 import domain.Ride;
+import domain.Traveler;
+import domain.User;
 import eredua.JPAUtil;
 import exceptions.RideAlreadyExistException;
 import exceptions.RideMustBeLaterThanTodayException;
+import exceptions.UserAlreadyRegistered;
 import util.UtilDate;
 
 public class DataAccessMaria {
@@ -91,5 +94,32 @@ public class DataAccessMaria {
 		db.persist(driver);
 		db.getTransaction().commit();
 		return ride;
+	}
+
+	public User register(String email, String name, String password, boolean isDriver) throws UserAlreadyRegistered {
+		if (email == null || name == null || password == null)
+			return null;
+		try {
+			db.getTransaction().begin();
+			User u = db.find(User.class, email);
+			if (u != null) {
+				db.getTransaction().rollback();
+				throw new UserAlreadyRegistered("Already exists a user with the same email");
+			}
+			User newUser;
+			if (isDriver) {
+				newUser = new Driver(email, name, password);
+			} else {
+				newUser = new Traveler(email, name, password);
+			}
+			db.persist(newUser);
+			db.getTransaction().commit();
+			return newUser;
+		} catch (Exception e) {
+			if (db.getTransaction().isActive()) {
+				db.getTransaction().rollback();
+			}
+			throw e;
+		}
 	}
 }

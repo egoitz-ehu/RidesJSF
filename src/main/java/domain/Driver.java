@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,6 +13,16 @@ import javax.persistence.OneToMany;
 public class Driver extends User {
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = Ride.class, mappedBy = "driver", cascade=CascadeType.PERSIST)
 	private List<Ride> rides;
+	
+	public Driver() {
+		super();
+		this.rides = new ArrayList<Ride>();
+	}
+	
+	public Driver(String email, String name, String password) {
+		super(email, name, password);
+		this.rides = new ArrayList<Ride>();
+	}
 
 	public List<Ride> getRides() {
 		return rides;
