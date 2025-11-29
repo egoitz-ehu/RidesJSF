@@ -5,8 +5,10 @@ import java.util.List;
 
 import database.DataAccessMaria;
 import domain.Ride;
+import domain.User;
 import exceptions.RideAlreadyExistException;
 import exceptions.RideMustBeLaterThanTodayException;
+import exceptions.UserAlreadyRegistered;
 
 public class BLFacadeImplementation implements BLFacade {
 	private DataAccessMaria dataAccess;
@@ -54,5 +56,18 @@ public class BLFacadeImplementation implements BLFacade {
 		Ride r = dataAccess.createRide(departingCity, arrivalCity, rideDate, nPlaces, nPlaces, driverEmail);
 		dataAccess.close();
 		return r;
+	}
+
+	@Override
+	public User register(String email, String name, String password, boolean isDriver) throws UserAlreadyRegistered {
+		dataAccess.open();
+		try {
+			User u = dataAccess.register(email, name, password, isDriver);
+			dataAccess.close();
+			return u;
+		} catch(UserAlreadyRegistered e) {
+			dataAccess.close();
+			throw e;
+		}
 	}
 }

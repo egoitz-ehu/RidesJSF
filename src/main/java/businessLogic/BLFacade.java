@@ -4,8 +4,10 @@ import java.util.Date;
 import java.util.List;
 
 import domain.Ride;
+import domain.User;
 import exceptions.RideAlreadyExistException;
 import exceptions.RideMustBeLaterThanTodayException;
+import exceptions.UserAlreadyRegistered;
 
 public interface BLFacade {
 
@@ -19,4 +21,6 @@ public interface BLFacade {
 
 	public Ride createRide(String departingCity, String arrivalCity, Date rideDate, int nPlaces, double price,
 			String driverEmail) throws RideAlreadyExistException, RideMustBeLaterThanTodayException;
+	
+	public User register(String email, String name, String password, boolean isDriver) throws UserAlreadyRegistered;
 }
