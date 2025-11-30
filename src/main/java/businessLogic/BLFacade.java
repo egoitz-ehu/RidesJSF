@@ -23,4 +23,6 @@ public interface BLFacade {
 			String driverEmail) throws RideAlreadyExistException, RideMustBeLaterThanTodayException;
 	
 	public User register(String email, String name, String password, boolean isDriver) throws UserAlreadyRegistered;
+	
+	public User login(String email, String password);
 }

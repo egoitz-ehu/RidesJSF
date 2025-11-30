@@ -122,4 +122,13 @@ public class DataAccessMaria {
 			throw e;
 		}
 	}
+	
+	public User login(String email, String password) {
+		if(email==null || password==null) return null;
+		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.email=?email AND u.password=?password", User.class);
+		query.setParameter("email", email);
+		query.setParameter("password", password);
+		User u = query.getSingleResult();
+		return u;
+	}
 }

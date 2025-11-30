@@ -70,4 +70,12 @@ public class BLFacadeImplementation implements BLFacade {
 			throw e;
 		}
 	}
+
+	@Override
+	public User login(String email, String password) {
+		dataAccess.open();
+		User u = dataAccess.login(email, password);
+		dataAccess.close();
+		return u;
+	}
 }
