@@ -74,6 +74,7 @@ public class SearchRideBean implements Serializable{
 	
 	public void onMonthChange(DateViewChangeEvent event) {
 		System.out.println("\n=== onMonthChange ===");
+		System.out.println(event.getMonth());
 		
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR, event.getYear());

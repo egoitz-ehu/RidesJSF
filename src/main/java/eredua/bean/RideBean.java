@@ -13,11 +13,15 @@ import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.validator.ValidatorException;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 @Named("rideBean")
 @SessionScoped
 public class RideBean implements Serializable {
+	@Inject
+	private AuthBean authBean;
+	
 	private String departingCity;
 	private String arrivalCity;
 	private int seats;
@@ -80,7 +84,8 @@ public class RideBean implements Serializable {
 	
 	public void createRide() {
 		try {
-			FacadeBean.getBusinessLogic().createRide(departingCity, arrivalCity, rideDate, seats, price, "driver1@gmail.com");
+			String email = authBean.getUser().getEmail();
+			FacadeBean.getBusinessLogic().createRide(departingCity, arrivalCity, rideDate, seats, price, email);
 			ResourceBundle bundle = ResourceBundle.getBundle("messages", FacesContext.getCurrentInstance().getViewRoot().getLocale());
 	        String msg = bundle.getString("createRide.rideCreatedMessage");
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", msg));

@@ -140,7 +140,6 @@ public class AuthBean implements Serializable {
 			return false;
 		}
 		boolean result = user instanceof Driver;
-		System.out.println("User class: " + user.getClass().getName() + " - isDriver: " + result);
 		return result;
 	}
 
@@ -150,7 +149,6 @@ public class AuthBean implements Serializable {
 			return false;
 		}
 		boolean result = user instanceof Traveler;
-		System.out.println("User class: " + user.getClass().getName() + " - isTraveler: " + result);
 		return result;
 	}
 }

@@ -59,18 +59,22 @@ public class DataAccessMaria {
 	}
 
 	public List<Date> getThisMonthDatesWithRides(String from, String to, Date date) {
-		Date firstDayMonthDate = UtilDate.firstDayMonth(date);
-		Date lastDayMonthDate = UtilDate.lastDayMonth(date);
+	    
+	    Date startDate = UtilDate.firstDayMonth(date);
+	    Date endDate = UtilDate.lastDayMonth(date);
 
-		TypedQuery<Date> query = db.createQuery(
-				"SELECT DISTINCT r.rideDate FROM Ride r WHERE r.departingCity=?1 AND r.arrivalCity=?2 AND r.rideDate BETWEEN ?3 and ?4",
-				Date.class);
+	    String jpql = "SELECT DISTINCT r.rideDate FROM Ride r " +
+	                  "WHERE r.departingCity = :fromCity " +
+	                  "AND r.arrivalCity = :toCity " +
+	                  "AND r.rideDate BETWEEN :startDate AND :endDate";
+	    
+	    TypedQuery<Date> query = db.createQuery(jpql, Date.class);
+	    query.setParameter("fromCity", from);
+	    query.setParameter("toCity", to);
+	    query.setParameter("startDate", startDate);
+	    query.setParameter("endDate", endDate);
 
-		query.setParameter(1, from);
-		query.setParameter(2, to);
-		query.setParameter(3, firstDayMonthDate);
-		query.setParameter(4, lastDayMonthDate);
-		return query.getResultList();
+	    return query.getResultList();
 	}
 
 	public Ride createRide(String from, String to, Date date, int nPlaces, float price, String driverEmail)
