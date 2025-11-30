@@ -14,7 +14,7 @@
                     <p:panelGrid columns="2" layout="grid" styleClass="ui-fluid">
                         <p:outputLabel for="email" value="#{msg['login.email']}" />
                         <h:panelGroup>
-                            <p:inputText id="email" value="#{loginBean.email}"
+                            <p:inputText id="email" value="#{authBean.email}"
                                 required="true"
                                 validatorMessage="#{msg['login.invalidEmail']}"
                                 requiredMessage="#{msg['javax.faces.component.UIInput.REQUIRED']}">
@@ -27,7 +27,7 @@
 
                         <p:outputLabel for="password" value="#{msg['login.password']}" />
                         <h:panelGroup>
-                            <p:password id="password" value="#{loginBean.password}"
+                            <p:password id="password" value="#{authBean.password}"
                                 required="true" feedback="false"
                                 validatorMessage="#{msg['login.invalidPassword']}"
                                 requiredMessage="#{msg['javax.faces.component.UIInput.REQUIRED']}">
@@ -39,14 +39,14 @@
                     </p:panelGrid>
 
                     <p:commandButton value="#{msg['login.loginButton']}"
-                        action="#{loginBean.login}" update="loginForm"
+                        action="#{authBean.login}" update="loginForm"
                         icon="pi pi-sign-in" styleClass="ui-button-success"
                         style="width:100%; margin-top:20px;" />
 
                     <p:divider />
 
                     <p:commandButton value="#{msg['login.back']}"
-                        action="#{msg['login.back']}" icon="pi pi-arrow-left"
+                        action="home" icon="pi pi-arrow-left"
                         styleClass="ui-button-secondary" style="width:100%;"
                         immediate="true" />
                 </p:panel>

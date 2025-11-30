@@ -15,7 +15,7 @@
 					<p:panelGrid columns="2" layout="grid" styleClass="ui-fluid">
 						<p:outputLabel for="email" value="#{msg['register.email']}" />
 						<h:panelGroup>
-							<p:inputText id="email" value="#{registerBean.email}"
+							<p:inputText id="email" value="#{authBean.email}"
 								required="true"
 								validatorMessage="#{msg['register.invalidEmail']}"
 								requiredMessage="#{msg['javax.faces.component.UIInput.REQUIRED']}">
@@ -28,7 +28,7 @@
 
 						<p:outputLabel for="name" value="#{msg['register.name']}" />
 						<h:panelGroup>
-							<p:inputText id="name" value="#{registerBean.name}"
+							<p:inputText id="name" value="#{authBean.name}"
 								required="true"
 								validatorMessage="#{msg['register.invalidName']}"
 								requiredMessage="#{msg['javax.faces.component.UIInput.REQUIRED']}">
@@ -40,7 +40,7 @@
 
 						<p:outputLabel for="password" value="#{msg['register.password']}" />
 						<h:panelGroup>
-							<p:password id="password" value="#{registerBean.password}"
+							<p:password id="password" value="#{authBean.password}"
 								required="true" feedback="true"
 								weakLabel="#{msg['register.weak']}"
 								goodLabel="#{msg['register.good']}"
@@ -58,12 +58,12 @@
 							value="#{msg['register.confirmPassword']}" />
 						<h:panelGroup>
 							<p:password id="confirmPassword"
-								value="#{registerBean.confirmPassword}" required="true"
+								value="#{authBean.confirmPassword}" required="true"
 								redisplay="true"
 								validatorMessage="#{msg['register.passwordMismatch']}"
 								requiredMessage="#{msg['javax.faces.component.UIInput.REQUIRED']}">
 								<f:validator validatorId="passwordValidator" />
-								<f:attribute name="password" value="#{registerBean.password}" />
+								<f:attribute name="password" value="#{authBean.password}" />
 								<p:ajax event="keyup" update="confirmPasswordMsg" />
 								<p:ajax event="blur" update="confirmPasswordMsg" />
 							</p:password>
@@ -72,13 +72,13 @@
 
 						<p:outputLabel value="" />
 						<p:selectBooleanCheckbox id="isDriver"
-							value="#{registerBean.driver}">
+							value="#{authBean.driver}">
 						</p:selectBooleanCheckbox>
 						<p:outputLabel for="isDriver" value="#{msg['register.type']}" />
 					</p:panelGrid>
 
 					<p:commandButton value="#{msg['register.registerButton']}"
-						action="#{registerBean.register}" update="registerForm"
+						action="#{authBean.register}" update="registerForm"
 						icon="pi pi-user-plus" styleClass="ui-button-success"
 						style="width:100%; margin-top:20px;" />
 

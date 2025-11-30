@@ -12,14 +12,14 @@ import jakarta.inject.Named;
 
 @Named("registerBean")
 @RequestScoped
-public class RegisterBean implements Serializable {
+public class AuthBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String email;
 	private String name;
 	private String password;
 	private String confirmPassword;
-	private boolean driver;
+	private boolean wantDriver;
 
 	public void register() {
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -28,7 +28,7 @@ public class RegisterBean implements Serializable {
 		if(context.isValidationFailed()) return;
 		BLFacade businessLogic = FacadeBean.getBusinessLogic();
 		try {
-			if (driver) {
+			if (wantDriver) {
 				User newDriver = businessLogic.register(email, name, password, true);
 				if (newDriver != null) {
 			        msg = bundle.getString("register.successMessage");
@@ -87,11 +87,11 @@ public class RegisterBean implements Serializable {
 		this.confirmPassword = confirmPassword;
 	}
 
-	public boolean isDriver() {
-		return driver;
+	public boolean isWantDriver() {
+		return wantDriver;
 	}
 
-	public void setDriver(boolean driver) {
-		this.driver = driver;
+	public void setWantDriver(boolean driver) {
+		this.wantDriver = driver;
 	}
 }
