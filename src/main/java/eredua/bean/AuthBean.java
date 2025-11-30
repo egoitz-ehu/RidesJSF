@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import businessLogic.BLFacade;
 import domain.User;
+import exceptions.UserAlreadyRegistered;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
@@ -38,34 +39,35 @@ public class AuthBean implements Serializable {
 			} else {
 				User newTraveler = businessLogic.register(email, name, password, false);
 				if (newTraveler != null) {
-			        msg = bundle.getString("createRide.errorDate");
+			        msg = bundle.getString("register.successMessage");
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
 							"Success", msg));
 				}
 			}
+		} catch(UserAlreadyRegistered e) {
 	        msg = bundle.getString("register.emailExists");
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", msg));
 
 		} catch (Exception e) {
-	        msg = bundle.getString("createRide.errorDate");
+	        msg = bundle.getString("register.failed");
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", msg));
 		}
 	}
-	
-	public void login () {
+
+	public void login() {
 		BLFacade businessLogic = FacadeBean.getBusinessLogic();
 		User u = businessLogic.login(email, password);
-		ResourceBundle bundle = ResourceBundle.getBundle("messages", FacesContext.getCurrentInstance().getViewRoot().getLocale());
-		if(u==null) {
+		ResourceBundle bundle = ResourceBundle.getBundle("messages",
+				FacesContext.getCurrentInstance().getViewRoot().getLocale());
+		if (u == null) {
 			String msg = bundle.getString("login.error");
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", msg));
 		} else {
 			String msg = bundle.getString("login.success");
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "", msg));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", msg));
 		}
 	}
 

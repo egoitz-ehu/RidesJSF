@@ -9,14 +9,14 @@
 		<f:event type="postAddToView"
 			listener="#{languageBean.initializeLocaleForView}" />
 		<div style="width: 500px; margin: 50px auto;">
+			<p:growl id="messages" showDetail="true" life="5000" />
 			<h:form id="registerForm">
 				<p:panel header="#{msg['register.title']}"
 					style="margin-bottom:20px">
 					<p:panelGrid columns="2" layout="grid" styleClass="ui-fluid">
 						<p:outputLabel for="email" value="#{msg['register.email']}" />
 						<h:panelGroup>
-							<p:inputText id="email" value="#{authBean.email}"
-								required="true"
+							<p:inputText id="email" value="#{authBean.email}" required="true"
 								validatorMessage="#{msg['register.invalidEmail']}"
 								requiredMessage="#{msg['javax.faces.component.UIInput.REQUIRED']}">
 								<f:validateRegex
@@ -28,8 +28,7 @@
 
 						<p:outputLabel for="name" value="#{msg['register.name']}" />
 						<h:panelGroup>
-							<p:inputText id="name" value="#{authBean.name}"
-								required="true"
+							<p:inputText id="name" value="#{authBean.name}" required="true"
 								validatorMessage="#{msg['register.invalidName']}"
 								requiredMessage="#{msg['javax.faces.component.UIInput.REQUIRED']}">
 								<f:validateLength minimum="3" />
@@ -78,16 +77,15 @@
 					</p:panelGrid>
 
 					<p:commandButton value="#{msg['register.registerButton']}"
-						action="#{authBean.register}" update="registerForm"
+						action="#{authBean.register}" update="registerForm messages"
 						icon="pi pi-user-plus" styleClass="ui-button-success"
-						style="width:100%; margin-top:20px;" />
+						style="width:100%; margin-top:20px;"/>
 
 					<p:divider />
 
-					<p:commandButton value="#{msg['register.back']}"
-						action="home" icon="pi pi-arrow-left"
-						styleClass="ui-button-secondary" style="width:100%;"
-						immediate="true" />
+					<p:commandButton value="#{msg['register.back']}" action="home"
+						icon="pi pi-arrow-left" styleClass="ui-button-secondary"
+						style="width:100%;" immediate="true" />
 				</p:panel>
 			</h:form>
 		</div>
