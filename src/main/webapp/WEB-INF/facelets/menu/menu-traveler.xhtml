@@ -1,0 +1,24 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<style>
+.full-width-menu {
+	margin: -20px -10px;
+	width: calc(100% + 20px);
+}
+
+.full-width-menu .ui-menu {
+	width: 100% !important;
+	margin: 0 !important;
+	border-radius: 0;
+}
+</style>
+	<div class="full-width-menu">
+		<p:menu style="width: 100%;">
+			<p:menuitem value="#{msg['menu.home']}" outcome="home" icon="pi pi-home" />
+			<p:menuitem value="#{msg['menu.fetchRide']}" outcome="fetchRide"
+				icon="pi pi-search" />
+		</p:menu>
+	</div>
+</ui:composition>

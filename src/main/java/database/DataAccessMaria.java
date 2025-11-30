@@ -125,15 +125,32 @@ public class DataAccessMaria {
 	}
 	
 	public User login(String email, String password) {
-		try {
-			if(email==null || password==null) return null;
-			TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.email=:email AND u.password=:password", User.class);
-			query.setParameter("email", email);
-			query.setParameter("password", password);
-			User u = query.getSingleResult();
-			return u;
-		} catch(NoResultException e) {
-			return null;
-		}
+	    try {
+	        if (email == null || password == null) return null;
+
+	        TypedQuery<Driver> driverQuery = db.createQuery(
+	            "SELECT d FROM Driver d WHERE d.email=:email AND d.password=:password", Driver.class);
+	        driverQuery.setParameter("email", email);
+	        driverQuery.setParameter("password", password);
+
+	        try {
+	            Driver driver = driverQuery.getSingleResult();
+	            return driver;
+	        } catch (NoResultException e) {
+	            TypedQuery<Traveler> travelerQuery = db.createQuery(
+	                "SELECT t FROM Traveler t WHERE t.email=:email AND t.password=:password", Traveler.class);
+	            travelerQuery.setParameter("email", email);
+	            travelerQuery.setParameter("password", password);
+
+	            try {
+	                Traveler traveler = travelerQuery.getSingleResult();
+	                return traveler;
+	            } catch (NoResultException e2) {
+	                return null;
+	            }
+	        }
+	    } catch (Exception e) {
+	        return null;
+	    }
 	}
 }
