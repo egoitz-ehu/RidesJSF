@@ -10,7 +10,7 @@ import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 
-@Named("registerBean")
+@Named("authBean")
 @RequestScoped
 public class AuthBean implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -51,6 +51,21 @@ public class AuthBean implements Serializable {
 	        msg = bundle.getString("createRide.errorDate");
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", msg));
+		}
+	}
+	
+	public void login () {
+		BLFacade businessLogic = FacadeBean.getBusinessLogic();
+		User u = businessLogic.login(email, password);
+		ResourceBundle bundle = ResourceBundle.getBundle("messages", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+		if(u==null) {
+			String msg = bundle.getString("login.error");
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", msg));
+		} else {
+			String msg = bundle.getString("login.success");
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "", msg));
 		}
 	}
 

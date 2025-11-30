@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import domain.Driver;
@@ -124,11 +125,15 @@ public class DataAccessMaria {
 	}
 	
 	public User login(String email, String password) {
-		if(email==null || password==null) return null;
-		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.email=?email AND u.password=?password", User.class);
-		query.setParameter("email", email);
-		query.setParameter("password", password);
-		User u = query.getSingleResult();
-		return u;
+		try {
+			if(email==null || password==null) return null;
+			TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.email=:email AND u.password=:password", User.class);
+			query.setParameter("email", email);
+			query.setParameter("password", password);
+			User u = query.getSingleResult();
+			return u;
+		} catch(NoResultException e) {
+			return null;
+		}
 	}
 }
