@@ -38,7 +38,7 @@ https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
 	<welcome-file-list>
 		<welcome-file>Entry.xhtml</welcome-file>
 	</welcome-file-list>
-
+<!-- 
 	<filter>
 		<filter-name>AuthFilter</filter-name>
 		<filter-class>eredua.AuthFilter</filter-class>
@@ -46,5 +46,5 @@ https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
 	<filter-mapping>
 		<filter-name>AuthFilter</filter-name>
 		<url-pattern>*.xhtml</url-pattern>
-	</filter-mapping>
+	</filter-mapping> -->
 </web-app>

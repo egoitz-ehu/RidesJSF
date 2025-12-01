@@ -1,0 +1,41 @@
+.typewriter {
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-size: 2.8em;
+      font-weight: 800;
+      text-align: center;
+      margin: 40px auto 15px auto;
+      padding: 30px 0;
+      background: linear-gradient(90deg, #00c3ff, #ffff1c, #fc00ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+      letter-spacing: .12em;
+      text-shadow: 2px 2px 8px rgba(60, 60, 60, 0.11);
+      border-right: .15em solid #666; 
+      white-space: nowrap; 
+      overflow: hidden;
+      max-width: 90vw;
+      animation: typing 3s steps(35, end), blink-caret .6s step-end 3s, hide-caret 1s forwards 3s;
+      box-sizing: border-box;
+    }
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+    @keyframes blink-caret {
+      from, to { border-color: transparent }
+      50% { border-color: #666; }
+    }
+    
+	@keyframes hide-caret {
+  		to { border-right: none; }
+	}
+	
+	.full-width-title {
+    width: 100%;
+    display: block;
+    text-align: center;
+    margin-left: 0;
+    margin-right: 0;
+}
