@@ -8,13 +8,20 @@
 		<h:outputStylesheet library="css" name="titulua.css" />
 	</ui:define>
 	<ui:define name="content">
-		<h1 class="typewriter full-width-title">#{msg['entry.title']}</h1>
-		<h:form>
-			<p:panel header="Welcome">
-				<p:commandButton value="Register" action="register"
-					style="margin-right:10px;" />
-				<p:commandButton value="Login" action="login" />
-			</p:panel>
-		</h:form>
+	<f:event type="postAddToView"
+			listener="#{languageBean.initializeLocaleForView}" />
+		<div
+			style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+			<h1 class="typewriter" style="width: 100%; margin-bottom: 30px;">#{msg['entry.title']}</h1>
+			<h:form>
+				<p:panel header="Welcome">
+					<div style="display: flex; gap: 10px; justify-content: center;">
+						<p:commandButton value="Register" action="register" />
+						<p:commandButton value="Login" action="login" />
+					</div>
+				</p:panel>
+			</h:form>
+		</div>
 	</ui:define>
+
 </ui:composition>
