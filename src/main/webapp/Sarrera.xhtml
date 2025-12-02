@@ -5,7 +5,13 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	template="/WEB-INF/facelets/templates/Txantiloia.xhtml">
 	<ui:define name="menu">
-		<ui:include src="/WEB-INF/facelets/menu/menu-driver.xhtml" />
+		<h:panelGroup rendered="#{authBean.driver}">
+			<ui:include src="/WEB-INF/facelets/menu/menu-driver.xhtml" />
+		</h:panelGroup>
+		<h:panelGroup rendered="#{authBean.traveler}">
+			<ui:include src="/WEB-INF/facelets/menu/menu-traveler.xhtml" />
+		</h:panelGroup>
+
 	</ui:define>
 
 	<ui:define name="content">
@@ -14,14 +20,16 @@
 		<div style="max-width: 600px; margin: 40px auto;">
 			<p:card styleClass="ui-card-shadow">
 				<f:facet name="title">
-					<i class="pi pi-car" style="font-size:2em; color:#007ad9; margin-right:10px;"></i>
+					<i class="pi pi-car"
+						style="font-size: 2em; color: #007ad9; margin-right: 10px;"></i>
 					#{msg["sarrera.title"]}
 				</f:facet>
 				<f:facet name="subtitle">
 					#{msg["sarrera.home"]}
 				</f:facet>
 				<h:form id="mainForm">
-					<div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 30px;">
+					<div
+						style="display: flex; justify-content: center; gap: 20px; margin-bottom: 30px;">
 						<p:commandButton value="#{msg['sarrera.createRide']}"
 							action="createRide" icon="pi pi-plus"
 							styleClass="ui-button-success" />

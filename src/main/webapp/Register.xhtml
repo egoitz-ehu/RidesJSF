@@ -1,0 +1,93 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/facelets/templates/SarreraTxantiloia.xhtml">
+	<ui:define name="content">
+
+		<f:event type="postAddToView"
+			listener="#{languageBean.initializeLocaleForView}" />
+		<div style="width: 500px; margin: 50px auto;">
+			<p:growl id="messages" showDetail="true" life="5000" />
+			<h:form id="registerForm">
+				<p:panel header="#{msg['register.title']}"
+					style="margin-bottom:20px">
+					<p:panelGrid columns="2" layout="grid" styleClass="ui-fluid">
+						<p:outputLabel for="email" value="#{msg['register.email']}" />
+						<h:panelGroup>
+							<p:inputText id="email" value="#{authBean.email}" required="true"
+								validatorMessage="#{msg['register.invalidEmail']}"
+								requiredMessage="#{msg['javax.faces.component.UIInput.REQUIRED']}">
+								<f:validateRegex
+									pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" />
+								<p:ajax event="blur" update="emailMsg" />
+							</p:inputText>
+							<p:message id="emailMsg" for="email" />
+						</h:panelGroup>
+
+						<p:outputLabel for="name" value="#{msg['register.name']}" />
+						<h:panelGroup>
+							<p:inputText id="name" value="#{authBean.name}" required="true"
+								validatorMessage="#{msg['register.invalidName']}"
+								requiredMessage="#{msg['javax.faces.component.UIInput.REQUIRED']}">
+								<f:validateLength minimum="3" />
+								<p:ajax event="blur" update="nameMsg" />
+							</p:inputText>
+							<p:message id="nameMsg" for="name" />
+						</h:panelGroup>
+
+						<p:outputLabel for="password" value="#{msg['register.password']}" />
+						<h:panelGroup>
+							<p:password id="password" value="#{authBean.password}"
+								required="true" feedback="true"
+								weakLabel="#{msg['register.weak']}"
+								goodLabel="#{msg['register.good']}"
+								strongLabel="#{msg['register.strong']}" redisplay="true"
+								validatorMessage="#{msg['register.invalidPassword']}"
+								requiredMessage="#{msg['javax.faces.component.UIInput.REQUIRED']}">
+								<f:validateLength minimum="6" />
+								<p:ajax event="blur" update="passwordMsg confirmPasswordMsg" />
+								<p:ajax event="keyup" update="confirmPasswordMsg" />
+							</p:password>
+							<p:message id="passwordMsg" for="password" />
+						</h:panelGroup>
+
+						<p:outputLabel for="confirmPassword"
+							value="#{msg['register.confirmPassword']}" />
+						<h:panelGroup>
+							<p:password id="confirmPassword"
+								value="#{authBean.confirmPassword}" required="true"
+								redisplay="true"
+								validatorMessage="#{msg['register.passwordMismatch']}"
+								requiredMessage="#{msg['javax.faces.component.UIInput.REQUIRED']}">
+								<f:validator validatorId="passwordValidator" />
+								<f:attribute name="password" value="#{authBean.password}" />
+								<p:ajax event="keyup" update="confirmPasswordMsg" />
+								<p:ajax event="blur" update="confirmPasswordMsg" />
+							</p:password>
+							<p:message id="confirmPasswordMsg" for="confirmPassword" />
+						</h:panelGroup>
+
+						<p:outputLabel value="" />
+						<p:selectBooleanCheckbox id="isDriver"
+							value="#{authBean.wantDriver}">
+						</p:selectBooleanCheckbox>
+						<p:outputLabel for="isDriver" value="#{msg['register.type']}" />
+					</p:panelGrid>
+
+					<p:commandButton value="#{msg['register.registerButton']}"
+						action="#{authBean.register}" update="registerForm messages"
+						icon="pi pi-user-plus" styleClass="ui-button-success"
+						style="width:100%; margin-top:20px;"/>
+
+					<p:divider />
+
+					<p:commandButton value="#{msg['register.back']}" action="home"
+						icon="pi pi-arrow-left" styleClass="ui-button-secondary"
+						style="width:100%;" immediate="true" />
+				</p:panel>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

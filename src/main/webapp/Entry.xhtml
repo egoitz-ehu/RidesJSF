@@ -1,0 +1,27 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/facelets/templates/SarreraTxantiloia.xhtml">
+	<ui:define name="styles">
+		<h:outputStylesheet library="css" name="titulua.css" />
+	</ui:define>
+	<ui:define name="content">
+	<f:event type="postAddToView"
+			listener="#{languageBean.initializeLocaleForView}" />
+		<div
+			style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+			<h1 class="typewriter" style="width: 100%; margin-bottom: 30px;">#{msg['entry.title']}</h1>
+			<h:form>
+				<p:panel header="Welcome">
+					<div style="display: flex; gap: 10px; justify-content: center;">
+						<p:commandButton value="Register" action="register" />
+						<p:commandButton value="Login" action="login" />
+					</div>
+				</p:panel>
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

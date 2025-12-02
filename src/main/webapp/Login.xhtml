@@ -1,0 +1,54 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/facelets/templates/SarreraTxantiloia.xhtml">
+	<ui:define name="content">
+		<f:event type="postAddToView"
+			listener="#{languageBean.initializeLocaleForView}" />
+		<div style="width: 400px; margin: 50px auto;">
+			<p:growl id="messages" showDetail="true" life="5000" />
+			<h:form id="loginForm">
+				<p:panel header="#{msg['login.title']}" style="margin-bottom:20px">
+					<p:panelGrid columns="2" layout="grid" styleClass="ui-fluid">
+						<p:outputLabel for="email" value="#{msg['login.email']}" />
+						<h:panelGroup>
+							<p:inputText id="email" value="#{authBean.email}" required="true"
+								validatorMessage="#{msg['login.invalidEmail']}"
+								requiredMessage="#{msg['javax.faces.component.UIInput.REQUIRED']}">
+								<f:validateRegex
+									pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" />
+								<p:ajax event="blur" update="emailMsg" />
+							</p:inputText>
+							<p:message id="emailMsg" for="email" />
+						</h:panelGroup>
+
+						<p:outputLabel for="password" value="#{msg['login.password']}" />
+						<h:panelGroup>
+							<p:password id="password" value="#{authBean.password}"
+								required="true" feedback="false"
+								validatorMessage="#{msg['login.invalidPassword']}"
+								requiredMessage="#{msg['javax.faces.component.UIInput.REQUIRED']}">
+								<f:validateLength minimum="6" />
+								<p:ajax event="blur" update="passwordMsg" />
+							</p:password>
+							<p:message id="passwordMsg" for="password" />
+						</h:panelGroup>
+					</p:panelGrid>
+
+					<p:commandButton value="#{msg['login.loginButton']}"
+						action="#{authBean.login}" update="loginForm messages" icon="pi pi-sign-in"
+						styleClass="ui-button-success"
+						style="width:100%; margin-top:20px;"/>
+
+					<p:divider />
+
+					<p:commandButton value="#{msg['login.back']}" action="home"
+						icon="pi pi-arrow-left" styleClass="ui-button-secondary"
+						style="width:100%;" immediate="true" />
+				</p:panel>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
