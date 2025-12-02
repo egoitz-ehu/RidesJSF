@@ -12,6 +12,7 @@
         <class>domain.User</class>
         <class>domain.Traveler</class>
         <class>domain.Driver</class>
+        <class>domain.Reservation</class>
         <properties>
             <property name="javax.persistence.jdbc.driver"
                 value="org.mariadb.jdbc.Driver" />

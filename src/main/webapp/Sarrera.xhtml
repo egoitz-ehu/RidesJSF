@@ -4,15 +4,6 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	template="/WEB-INF/facelets/templates/Txantiloia.xhtml">
-	<ui:define name="menu">
-		<h:panelGroup rendered="#{authBean.driver}">
-			<ui:include src="/WEB-INF/facelets/menu/menu-driver.xhtml" />
-		</h:panelGroup>
-		<h:panelGroup rendered="#{authBean.traveler}">
-			<ui:include src="/WEB-INF/facelets/menu/menu-traveler.xhtml" />
-		</h:panelGroup>
-
-	</ui:define>
 
 	<ui:define name="content">
 		<f:event type="postAddToView"

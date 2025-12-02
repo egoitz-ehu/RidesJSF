@@ -4,9 +4,6 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	template="/WEB-INF/facelets/templates/Txantiloia.xhtml">
-	<ui:define name="menu">
-		<ui:include src="/WEB-INF/facelets/menu/menu-driver.xhtml" />
-	</ui:define>
 	<ui:define name="content">
 		<f:event type="postAddToView"
 			listener="#{languageBean.initializeLocaleForView}" />

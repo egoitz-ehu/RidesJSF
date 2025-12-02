@@ -17,10 +17,10 @@
 			<div class="language-selector">
 				<h:form>
 					<p:selectOneMenu value="#{languageBean.selectedLanguage}">
-					    <f:selectItem itemLabel="Español" itemValue="es" />
-					    <f:selectItem itemLabel="English" itemValue="en" />
-					    <f:selectItem itemLabel="Euskera" itemValue="eu" />
-					    <p:ajax listener="#{languageBean.updateLocale}" update="@all" />
+						<f:selectItem itemLabel="Español" itemValue="es" />
+						<f:selectItem itemLabel="English" itemValue="en" />
+						<f:selectItem itemLabel="Euskera" itemValue="eu" />
+						<p:ajax listener="#{languageBean.updateLocale}" update="@all" />
 					</p:selectOneMenu>
 
 				</h:form>
@@ -28,7 +28,12 @@
 		</div>
 		<div class="menu">
 			<ui:insert name="menu">
-				<h:outputText value="Menu goes here" />
+				<h:panelGroup rendered="#{authBean.driver}">
+					<ui:include src="/WEB-INF/facelets/menu/menu-driver.xhtml" />
+				</h:panelGroup>
+				<h:panelGroup rendered="#{authBean.traveler}">
+					<ui:include src="/WEB-INF/facelets/menu/menu-traveler.xhtml" />
+				</h:panelGroup>
 			</ui:insert>
 		</div>
 		<div class="content">
