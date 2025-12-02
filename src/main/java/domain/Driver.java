@@ -42,7 +42,7 @@ public class Driver extends User {
 		return false;
 	}
 	
-	public Ride addRide(String from, String to, Date date, int nPlaces, float price)  {
+	public Ride addRide(String from, String to, Date date, int nPlaces, double price)  {
         Ride ride=new Ride(from,to,date,nPlaces,price, this);
         rides.add(ride);
         return ride;

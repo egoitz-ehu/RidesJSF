@@ -79,7 +79,7 @@ public class HibernateDataAccess {
 	    return query.getResultList();
 	}
 
-	public Ride createRide(String from, String to, Date date, int nPlaces, float price, String driverEmail)
+	public Ride createRide(String from, String to, Date date, int nPlaces, double price, String driverEmail)
 			throws RideAlreadyExistException, RideMustBeLaterThanTodayException {
 		if (from == null || to == null || date == null || nPlaces <= 0 || price < 0 || driverEmail == null)
 			return null;
