@@ -1,4 +1,4 @@
-package database;
+package dataAccess;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,7 +18,7 @@ import exceptions.RideMustBeLaterThanTodayException;
 import exceptions.UserAlreadyRegistered;
 import util.UtilDate;
 
-public class DataAccessMaria {
+public class HibernateDataAccess {
 	private EntityManager db;
 
 	public void open() {

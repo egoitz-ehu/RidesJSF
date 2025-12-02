@@ -3,7 +3,7 @@ package businessLogic;
 import java.util.Date;
 import java.util.List;
 
-import database.DataAccessMaria;
+import dataAccess.HibernateDataAccess;
 import domain.Ride;
 import domain.User;
 import exceptions.RideAlreadyExistException;
@@ -11,9 +11,9 @@ import exceptions.RideMustBeLaterThanTodayException;
 import exceptions.UserAlreadyRegistered;
 
 public class BLFacadeImplementation implements BLFacade {
-	private DataAccessMaria dataAccess;
+	private HibernateDataAccess dataAccess;
 
-	public BLFacadeImplementation(DataAccessMaria dataAccess) {
+	public BLFacadeImplementation(HibernateDataAccess dataAccess) {
 		this.dataAccess = dataAccess;
 	}
 
