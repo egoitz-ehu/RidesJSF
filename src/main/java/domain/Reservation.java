@@ -2,6 +2,7 @@ package domain;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -18,10 +19,13 @@ public class Reservation {
 	private String from;
 	private String to;
 	
-	private Date date;
+	private Date createDate;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	private Ride ride;
+	
+	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
+	private Traveler traveler;
 
 	private int nPlaces;
 	private double totalPrice;
@@ -29,12 +33,12 @@ public class Reservation {
 	public Reservation() {
 	}
 	
-	public Reservation(Long id, String from, String to, Date date, Ride ride, int nPlaces, double totalPrice) {
-		this.id = id;
+	public Reservation(String from, String to, Date date, Ride ride, Traveler traveler, int nPlaces, double totalPrice) {
 		this.from = from;
 		this.to = to;
-		this.date = date;
+		this.createDate = date;
 		this.ride = ride;
+		this.traveler = traveler;
 		this.nPlaces = nPlaces;
 		this.totalPrice = totalPrice;
 	}
@@ -63,12 +67,12 @@ public class Reservation {
 		this.to = to;
 	}
 
-	public Date getDate() {
-		return date;
+	public Date getCreateDate() {
+		return createDate;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setCreateDate(Date date) {
+		this.createDate = date;
 	}
 
 	public Ride getRide() {

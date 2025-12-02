@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +41,7 @@ public class Ride {
 		this.availableSeats = availableSeats;
 		this.pricePerSeat = pricePerSeat;
 		this.driver = driver;
+		this.reservations = new ArrayList<Reservation>();
 	}
 
 	public Long getId() {
@@ -96,5 +98,21 @@ public class Ride {
 
 	public void setDriver(Driver driver) {
 		this.driver = driver;
+	}
+
+	public List<Reservation> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(List<Reservation> reservations) {
+		this.reservations = reservations;
+	}
+	
+	public Reservation createReservation(String from, String to, Date createDate, Traveler t, int nPlaces) {
+		double totalPrice = nPlaces*pricePerSeat;
+		Reservation r = new Reservation(from,to,createDate,this,t,nPlaces,totalPrice);
+		this.reservations.add(r);
+		this.availableSeats-=nPlaces;
+		return r;
 	}
 }
