@@ -1,13 +1,17 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Ride {
@@ -20,8 +24,11 @@ public class Ride {
 	private int availableSeats;
 	private double pricePerSeat;
 
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Driver driver;
+
+	@OneToMany(fetch = FetchType.LAZY, targetEntity = Reservation.class, mappedBy = "ride", cascade = CascadeType.PERSIST)
+	private List<Reservation> reservations;
 
 	public Ride() {
 	}
@@ -34,6 +41,7 @@ public class Ride {
 		this.availableSeats = availableSeats;
 		this.pricePerSeat = pricePerSeat;
 		this.driver = driver;
+		this.reservations = new ArrayList<Reservation>();
 	}
 
 	public Long getId() {
@@ -90,5 +98,21 @@ public class Ride {
 
 	public void setDriver(Driver driver) {
 		this.driver = driver;
+	}
+
+	public List<Reservation> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(List<Reservation> reservations) {
+		this.reservations = reservations;
+	}
+	
+	public Reservation createReservation(String from, String to, Date createDate, Traveler t, int nPlaces) {
+		double totalPrice = nPlaces*pricePerSeat;
+		Reservation r = new Reservation(from,to,createDate,this,t,nPlaces,totalPrice);
+		this.reservations.add(r);
+		this.availableSeats-=nPlaces;
+		return r;
 	}
 }

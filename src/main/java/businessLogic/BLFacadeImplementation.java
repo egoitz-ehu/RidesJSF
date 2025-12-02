@@ -3,17 +3,19 @@ package businessLogic;
 import java.util.Date;
 import java.util.List;
 
-import database.DataAccessMaria;
+import dataAccess.HibernateDataAccess;
+import domain.Reservation;
 import domain.Ride;
 import domain.User;
+import exceptions.NotAvailableSeatsException;
 import exceptions.RideAlreadyExistException;
 import exceptions.RideMustBeLaterThanTodayException;
 import exceptions.UserAlreadyRegistered;
 
 public class BLFacadeImplementation implements BLFacade {
-	private DataAccessMaria dataAccess;
+	private HibernateDataAccess dataAccess;
 
-	public BLFacadeImplementation(DataAccessMaria dataAccess) {
+	public BLFacadeImplementation(HibernateDataAccess dataAccess) {
 		this.dataAccess = dataAccess;
 	}
 
@@ -77,5 +79,14 @@ public class BLFacadeImplementation implements BLFacade {
 		User u = dataAccess.login(email, password);
 		dataAccess.close();
 		return u;
+	}
+
+	@Override
+	public Reservation createReservation(String from, String to, Date createDate, long rideId, String travelerEmail, int places)
+			throws NotAvailableSeatsException {
+		dataAccess.open();
+		Reservation r = dataAccess.createReservation(from, to, createDate, rideId, travelerEmail, places);
+		dataAccess.close();
+		return r;
 	}
 }

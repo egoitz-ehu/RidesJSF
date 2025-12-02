@@ -2,7 +2,7 @@ package eredua.bean;
 
 import businessLogic.BLFacade;
 import businessLogic.BLFacadeImplementation;
-import database.DataAccessMaria;
+import dataAccess.HibernateDataAccess;
 
 public class FacadeBean {
 	private static FacadeBean singleton = new FacadeBean();
@@ -10,7 +10,7 @@ public class FacadeBean {
 
 	private FacadeBean() {
 		try {
-			facadeInterface = new BLFacadeImplementation(new DataAccessMaria());
+			facadeInterface = new BLFacadeImplementation(new HibernateDataAccess());
 		} catch (Exception e) {
 			System.out.println("FacadeBean: negozioaren logika sortzean errorea: " + e.getMessage());
 		}

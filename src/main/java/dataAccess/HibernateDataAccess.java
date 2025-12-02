@@ -1,4 +1,4 @@
-package database;
+package dataAccess;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,16 +9,18 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import domain.Driver;
+import domain.Reservation;
 import domain.Ride;
 import domain.Traveler;
 import domain.User;
 import eredua.JPAUtil;
+import exceptions.NotAvailableSeatsException;
 import exceptions.RideAlreadyExistException;
 import exceptions.RideMustBeLaterThanTodayException;
 import exceptions.UserAlreadyRegistered;
 import util.UtilDate;
 
-public class DataAccessMaria {
+public class HibernateDataAccess {
 	private EntityManager db;
 
 	public void open() {
@@ -156,5 +158,33 @@ public class DataAccessMaria {
 	    } catch (Exception e) {
 	        return null;
 	    }
+	}
+	
+	public Reservation createReservation(String from, String to, Date date, long rideId, String travelerEmail, int places) throws NotAvailableSeatsException{
+		if(from== null || to==null || date==null || travelerEmail==null || places<=0) return null;
+		try {
+			db.getTransaction().begin();
+			Ride r = db.find(Ride.class, rideId);
+			if(r==null) {
+				db.getTransaction().rollback();
+				return null;
+			}
+			if(r.getAvailableSeats()>=places) {
+				throw new NotAvailableSeatsException();
+			}
+			Traveler t = db.find(Traveler.class, travelerEmail);
+			if(t==null) {
+				db.getTransaction().rollback();
+				return null;
+			}
+			Reservation reservation = r.createReservation(from, to, date, t, places);
+			t.addReservation(reservation);
+			db.persist(r);
+			db.getTransaction().commit();
+			return reservation;
+		} catch(Exception e) {
+			db.getTransaction().rollback();
+			return null;
+		}
 	}
 }
