@@ -87,7 +87,8 @@
 								style="display: flex; justify-content: space-between; align-items: center;">
 								<span> <i class="pi pi-user"></i> #{ride.driver.name}
 								</span>
-								<p:badge value="#{ride.pricePerSeat} €" severity="success" size="large" />
+								<p:badge value="#{ride.pricePerSeat} €" severity="success"
+									size="large" />
 							</div>
 						</f:facet>
 						<div class="p-grid">
@@ -97,12 +98,58 @@
 							</div>
 							<div class="p-col-6" style="text-align: right;">
 								<p:commandButton value="#{msg['fetchRide.bookButton']}"
-									icon="pi pi-check" styleClass="ui-button-sm ui-button-outlined" />
+									icon="pi pi-check" styleClass="ui-button-sm ui-button-outlined"
+									action="#{searchRideBean.prepareBooking(ride)}"
+									oncomplete="PF('bookingDialog').show()" update="bookingDialog" />
 							</div>
 						</div>
 					</p:card>
 				</ui:repeat>
 			</h:panelGroup>
+			<p:dialog id="bookingDialog" widgetVar="bookingDialog"
+				header="#{msg['booking.title']}" modal="true" width="500"
+				resizable="false">
+
+				<h:panelGrid columns="2" cellpadding="10">
+					<h:outputText value="#{msg['booking.from']}: " />
+					<h:outputText value="#{searchRideBean.selectedRide.departingCity}" />
+
+					<h:outputText value="#{msg['booking.to']}: " />
+					<h:outputText value="#{searchRideBean.selectedRide.arrivalCity}" />
+
+					<h:outputText value="#{msg['booking.date']}: " />
+					<h:outputText value="#{searchRideBean.selectedRide.rideDate}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+
+					<h:outputText value="#{msg['booking.pricePerSeat']}: " />
+					<h:outputText value="#{searchRideBean.selectedRide.pricePerSeat} €" />
+
+					<h:outputText value="#{msg['booking.seats']}: " />
+					<p:spinner value="#{searchRideBean.numberOfSeats}" min="1"
+						max="#{searchRideBean.selectedRide.availableSeats}"
+						styleClass="w-full">
+						<p:ajax event="change" update="totalPrice"
+							listener="#{searchRideBean.calculateTotal}" />
+					</p:spinner>
+
+					<h:outputText value="#{msg['booking.total']}: "
+						style="font-weight: bold;" />
+					<h:outputText id="totalPrice"
+						value="#{searchRideBean.totalPrice} €" style="font-weight: bold;" />
+				</h:panelGrid>
+
+				<f:facet name="footer">
+					<p:commandButton value="#{msg['booking.confirm']}"
+						icon="pi pi-check" action="#{searchRideBean.confirmBooking}"
+						update="messages"
+						oncomplete="if(args.success) PF('bookingDialog').hide()" />
+					<p:commandButton value="#{msg['booking.cancel']}"
+						icon="pi pi-times" onclick="PF('bookingDialog').hide()"
+						styleClass="ui-button-secondary" />
+				</f:facet>
+			</p:dialog>
+
 		</div>
 	</ui:define>
 </ui:composition>

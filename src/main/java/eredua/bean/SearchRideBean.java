@@ -21,9 +21,9 @@ import jakarta.inject.Named;
 
 @Named("searchRideBean")
 @SessionScoped
-public class SearchRideBean implements Serializable{
+public class SearchRideBean implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private String departingCity;
 	private String arrivalCity;
 	private Date rideDate;
@@ -31,11 +31,15 @@ public class SearchRideBean implements Serializable{
 
 	private List<String> departingCities;
 	private List<String> arrivalCities;
-	
+
 	private Date currentViewDate;
 	private String availableDatesStr;
-	
+
 	private boolean initialized = false;
+
+	private Ride selectedRide;
+	private int numberOfSeats = 1;
+	private double totalPrice = 0.0;
 
 	public void init() {
 		this.departingCities = FacadeBean.getBusinessLogic().getDepartCities();
@@ -47,7 +51,7 @@ public class SearchRideBean implements Serializable{
 		initialized = true;
 		System.out.println("=== INIT ===");
 	}
-	
+
 	public void onDepartingCityChange() {
 		System.out.println("\n=== onDepartingCityChange ===");
 		this.arrivalCity = "";
@@ -55,63 +59,91 @@ public class SearchRideBean implements Serializable{
 		this.arrivalCities = FacadeBean.getBusinessLogic().getDestinationCities(departingCity);
 		System.out.println("Arrival cities: " + (arrivalCities != null ? arrivalCities.size() : 0));
 	}
-	
+
 	public void onArrivalCityChange() {
 		System.out.println("\n=== onArrivalCityChange ===");
 		checkAndLoadAvailableDates();
 	}
-	
+
 	public void searchRides() {
 		this.results = FacadeBean.getBusinessLogic().getRides(departingCity, arrivalCity, rideDate);
-		if(this.results == null || this.results.isEmpty()) {
-			ResourceBundle bundle = ResourceBundle.getBundle("messages", 
-				FacesContext.getCurrentInstance().getViewRoot().getLocale());
+		if (this.results == null || this.results.isEmpty()) {
+			ResourceBundle bundle = ResourceBundle.getBundle("messages",
+					FacesContext.getCurrentInstance().getViewRoot().getLocale());
 			String msgBody = bundle.getString("fetchRide.noResults");
-			FacesContext.getCurrentInstance().addMessage(null, 
-				new FacesMessage(FacesMessage.SEVERITY_INFO, null, msgBody));
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, null, msgBody));
 		}
 	}
-	
+
 	public void onMonthChange(DateViewChangeEvent event) {
 		System.out.println("\n=== onMonthChange ===");
 		System.out.println(event.getMonth());
-		
+
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR, event.getYear());
-		cal.set(Calendar.MONTH, event.getMonth()-1);
+		cal.set(Calendar.MONTH, event.getMonth() - 1);
 		cal.set(Calendar.DAY_OF_MONTH, 1);
 		cal.set(Calendar.HOUR_OF_DAY, 0);
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.SECOND, 0);
 		cal.set(Calendar.MILLISECOND, 0);
-		
+
 		this.currentViewDate = cal.getTime();
-		
+
 		checkAndLoadAvailableDates();
 	}
-	
+
 	private void checkAndLoadAvailableDates() {
-		if (departingCity != null && !departingCity.isEmpty() 
-				&& arrivalCity != null && !arrivalCity.isEmpty()) {
-			
+		if (departingCity != null && !departingCity.isEmpty() && arrivalCity != null && !arrivalCity.isEmpty()) {
+
 			Date dateToCheck = (currentViewDate != null) ? currentViewDate : new Date();
 
-			List<Date> availableDates = FacadeBean.getBusinessLogic()
-					.getThisMonthDatesWithRides(departingCity, arrivalCity, dateToCheck);
-			
+			List<Date> availableDates = FacadeBean.getBusinessLogic().getThisMonthDatesWithRides(departingCity,
+					arrivalCity, dateToCheck);
+
 			if (availableDates == null) {
 				availableDates = new ArrayList<>();
 			}
 
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			this.availableDatesStr = availableDates.stream()
-					.map(date -> sdf.format(date))
-					.collect(Collectors.toList()).toString();
+			this.availableDatesStr = availableDates.stream().map(date -> sdf.format(date)).collect(Collectors.toList())
+					.toString();
 		} else {
 			this.availableDatesStr = "";
 		}
 	}
-	
+
+	public void prepareBooking(Ride ride) {
+		this.selectedRide = ride;
+		this.numberOfSeats = 1;
+		calculateTotal();
+	}
+
+	public void calculateTotal() {
+		if (selectedRide != null) {
+			this.totalPrice = selectedRide.getPricePerSeat() * numberOfSeats;
+		}
+	}
+
+	public void confirmBooking() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		ResourceBundle bundle = ResourceBundle.getBundle("messages", context.getViewRoot().getLocale());
+
+		try {
+			// Aquí llamarías a tu lógica de negocio para crear la reserva
+			// FacadeBean.getBusinessLogic().createBooking(selectedRide, numberOfSeats);
+
+			String msgBody = bundle.getString("booking.success");
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, null, msgBody));
+
+			// Indicar éxito para cerrar el diálogo
+			context.getExternalContext().getFlash().put("success", true);
+		} catch (Exception e) {
+			String msgBody = bundle.getString("booking.error");
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, null, msgBody));
+		}
+	}
 
 	// Getters y Setters
 	public String getDepartingCity() {
@@ -177,6 +209,29 @@ public class SearchRideBean implements Serializable{
 	public void setAvailableDatesStr(String availableDatesStr) {
 		this.availableDatesStr = availableDatesStr;
 	}
-	
-	
+
+	public int getNumberOfSeats() {
+		return numberOfSeats;
+	}
+
+	public void setNumberOfSeats(int numberOfSeats) {
+		this.numberOfSeats = numberOfSeats;
+	}
+
+	public double getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	public Ride getSelectedRide() {
+		return selectedRide;
+	}
+
+	public void setSelectedRide(Ride selectedRide) {
+		this.selectedRide = selectedRide;
+	}
+
 }

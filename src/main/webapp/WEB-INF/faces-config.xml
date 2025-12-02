@@ -82,4 +82,12 @@ https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_3_0.xsd"
 			<to-view-id>/Sarrera.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
+	
+	<navigation-rule>
+		<from-view-id>/SearchRide.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>book</from-outcome>
+			<to-view-id>/CreateReservation.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
 </faces-config>
