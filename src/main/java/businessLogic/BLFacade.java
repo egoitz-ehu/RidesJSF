@@ -3,8 +3,10 @@ package businessLogic;
 import java.util.Date;
 import java.util.List;
 
+import domain.Reservation;
 import domain.Ride;
 import domain.User;
+import exceptions.NotAvailableSeatsException;
 import exceptions.RideAlreadyExistException;
 import exceptions.RideMustBeLaterThanTodayException;
 import exceptions.UserAlreadyRegistered;
@@ -25,4 +27,6 @@ public interface BLFacade {
 	public User register(String email, String name, String password, boolean isDriver) throws UserAlreadyRegistered;
 	
 	public User login(String email, String password);
+	
+	public Reservation createReservation(String from, String to, Date createDate, long rideId, String travelerEmail, int places) throws NotAvailableSeatsException;
 }
