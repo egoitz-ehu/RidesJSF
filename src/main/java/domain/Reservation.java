@@ -3,6 +3,7 @@ package domain;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -16,7 +17,9 @@ public class Reservation {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@Column(name="departingCity")
 	private String from;
+	@Column(name="arrivalCity")
 	private String to;
 	
 	private Date createDate;
