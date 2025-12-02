@@ -160,8 +160,9 @@ public class HibernateDataAccess {
 	    }
 	}
 	
-	public Reservation createReservation(String from, String to, Date date, long rideId, String travelerEmail, int places) throws NotAvailableSeatsException{
-		if(from== null || to==null || date==null || travelerEmail==null || places<=0) return null;
+	public Reservation createReservation(Date date, long rideId, String travelerEmail, int places) throws NotAvailableSeatsException{
+		System.out.println("Creating reservation in Data Access Layer");
+		if(date==null || travelerEmail==null || places<=0) return null;
 		try {
 			db.getTransaction().begin();
 			Ride r = db.find(Ride.class, rideId);
@@ -169,7 +170,7 @@ public class HibernateDataAccess {
 				db.getTransaction().rollback();
 				return null;
 			}
-			if(r.getAvailableSeats()>=places) {
+			if(r.getAvailableSeats()<places) {
 				throw new NotAvailableSeatsException();
 			}
 			Traveler t = db.find(Traveler.class, travelerEmail);
@@ -177,7 +178,7 @@ public class HibernateDataAccess {
 				db.getTransaction().rollback();
 				return null;
 			}
-			Reservation reservation = r.createReservation(from, to, date, t, places);
+			Reservation reservation = r.createReservation(date, t, places);
 			t.addReservation(reservation);
 			db.persist(r);
 			db.getTransaction().commit();

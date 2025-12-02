@@ -82,10 +82,10 @@ public class BLFacadeImplementation implements BLFacade {
 	}
 
 	@Override
-	public Reservation createReservation(String from, String to, Date createDate, long rideId, String travelerEmail, int places)
+	public Reservation createReservation(Date createDate, long rideId, String travelerEmail, int places)
 			throws NotAvailableSeatsException {
 		dataAccess.open();
-		Reservation r = dataAccess.createReservation(from, to, createDate, rideId, travelerEmail, places);
+		Reservation r = dataAccess.createReservation(createDate, rideId, travelerEmail, places);
 		dataAccess.close();
 		return r;
 	}

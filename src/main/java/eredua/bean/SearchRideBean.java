@@ -11,18 +11,24 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+import org.primefaces.PrimeFaces;
 import org.primefaces.event.DateViewChangeEvent;
 
+import domain.Reservation;
 import domain.Ride;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 @Named("searchRideBean")
 @SessionScoped
 public class SearchRideBean implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
+	@Inject
+	private AuthBean authBean;
 
 	private String departingCity;
 	private String arrivalCity;
@@ -129,20 +135,24 @@ public class SearchRideBean implements Serializable {
 	public void confirmBooking() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		ResourceBundle bundle = ResourceBundle.getBundle("messages", context.getViewRoot().getLocale());
+		boolean success = false;
 
 		try {
-			// Aquí llamarías a tu lógica de negocio para crear la reserva
-			// FacadeBean.getBusinessLogic().createBooking(selectedRide, numberOfSeats);
-
+			Reservation reservation = FacadeBean.getBusinessLogic().createReservation(new Date(),
+					this.selectedRide.getId(), authBean.getUser().getEmail(), numberOfSeats);
+			if(reservation == null) {
+				throw new Exception("Reservation failed");
+			}
 			String msgBody = bundle.getString("booking.success");
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, null, msgBody));
-
-			// Indicar éxito para cerrar el diálogo
-			context.getExternalContext().getFlash().put("success", true);
+			success = true;
+			this.selectedRide.setAvailableSeats(this.selectedRide.getAvailableSeats() - numberOfSeats);
 		} catch (Exception e) {
 			String msgBody = bundle.getString("booking.error");
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, null, msgBody));
 		}
+		this.selectedRide = null;
+		PrimeFaces.current().ajax().addCallbackParam("success", success);
 	}
 
 	// Getters y Setters

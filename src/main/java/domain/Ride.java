@@ -108,9 +108,9 @@ public class Ride {
 		this.reservations = reservations;
 	}
 	
-	public Reservation createReservation(String from, String to, Date createDate, Traveler t, int nPlaces) {
+	public Reservation createReservation(Date createDate, Traveler t, int nPlaces) {
 		double totalPrice = nPlaces*pricePerSeat;
-		Reservation r = new Reservation(from,to,createDate,this,t,nPlaces,totalPrice);
+		Reservation r = new Reservation(createDate,this,t,nPlaces,totalPrice);
 		this.reservations.add(r);
 		this.availableSeats-=nPlaces;
 		return r;

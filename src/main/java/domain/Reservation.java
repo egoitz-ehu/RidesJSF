@@ -17,11 +17,6 @@ public class Reservation {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name="departingCity")
-	private String from;
-	@Column(name="arrivalCity")
-	private String to;
-	
 	private Date createDate;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
@@ -36,9 +31,7 @@ public class Reservation {
 	public Reservation() {
 	}
 	
-	public Reservation(String from, String to, Date date, Ride ride, Traveler traveler, int nPlaces, double totalPrice) {
-		this.from = from;
-		this.to = to;
+	public Reservation(Date date, Ride ride, Traveler traveler, int nPlaces, double totalPrice) {
 		this.createDate = date;
 		this.ride = ride;
 		this.traveler = traveler;
@@ -52,22 +45,6 @@ public class Reservation {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getFrom() {
-		return from;
-	}
-
-	public void setFrom(String from) {
-		this.from = from;
-	}
-
-	public String getTo() {
-		return to;
-	}
-
-	public void setTo(String to) {
-		this.to = to;
 	}
 
 	public Date getCreateDate() {

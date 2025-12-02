@@ -28,5 +28,5 @@ public interface BLFacade {
 	
 	public User login(String email, String password);
 	
-	public Reservation createReservation(String from, String to, Date createDate, long rideId, String travelerEmail, int places) throws NotAvailableSeatsException;
+	public Reservation createReservation(Date createDate, long rideId, String travelerEmail, int places) throws NotAvailableSeatsException;
 }

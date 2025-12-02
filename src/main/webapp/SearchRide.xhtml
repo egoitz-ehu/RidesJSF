@@ -146,17 +146,16 @@
 						</h:panelGroup>
 
 					</h:panelGrid>
-
-					<f:facet name="footer">
-						<p:commandButton value="#{msg['booking.confirm']}"
-							icon="pi pi-check" action="#{searchRideBean.confirmBooking}"
-							update="messages"
-							oncomplete="if(args.success) PF('bookingDialog').hide()" />
-						<p:commandButton value="#{msg['booking.cancel']}"
-							icon="pi pi-times" onclick="PF('bookingDialog').hide()"
-							styleClass="ui-button-secondary" />
-					</f:facet>
 				</h:form>
+				<f:facet name="footer">
+					<p:commandButton value="#{msg['booking.confirm']}"
+						icon="pi pi-check" action="#{searchRideBean.confirmBooking}"
+						update="messages resultsPanel"
+						oncomplete="if(args.success) PF('bookingDialog').hide()" />
+					<p:commandButton value="#{msg['booking.cancel']}"
+						icon="pi pi-times" onclick="PF('bookingDialog').hide()"
+						styleClass="ui-button-secondary" />
+				</f:facet>
 			</p:dialog>
 
 		</div>
