@@ -45,6 +45,10 @@ https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_3_0.xsd"
 			<from-outcome>home</from-outcome>
 			<to-view-id>/Sarrera.xhtml</to-view-id>
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>manageReservationsDriver</from-outcome>
+            <to-view-id>/ManageReservationsDriver.xhtml</to-view-id>
+		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
@@ -80,14 +84,6 @@ https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_3_0.xsd"
 		<navigation-case>
 			<from-outcome>sarrera</from-outcome>
 			<to-view-id>/Sarrera.xhtml</to-view-id>
-		</navigation-case>
-	</navigation-rule>
-	
-	<navigation-rule>
-		<from-view-id>/SearchRide.xhtml</from-view-id>
-		<navigation-case>
-			<from-outcome>book</from-outcome>
-			<to-view-id>/CreateReservation.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 </faces-config>
