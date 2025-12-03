@@ -22,7 +22,8 @@ public class AuthBean implements Serializable {
 	private String name;
 	private String password;
 	private String confirmPassword;
-	private boolean wantDriver;
+
+	private String role;
 
 	private User user;
 
@@ -35,6 +36,7 @@ public class AuthBean implements Serializable {
 			return null;
 		BLFacade businessLogic = FacadeBean.getBusinessLogic();
 		try {
+			boolean wantDriver = role.equals("DRIVER");
 			if (wantDriver) {
 				User newDriver = businessLogic.register(email, name, password, true);
 				if (newDriver != null) {
@@ -118,12 +120,12 @@ public class AuthBean implements Serializable {
 		this.confirmPassword = confirmPassword;
 	}
 
-	public boolean isWantDriver() {
-		return wantDriver;
+	public String getRole() {
+		return role;
 	}
 
-	public void setWantDriver(boolean driver) {
-		this.wantDriver = driver;
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	public User getUser() {

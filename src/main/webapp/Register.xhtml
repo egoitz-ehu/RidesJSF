@@ -69,17 +69,23 @@
 							<p:message id="confirmPasswordMsg" for="confirmPassword" />
 						</h:panelGroup>
 
-						<p:outputLabel value="" />
-						<p:selectBooleanCheckbox id="isDriver"
-							value="#{authBean.wantDriver}">
-						</p:selectBooleanCheckbox>
-						<p:outputLabel for="isDriver" value="#{msg['register.type']}" />
+						<p:outputLabel for="role" value="#{msg['register.role']}" />
+						<p:selectOneMenu id="role" value="#{authBean.role}"
+							required="true"
+							requiredMessage="#{msg['javax.faces.component.UIInput.REQUIRED']}">
+							<f:selectItem itemLabel="#{msg['register.selectRole']}"
+								itemValue="" />
+							<f:selectItem itemLabel="#{msg['register.driver']}"
+								itemValue="DRIVER" />
+							<f:selectItem itemLabel="#{msg['register.traveler']}"
+								itemValue="TRAVELER" />
+						</p:selectOneMenu>
 					</p:panelGrid>
 
 					<p:commandButton value="#{msg['register.registerButton']}"
 						action="#{authBean.register}" update="registerForm messages"
 						icon="pi pi-user-plus" styleClass="ui-button-success"
-						style="width:100%; margin-top:20px;"/>
+						style="width:100%; margin-top:20px;" />
 
 					<p:divider />
 
