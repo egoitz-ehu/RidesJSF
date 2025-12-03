@@ -67,4 +67,11 @@ public abstract class User {
 	public void setFrozenMoney(double frozenMoney) {
 		this.frozenMoney = frozenMoney;
 	}
+	
+	public void moveMoneyToFrozen(double amount) {
+		if(amount>0 && amount<=this.money) {
+			this.money -= amount;
+			this.frozenMoney += amount;
+		}
+	}
 }

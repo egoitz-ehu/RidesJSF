@@ -194,4 +194,40 @@ public class HibernateDataAccess {
 			return null;
 		}
 	}
+	
+	public void depositMoney(String userEmail, double amount) {
+		if(userEmail==null || amount<=0) return;
+		try {
+			db.getTransaction().begin();
+			User u = db.find(User.class, userEmail);
+			if(u==null) {
+				db.getTransaction().rollback();
+				return;
+			}
+			u.setMoney(u.getMoney()+amount);
+			db.persist(u);
+			db.getTransaction().commit();
+		} catch(Exception e) {
+			db.getTransaction().rollback();
+		}
+	}
+	
+	public boolean withdrawMoney(String userEmail, double amount) {
+		if(userEmail==null || amount<=0) return false;
+		try {
+			db.getTransaction().begin();
+			User u = db.find(Traveler.class, userEmail);
+			if(u==null || u.getMoney()<amount) {
+				db.getTransaction().rollback();
+				return false;
+			}
+			u.setMoney(u.getMoney()-amount);
+			db.persist(u);
+			db.getTransaction().commit();
+			return true;
+		} catch(Exception e) {
+			db.getTransaction().rollback();
+			return false;
+		}
+	}
 }

@@ -113,6 +113,7 @@ public class Ride {
 		Reservation r = new Reservation(createDate,this,t,nPlaces,totalPrice);
 		this.reservations.add(r);
 		this.availableSeats-=nPlaces;
+		t.moveMoneyToFrozen(totalPrice);
 		return r;
 	}
 }

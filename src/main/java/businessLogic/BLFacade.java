@@ -30,4 +30,8 @@ public interface BLFacade {
 	public User login(String email, String password);
 	
 	public Reservation createReservation(Date createDate, long rideId, String travelerEmail, int places) throws NotAvailableSeatsException, NotEnoughMoneyException;
+
+	public void depositMoney(String userEmail, double amount);
+	
+	public boolean withdrawMoney(String userEmail, double amount);
 }

@@ -90,4 +90,19 @@ public class BLFacadeImplementation implements BLFacade {
 		dataAccess.close();
 		return r;
 	}
+
+	@Override
+	public void depositMoney(String userEmail, double amount) {
+		dataAccess.open();
+		dataAccess.depositMoney(userEmail, amount);
+		dataAccess.close();
+	}
+
+	@Override
+	public boolean withdrawMoney(String userEmail, double amount) {
+		dataAccess.open();
+		boolean result = dataAccess.withdrawMoney(userEmail, amount);
+		dataAccess.close();
+		return result;
+	}
 }
