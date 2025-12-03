@@ -16,11 +16,14 @@
 </style>
 	<div class="full-width-menu">
 		<p:menu style="width: 100%;">
-			<p:menuitem value="#{msg['menu.home']}" outcome="home" icon="pi pi-home" />
+			<p:menuitem value="#{msg['menu.home']}" outcome="home"
+				icon="pi pi-home" />
 			<p:menuitem value="#{msg['menu.createRide']}" outcome="createRide"
 				icon="pi pi-plus" />
-			<p:menuitem value="#{msg['menu.manageReservations']}" outcome="manageReservationsDriver"
-                icon="pi pi-cog" />
+			<p:menuitem value="#{msg['menu.manageReservations']}"
+				outcome="manageReservationsDriver" icon="pi pi-cog" />
+			<p:menuitem value="#{msg['menu.manageMoney']}" outcome="manageMoney"
+				icon="pi pi-wallet" />
 		</p:menu>
 	</div>
 </ui:composition>

@@ -1,0 +1,93 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/WEB-INF/facelets/templates/Txantiloia.xhtml">
+
+	<ui:define name="content">
+		<f:event type="postAddToView"
+			listener="#{languageBean.initializeLocaleForView}" />
+		
+		<p:panel header="#{msg['money.manageMoney']}">
+
+			<p:panel header="#{msg['money.currentBalance']}">
+				<h:panelGrid columns="2">
+					<h:outputText value="#{manageMoneyBean.currentBalance}">
+						<f:convertNumber type="currency" currencySymbol="€" />
+					</h:outputText>
+				</h:panelGrid>
+			</p:panel>
+
+			<p:spacer height="20" />
+
+			<h:form id="addMoneyForm">
+				<p:panel header="#{msg['money.depositMoney']}">
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:outputLabel for="addAmount" value="#{msg['money.amount']}" />
+						<p:inputNumber id="addAmount" value="#{manageMoneyBean.addAmount}"
+							decimalPlaces="2" minValue="0" maxValue="9999.99" required="true"
+							requiredMessage="#{msg['javax.faces.component.UIInput.REQUIRED']}" />
+
+						<p:commandButton value="#{msg['money.depositButton']}"
+							action="#{manageMoneyBean.addMoney}" 
+							update=":withdrawMoneyForm :transactionHistoryPanel @form"/>
+					</h:panelGrid>
+				</p:panel>
+			</h:form>
+
+			<p:spacer height="20" />
+
+			<h:form id="withdrawMoneyForm">
+				<p:panel header="#{msg['money.withdrawMoney']}">
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:outputLabel for="withdrawAmount" value="#{msg['money.amount']}" />
+						<p:inputNumber id="withdrawAmount"
+							value="#{manageMoneyBean.withdrawAmount}" decimalPlaces="2"
+							minValue="0" maxValue="9999.99" required="true"
+							requiredMessage="#{msg['javax.faces.component.UIInput.REQUIRED']}" />
+
+						<p:commandButton value="#{msg['money.withdrawButton']}"
+							action="#{manageMoneyBean.withdrawMoney}"
+							update=":addMoneyForm :transactionHistoryPanel @form"/>
+					</h:panelGrid>
+				</p:panel>
+			</h:form>
+
+			<p:spacer height="20" />
+
+			<p:panel id="transactionHistoryPanel" header="#{msg['money.transactionHistory']}">
+				<p:dataTable value="#{manageMoneyBean.transactions}"
+					var="transaction" emptyMessage="#{msg['money.noTransactions']}"
+					paginator="true" rows="10">
+
+					<p:column headerText="#{msg['money.dateColumn']}" sortBy="#{transaction.date}">
+						<h:outputText value="#{transaction.date}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="#{msg['money.typeColumn']}">
+						<h:outputText value="#{transaction.type}" />
+					</p:column>
+
+					<p:column headerText="#{msg['money.amountColumn']}">
+						<h:outputText value="#{transaction.amount}">
+							<f:convertNumber type="currency" currencySymbol="€" />
+						</h:outputText>
+					</p:column>
+
+				</p:dataTable>
+			</p:panel>
+
+			<p:spacer height="20" />
+			<p:panel header="#{msg['money.statistics']}"
+				rendered="false">
+				<!--Grafikoa-->
+			</p:panel>
+
+		</p:panel>
+
+		<p:messages showDetail="true" closable="true" />
+	</ui:define>
+</ui:composition>

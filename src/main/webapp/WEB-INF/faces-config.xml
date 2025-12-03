@@ -49,6 +49,10 @@ https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_3_0.xsd"
 			<from-outcome>manageReservationsDriver</from-outcome>
             <to-view-id>/ManageReservationsDriver.xhtml</to-view-id>
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>manageMoney</from-outcome>
+            <to-view-id>/ManageMoney.xhtml</to-view-id>
+		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
