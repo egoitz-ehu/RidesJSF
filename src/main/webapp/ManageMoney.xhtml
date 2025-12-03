@@ -8,7 +8,7 @@
 	<ui:define name="content">
 		<f:event type="postAddToView"
 			listener="#{languageBean.initializeLocaleForView}" />
-		
+
 		<p:panel header="#{msg['money.manageMoney']}">
 
 			<p:panel header="#{msg['money.currentBalance']}">
@@ -21,47 +21,51 @@
 
 			<p:spacer height="20" />
 
-			<h:form id="addMoneyForm">
-				<p:panel header="#{msg['money.depositMoney']}">
-					<h:panelGrid columns="2" cellpadding="5">
-						<h:outputLabel for="addAmount" value="#{msg['money.amount']}" />
-						<p:inputNumber id="addAmount" value="#{manageMoneyBean.addAmount}"
-							decimalPlaces="2" minValue="0" maxValue="9999.99" required="true"
-							requiredMessage="#{msg['javax.faces.component.UIInput.REQUIRED']}" />
+			<h:panelGrid columns="2" style="width: 100%;">
+				<h:form id="addMoneyForm" style="padding-right: 10px;">
+					<p:panel header="#{msg['money.depositMoney']}">
+						<h:panelGrid columns="2" cellpadding="5">
+							<h:outputLabel for="addAmount" value="#{msg['money.amount']}" />
+							<p:inputNumber id="addAmount"
+								value="#{manageMoneyBean.addAmount}" decimalPlaces="2"
+								minValue="0" maxValue="9999.99" required="true"
+								requiredMessage="#{msg['javax.faces.component.UIInput.REQUIRED']}" />
 
-						<p:commandButton value="#{msg['money.depositButton']}"
-							action="#{manageMoneyBean.addMoney}" 
-							update=":withdrawMoneyForm :transactionHistoryPanel @form"/>
-					</h:panelGrid>
-				</p:panel>
-			</h:form>
+							<p:commandButton value="#{msg['money.depositButton']}"
+								action="#{manageMoneyBean.addMoney}"
+								update=":withdrawMoneyForm :transactionHistoryPanel @form" />
+						</h:panelGrid>
+					</p:panel>
+				</h:form>
+				
+				<h:form id="withdrawMoneyForm" style="padding-left: 10px;">
+					<p:panel header="#{msg['money.withdrawMoney']}">
+						<h:panelGrid columns="2" cellpadding="5">
+							<h:outputLabel for="withdrawAmount"
+								value="#{msg['money.amount']}" />
+							<p:inputNumber id="withdrawAmount"
+								value="#{manageMoneyBean.withdrawAmount}" decimalPlaces="2"
+								minValue="0" maxValue="9999.99" required="true"
+								requiredMessage="#{msg['javax.faces.component.UIInput.REQUIRED']}" />
+
+							<p:commandButton value="#{msg['money.withdrawButton']}"
+								action="#{manageMoneyBean.withdrawMoney}"
+								update=":addMoneyForm :transactionHistoryPanel @form" />
+						</h:panelGrid>
+					</p:panel>
+				</h:form>
+			</h:panelGrid>
 
 			<p:spacer height="20" />
 
-			<h:form id="withdrawMoneyForm">
-				<p:panel header="#{msg['money.withdrawMoney']}">
-					<h:panelGrid columns="2" cellpadding="5">
-						<h:outputLabel for="withdrawAmount" value="#{msg['money.amount']}" />
-						<p:inputNumber id="withdrawAmount"
-							value="#{manageMoneyBean.withdrawAmount}" decimalPlaces="2"
-							minValue="0" maxValue="9999.99" required="true"
-							requiredMessage="#{msg['javax.faces.component.UIInput.REQUIRED']}" />
-
-						<p:commandButton value="#{msg['money.withdrawButton']}"
-							action="#{manageMoneyBean.withdrawMoney}"
-							update=":addMoneyForm :transactionHistoryPanel @form"/>
-					</h:panelGrid>
-				</p:panel>
-			</h:form>
-
-			<p:spacer height="20" />
-
-			<p:panel id="transactionHistoryPanel" header="#{msg['money.transactionHistory']}">
+			<p:panel id="transactionHistoryPanel"
+				header="#{msg['money.transactionHistory']}">
 				<p:dataTable value="#{manageMoneyBean.transactions}"
 					var="transaction" emptyMessage="#{msg['money.noTransactions']}"
 					paginator="true" rows="10">
 
-					<p:column headerText="#{msg['money.dateColumn']}" sortBy="#{transaction.date}">
+					<p:column headerText="#{msg['money.dateColumn']}"
+						sortBy="#{transaction.date}">
 						<h:outputText value="#{transaction.date}">
 							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
 						</h:outputText>
@@ -81,8 +85,7 @@
 			</p:panel>
 
 			<p:spacer height="20" />
-			<p:panel header="#{msg['money.statistics']}"
-				rendered="false">
+			<p:panel header="#{msg['money.statistics']}" rendered="false">
 				<!--Grafikoa-->
 			</p:panel>
 
