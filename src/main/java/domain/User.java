@@ -13,6 +13,9 @@ public abstract class User {
 	private String name;
 	private String password;
 	
+	private double money;
+	private double frozenMoney;
+	
 	public User() {
 		
 	}
@@ -21,6 +24,8 @@ public abstract class User {
 		this.email=email;
 		this.name=name;
 		this.password=password;
+		this.money=0;
+		this.frozenMoney=0;
 	}
 
 	public String getEmail() {
@@ -45,5 +50,21 @@ public abstract class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public double getMoney() {
+		return money;
+	}
+
+	public void setMoney(double money) {
+		this.money = money;
+	}
+
+	public double getFrozenMoney() {
+		return frozenMoney;
+	}
+
+	public void setFrozenMoney(double frozenMoney) {
+		this.frozenMoney = frozenMoney;
 	}
 }

@@ -7,6 +7,7 @@ import domain.Reservation;
 import domain.Ride;
 import domain.User;
 import exceptions.NotAvailableSeatsException;
+import exceptions.NotEnoughMoneyException;
 import exceptions.RideAlreadyExistException;
 import exceptions.RideMustBeLaterThanTodayException;
 import exceptions.UserAlreadyRegistered;
@@ -28,5 +29,5 @@ public interface BLFacade {
 	
 	public User login(String email, String password);
 	
-	public Reservation createReservation(Date createDate, long rideId, String travelerEmail, int places) throws NotAvailableSeatsException;
+	public Reservation createReservation(Date createDate, long rideId, String travelerEmail, int places) throws NotAvailableSeatsException, NotEnoughMoneyException;
 }

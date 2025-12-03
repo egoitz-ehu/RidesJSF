@@ -15,6 +15,7 @@ import domain.Traveler;
 import domain.User;
 import eredua.JPAUtil;
 import exceptions.NotAvailableSeatsException;
+import exceptions.NotEnoughMoneyException;
 import exceptions.RideAlreadyExistException;
 import exceptions.RideMustBeLaterThanTodayException;
 import exceptions.UserAlreadyRegistered;
@@ -160,8 +161,7 @@ public class HibernateDataAccess {
 	    }
 	}
 	
-	public Reservation createReservation(Date date, long rideId, String travelerEmail, int places) throws NotAvailableSeatsException{
-		System.out.println("Creating reservation in Data Access Layer");
+	public Reservation createReservation(Date date, long rideId, String travelerEmail, int places) throws NotAvailableSeatsException, NotEnoughMoneyException {
 		if(date==null || travelerEmail==null || places<=0) return null;
 		try {
 			db.getTransaction().begin();
@@ -171,12 +171,18 @@ public class HibernateDataAccess {
 				return null;
 			}
 			if(r.getAvailableSeats()<places) {
+				db.getTransaction().rollback();
 				throw new NotAvailableSeatsException();
 			}
 			Traveler t = db.find(Traveler.class, travelerEmail);
 			if(t==null) {
 				db.getTransaction().rollback();
 				return null;
+			}
+			double totalPrice = places * r.getPricePerSeat();
+			if(totalPrice>t.getMoney()) {
+				db.getTransaction().rollback();
+				throw new NotEnoughMoneyException();
 			}
 			Reservation reservation = r.createReservation(date, t, places);
 			t.addReservation(reservation);

@@ -8,6 +8,7 @@ import domain.Reservation;
 import domain.Ride;
 import domain.User;
 import exceptions.NotAvailableSeatsException;
+import exceptions.NotEnoughMoneyException;
 import exceptions.RideAlreadyExistException;
 import exceptions.RideMustBeLaterThanTodayException;
 import exceptions.UserAlreadyRegistered;
@@ -83,7 +84,7 @@ public class BLFacadeImplementation implements BLFacade {
 
 	@Override
 	public Reservation createReservation(Date createDate, long rideId, String travelerEmail, int places)
-			throws NotAvailableSeatsException {
+			throws NotAvailableSeatsException, NotEnoughMoneyException {
 		dataAccess.open();
 		Reservation r = dataAccess.createReservation(createDate, rideId, travelerEmail, places);
 		dataAccess.close();
