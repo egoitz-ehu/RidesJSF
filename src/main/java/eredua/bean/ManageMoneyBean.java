@@ -3,14 +3,16 @@ package eredua.bean;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 
-import jakarta.enterprise.context.SessionScoped;
+import exceptions.NotEnoughMoneyException;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 @Named("manageMoneyBean")
-@SessionScoped
+@RequestScoped
 public class ManageMoneyBean implements Serializable {
 	@Inject
 	private AuthBean authBean;
@@ -19,13 +21,21 @@ public class ManageMoneyBean implements Serializable {
 	private double amountToAdd;
 	private double amountToWithdraw;
 	
+	@PostConstruct
+	public void init() {
+		try {
+			this.currentBalance = FacadeBean.getBusinessLogic().getUserBalance(authBean.getUser().getEmail());
+		} catch (Exception e) {
+			this.currentBalance = 0.0;
+		}
+	}
+	
 	public void addMoney() {
 		ResourceBundle bundle = ResourceBundle.getBundle("messages", FacesContext.getCurrentInstance().getViewRoot().getLocale());
 		try {
 			FacadeBean.getBusinessLogic().depositMoney(authBean.getUser().getEmail(), amountToAdd);
 			String msg = bundle.getString("money.successDeposit");
 	        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", msg));
-	        this.currentBalance += amountToAdd;
 		} catch (Exception e) {
 			String msg = bundle.getString("money.errorWithdraw");
 	        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", msg));
@@ -42,8 +52,10 @@ public class ManageMoneyBean implements Serializable {
 			} else {
 				String msg = bundle.getString("money.successWithdraw");
 		        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", msg));
-		        this.currentBalance -= amountToWithdraw;
 			}
+		} catch (NotEnoughMoneyException e) {
+			String msg = bundle.getString("money.notEnoughMoney");
+	        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", msg));
 		} catch (Exception e) {
 			String msg = bundle.getString("money.errorWithdraw");
 	        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", msg));

@@ -99,10 +99,18 @@ public class BLFacadeImplementation implements BLFacade {
 	}
 
 	@Override
-	public boolean withdrawMoney(String userEmail, double amount) {
+	public boolean withdrawMoney(String userEmail, double amount) throws NotEnoughMoneyException {
 		dataAccess.open();
 		boolean result = dataAccess.withdrawMoney(userEmail, amount);
 		dataAccess.close();
 		return result;
+	}
+
+	@Override
+	public double getUserBalance(String userEmail) {
+		dataAccess.open();
+		double balance = dataAccess.getUserBalance(userEmail);
+		dataAccess.close();
+		return balance;
 	}
 }

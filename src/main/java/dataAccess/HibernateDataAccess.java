@@ -212,22 +212,35 @@ public class HibernateDataAccess {
 		}
 	}
 	
-	public boolean withdrawMoney(String userEmail, double amount) {
+	public boolean withdrawMoney(String userEmail, double amount) throws NotEnoughMoneyException {
 		if(userEmail==null || amount<=0) return false;
 		try {
 			db.getTransaction().begin();
 			User u = db.find(Traveler.class, userEmail);
 			if(u==null || u.getMoney()<amount) {
 				db.getTransaction().rollback();
-				return false;
+				throw new NotEnoughMoneyException();
 			}
 			u.setMoney(u.getMoney()-amount);
 			db.persist(u);
 			db.getTransaction().commit();
 			return true;
+		}catch(NotEnoughMoneyException e) {
+			throw e;
 		} catch(Exception e) {
 			db.getTransaction().rollback();
 			return false;
+		}
+	}
+	
+	public double getUserBalance(String userEmail) {
+		if(userEmail==null) return 0.0;
+		try {
+			User u = db.find(User.class, userEmail);
+			if(u==null) return 0.0;
+			return u.getMoney();
+		} catch(Exception e) {
+			return 0.0;
 		}
 	}
 }

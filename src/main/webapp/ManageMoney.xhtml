@@ -30,7 +30,7 @@
 							<h:outputLabel for="addAmount" value="#{msg['money.amount']}" />
 							<p:inputNumber id="addAmount"
 								value="#{manageMoneyBean.amountToAdd}" decimalPlaces="2"
-								minValue="0" maxValue="9999.99" required="true"
+								minValue="1.00" maxValue="9999.99" required="true"
 								requiredMessage="#{msg['javax.faces.component.UIInput.REQUIRED']}" />
 
 							<p:commandButton value="#{msg['money.depositButton']}"
@@ -47,7 +47,7 @@
 								value="#{msg['money.amount']}" />
 							<p:inputNumber id="withdrawAmount"
 								value="#{manageMoneyBean.amountToWithdraw}" decimalPlaces="2"
-								minValue="0" maxValue="9999.99" required="true"
+								minValue="1.00" maxValue="9999.99" required="true"
 								requiredMessage="#{msg['javax.faces.component.UIInput.REQUIRED']}" />
 
 							<p:commandButton value="#{msg['money.withdrawButton']}"

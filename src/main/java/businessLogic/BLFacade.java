@@ -33,5 +33,7 @@ public interface BLFacade {
 
 	public void depositMoney(String userEmail, double amount);
 	
-	public boolean withdrawMoney(String userEmail, double amount);
+	public boolean withdrawMoney(String userEmail, double amount) throws NotEnoughMoneyException;
+	
+	public double getUserBalance(String userEmail);
 }
