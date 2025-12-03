@@ -9,9 +9,11 @@
 		<f:event type="postAddToView"
 			listener="#{languageBean.initializeLocaleForView}" />
 
+		<p:growl id="messages" showDetail="true" life="5000" />
+
 		<p:panel header="#{msg['money.manageMoney']}">
 
-			<p:panel header="#{msg['money.currentBalance']}">
+			<p:panel id="currentMoney" header="#{msg['money.currentBalance']}">
 				<h:panelGrid columns="2">
 					<h:outputText value="#{manageMoneyBean.currentBalance}">
 						<f:convertNumber type="currency" currencySymbol="€" />
@@ -27,62 +29,36 @@
 						<h:panelGrid columns="2" cellpadding="5">
 							<h:outputLabel for="addAmount" value="#{msg['money.amount']}" />
 							<p:inputNumber id="addAmount"
-								value="#{manageMoneyBean.addAmount}" decimalPlaces="2"
+								value="#{manageMoneyBean.amountToAdd}" decimalPlaces="2"
 								minValue="0" maxValue="9999.99" required="true"
 								requiredMessage="#{msg['javax.faces.component.UIInput.REQUIRED']}" />
 
 							<p:commandButton value="#{msg['money.depositButton']}"
 								action="#{manageMoneyBean.addMoney}"
-								update=":withdrawMoneyForm :transactionHistoryPanel @form" />
+								update=":withdrawMoneyForm @form :messages :currentMoney" />
 						</h:panelGrid>
 					</p:panel>
 				</h:form>
-				
+
 				<h:form id="withdrawMoneyForm" style="padding-left: 10px;">
 					<p:panel header="#{msg['money.withdrawMoney']}">
 						<h:panelGrid columns="2" cellpadding="5">
 							<h:outputLabel for="withdrawAmount"
 								value="#{msg['money.amount']}" />
 							<p:inputNumber id="withdrawAmount"
-								value="#{manageMoneyBean.withdrawAmount}" decimalPlaces="2"
+								value="#{manageMoneyBean.amountToWithdraw}" decimalPlaces="2"
 								minValue="0" maxValue="9999.99" required="true"
 								requiredMessage="#{msg['javax.faces.component.UIInput.REQUIRED']}" />
 
 							<p:commandButton value="#{msg['money.withdrawButton']}"
 								action="#{manageMoneyBean.withdrawMoney}"
-								update=":addMoneyForm :transactionHistoryPanel @form" />
+								update=":addMoneyForm  @form :messages :currentMoney" />
 						</h:panelGrid>
 					</p:panel>
 				</h:form>
 			</h:panelGrid>
 
 			<p:spacer height="20" />
-
-			<p:panel id="transactionHistoryPanel"
-				header="#{msg['money.transactionHistory']}">
-				<p:dataTable value="#{manageMoneyBean.transactions}"
-					var="transaction" emptyMessage="#{msg['money.noTransactions']}"
-					paginator="true" rows="10">
-
-					<p:column headerText="#{msg['money.dateColumn']}"
-						sortBy="#{transaction.date}">
-						<h:outputText value="#{transaction.date}">
-							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
-						</h:outputText>
-					</p:column>
-
-					<p:column headerText="#{msg['money.typeColumn']}">
-						<h:outputText value="#{transaction.type}" />
-					</p:column>
-
-					<p:column headerText="#{msg['money.amountColumn']}">
-						<h:outputText value="#{transaction.amount}">
-							<f:convertNumber type="currency" currencySymbol="€" />
-						</h:outputText>
-					</p:column>
-
-				</p:dataTable>
-			</p:panel>
 
 			<p:spacer height="20" />
 			<p:panel header="#{msg['money.statistics']}" rendered="false">
