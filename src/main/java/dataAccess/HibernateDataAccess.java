@@ -11,6 +11,7 @@ import javax.persistence.TypedQuery;
 import domain.Driver;
 import domain.Reservation;
 import domain.Ride;
+import domain.Transfer;
 import domain.Traveler;
 import domain.User;
 import eredua.JPAUtil;
@@ -242,5 +243,12 @@ public class HibernateDataAccess {
 		} catch(Exception e) {
 			return 0.0;
 		}
+	}
+	
+	public List<Transfer> getUserTransfers(String userEmail) {
+		if(userEmail==null) return new ArrayList<Transfer>();
+		User u = db.find(User.class, userEmail);
+		if(u==null) return new ArrayList<Transfer>();
+		return u.getTransferList();
 	}
 }

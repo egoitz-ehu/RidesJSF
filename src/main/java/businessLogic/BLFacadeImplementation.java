@@ -6,6 +6,7 @@ import java.util.List;
 import dataAccess.HibernateDataAccess;
 import domain.Reservation;
 import domain.Ride;
+import domain.Transfer;
 import domain.User;
 import exceptions.NotAvailableSeatsException;
 import exceptions.NotEnoughMoneyException;
@@ -112,5 +113,13 @@ public class BLFacadeImplementation implements BLFacade {
 		double balance = dataAccess.getUserBalance(userEmail);
 		dataAccess.close();
 		return balance;
+	}
+
+	@Override
+	public List<Transfer> getUserTransfers(String userEmail) {
+		dataAccess.open();
+		List<Transfer> transferList = dataAccess.getUserTransfers(userEmail);
+		dataAccess.close();
+		return transferList;
 	}
 }

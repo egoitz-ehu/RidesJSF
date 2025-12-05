@@ -78,6 +78,14 @@ public abstract class User {
 		this.frozenMoney = frozenMoney;
 	}
 	
+	public List<Transfer> getTransferList() {
+		return transferList;
+	}
+
+	public void setTransferList(List<Transfer> transferList) {
+		this.transferList = transferList;
+	}
+
 	public void moveMoneyToFrozen(double amount) {
 		if(amount>0 && amount<=this.money) {
 			this.money -= amount;

@@ -5,6 +5,7 @@ import java.util.List;
 
 import domain.Reservation;
 import domain.Ride;
+import domain.Transfer;
 import domain.User;
 import exceptions.NotAvailableSeatsException;
 import exceptions.NotEnoughMoneyException;
@@ -36,4 +37,6 @@ public interface BLFacade {
 	public boolean withdrawMoney(String userEmail, double amount) throws NotEnoughMoneyException;
 	
 	public double getUserBalance(String userEmail);
+	
+	public List<Transfer> getUserTransfers(String userEmail);
 }
