@@ -21,6 +21,12 @@ public class Transfer {
 	@Enumerated(EnumType.STRING)
 	private TransferType type;
 	
+	//Transferentzia bidaia baten inguruan denean
+	@ManyToOne(fetch=FetchType.LAZY)
+	private Ride ride;
+	@ManyToOne(fetch=FetchType.LAZY)
+	private Reservation reservation;
+	
 	public Transfer() {
 		
 	}
@@ -29,7 +35,25 @@ public class Transfer {
 		this.amount=amount;
 		this.user=user;
 		this.type=type;
+		this.ride=null;
 	}
+	
+	public Transfer(double amount, User user, TransferType type, Reservation reservation) {
+		this.amount=amount;
+		this.user=user;
+		this.type=type;
+		this.ride=reservation.getRide();
+		this.reservation=reservation;
+	}
+	
+	public Transfer(double amount, User user, TransferType type, Ride ride, Reservation reservation) {
+		this.amount=amount;
+		this.user=user;
+		this.type=type;
+		this.ride=ride;
+		this.reservation=reservation;
+	}
+
 
 	public Long getId() {
 		return id;
@@ -61,5 +85,21 @@ public class Transfer {
 
 	public void setType(TransferType type) {
 		this.type = type;
+	}
+
+	public Ride getRide() {
+		return ride;
+	}
+
+	public void setRide(Ride ride) {
+		this.ride = ride;
+	}
+
+	public Reservation getReservation() {
+		return reservation;
+	}
+
+	public void setReservation(Reservation reservation) {
+		this.reservation = reservation;
 	}
 }

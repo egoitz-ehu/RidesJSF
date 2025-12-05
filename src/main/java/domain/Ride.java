@@ -29,6 +29,9 @@ public class Ride {
 
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = Reservation.class, mappedBy = "ride", cascade = CascadeType.PERSIST)
 	private List<Reservation> reservations;
+	
+	@OneToMany(fetch = FetchType.LAZY, targetEntity = Transfer.class, mappedBy = "ride")
+	private List<Transfer> transferList;
 
 	public Ride() {
 	}
@@ -42,6 +45,7 @@ public class Ride {
 		this.pricePerSeat = pricePerSeat;
 		this.driver = driver;
 		this.reservations = new ArrayList<Reservation>();
+		this.transferList = new ArrayList<Transfer>();
 	}
 
 	public Long getId() {
@@ -108,6 +112,14 @@ public class Ride {
 		this.reservations = reservations;
 	}
 	
+	public List<Transfer> getTransferList() {
+		return transferList;
+	}
+
+	public void setTransferList(List<Transfer> transferList) {
+		this.transferList = transferList;
+	}
+
 	public Reservation createReservation(Date createDate, Traveler t, int nPlaces) {
 		double totalPrice = nPlaces*pricePerSeat;
 		Reservation r = new Reservation(createDate,this,t,nPlaces,totalPrice);

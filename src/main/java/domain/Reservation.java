@@ -1,6 +1,8 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Reservation {
@@ -28,6 +31,9 @@ public class Reservation {
 	private int nPlaces;
 	private double totalPrice;
 	
+	@OneToMany(fetch = FetchType.LAZY, targetEntity = Transfer.class, mappedBy = "reservation")
+	private List<Transfer> transferList;
+	
 	public Reservation() {
 	}
 	
@@ -37,6 +43,7 @@ public class Reservation {
 		this.traveler = traveler;
 		this.nPlaces = nPlaces;
 		this.totalPrice = totalPrice;
+		this.transferList = new ArrayList<Transfer>();
 	}
 
 	public Long getId() {
@@ -77,5 +84,21 @@ public class Reservation {
 
 	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
+	}
+
+	public Traveler getTraveler() {
+		return traveler;
+	}
+
+	public void setTraveler(Traveler traveler) {
+		this.traveler = traveler;
+	}
+
+	public List<Transfer> getTransferList() {
+		return transferList;
+	}
+
+	public void setTransferList(List<Transfer> transferList) {
+		this.transferList = transferList;
 	}
 }
