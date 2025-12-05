@@ -12,6 +12,7 @@ import domain.Driver;
 import domain.Reservation;
 import domain.Ride;
 import domain.Transfer;
+import domain.TransferType;
 import domain.Traveler;
 import domain.User;
 import eredua.JPAUtil;
@@ -206,6 +207,7 @@ public class HibernateDataAccess {
 				return;
 			}
 			u.setMoney(u.getMoney()+amount);
+			u.createTransfer(amount, TransferType.DEPOSIT);
 			db.persist(u);
 			db.getTransaction().commit();
 		} catch(Exception e) {
@@ -223,6 +225,7 @@ public class HibernateDataAccess {
 				throw new NotEnoughMoneyException();
 			}
 			u.setMoney(u.getMoney()-amount);
+			u.createTransfer(amount, TransferType.WITHDRAWAL);
 			db.persist(u);
 			db.getTransaction().commit();
 			return true;

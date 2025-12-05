@@ -92,4 +92,13 @@ public abstract class User {
 			this.frozenMoney += amount;
 		}
 	}
+	
+	public Transfer createTransfer(double amount, TransferType type) {
+		if(amount>0 && type!=null) {
+			Transfer transfer = new Transfer(amount, this, type);
+			return transfer;
+		} else {
+			return null;
+		}
+	}
 }
