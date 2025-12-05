@@ -1,9 +1,15 @@
 package domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -16,6 +22,9 @@ public abstract class User {
 	private double money;
 	private double frozenMoney;
 	
+	@OneToMany(fetch=FetchType.LAZY, targetEntity = Transfer.class, mappedBy = "user", cascade=CascadeType.PERSIST)
+	private List<Transfer> transferList;
+	
 	public User() {
 		
 	}
@@ -26,6 +35,7 @@ public abstract class User {
 		this.password=password;
 		this.money=0;
 		this.frozenMoney=0;
+		this.transferList = new ArrayList<Transfer>();
 	}
 
 	public String getEmail() {
