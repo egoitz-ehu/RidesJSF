@@ -41,4 +41,6 @@ public interface BLFacade {
 	public double getUserBalance(String userEmail);
 	
 	public List<Transfer> getUserTransfers(String userEmail);
+	
+	public List<Reservation> getDriverReservations(String userEmail);
 }
