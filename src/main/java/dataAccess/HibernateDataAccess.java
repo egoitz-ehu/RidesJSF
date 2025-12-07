@@ -182,12 +182,14 @@ public class HibernateDataAccess {
 				return null;
 			}
 			double totalPrice = places * r.getPricePerSeat();
-			if(totalPrice>t.getMoney()) {
+			double oldAmount = t.getMoney();
+			if(totalPrice>oldAmount) {
 				db.getTransaction().rollback();
 				throw new NotEnoughMoneyException();
 			}
 			Reservation reservation = r.createReservation(date, t, places);
 			t.addReservation(reservation);
+			t.createTransfer(totalPrice, TransferType.RESERVATION_REQUEST, oldAmount);
 			db.persist(r);
 			db.getTransaction().commit();
 			return reservation;
@@ -220,14 +222,14 @@ public class HibernateDataAccess {
 		if(userEmail==null || amount<=0) return false;
 		try {
 			db.getTransaction().begin();
-			User u = db.find(Traveler.class, userEmail);
+			User u = db.find(User.class, userEmail);
 			if(u==null || u.getMoney()<amount) {
 				db.getTransaction().rollback();
 				throw new NotEnoughMoneyException();
 			}
 			double oldAmount = u.getMoney();
 			u.setMoney(oldAmount-amount);
-			u.createTransfer(amount, TransferType.WITHDRAWAL, u.getMoney());
+			u.createTransfer(amount, TransferType.WITHDRAWAL, oldAmount);
 			db.persist(u);
 			db.getTransaction().commit();
 			return true;

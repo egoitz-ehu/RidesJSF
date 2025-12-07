@@ -93,9 +93,14 @@ public abstract class User {
 		}
 	}
 	
+	public void addTransfer(Transfer t) {
+		this.transferList.add(t);
+	};
+	
 	public Transfer createTransfer(double amount, TransferType type, double oldAmount) {
 		if(amount>0 && type!=null) {
 			Transfer transfer = new Transfer(amount, this, type, oldAmount);
+			this.addTransfer(transfer);
 			return transfer;
 		} else {
 			return null;

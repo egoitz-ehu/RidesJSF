@@ -35,7 +35,7 @@
 
 							<p:commandButton value="#{msg['money.depositButton']}"
 								action="#{manageMoneyBean.addMoney}"
-								update=":withdrawMoneyForm @form :messages :currentMoney" />
+								update=":withdrawMoneyForm @form :messages :currentMoney :transferTable" />
 						</h:panelGrid>
 					</p:panel>
 				</h:form>
@@ -52,14 +52,14 @@
 
 							<p:commandButton value="#{msg['money.withdrawButton']}"
 								action="#{manageMoneyBean.withdrawMoney}"
-								update=":addMoneyForm  @form :messages :currentMoney" />
+								update=":addMoneyForm  @form :messages :currentMoney :transferTable" />
 						</h:panelGrid>
 					</p:panel>
 				</h:form>
 			</h:panelGrid>
 
 			<p:spacer height="20" />
-			<p:dataTable var="transfer" value="#{manageMoneyBean.transferList}" scrollable="true" scrollHeight="250">
+			<p:dataTable id="transferTable" var="transfer" value="#{manageMoneyBean.transferList}" scrollable="true" scrollHeight="250">
 				<p:column headerText="Proba">
 					<h:outputText value="#{transfer.amount}" />
 				</p:column>

@@ -41,6 +41,8 @@ public class ManageMoneyBean implements Serializable {
 			FacadeBean.getBusinessLogic().depositMoney(authBean.getUser().getEmail(), amountToAdd);
 			String msg = bundle.getString("money.successDeposit");
 	        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", msg));
+	        this.currentBalance = FacadeBean.getBusinessLogic().getUserBalance(authBean.getUser().getEmail());
+			this.transferList = FacadeBean.getBusinessLogic().getUserTransfers(authBean.getUser().getEmail());
 		} catch (Exception e) {
 			String msg = bundle.getString("money.errorWithdraw");
 	        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", msg));
@@ -57,6 +59,8 @@ public class ManageMoneyBean implements Serializable {
 			} else {
 				String msg = bundle.getString("money.successWithdraw");
 		        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", msg));
+		        this.currentBalance = FacadeBean.getBusinessLogic().getUserBalance(authBean.getUser().getEmail());
+				this.transferList = FacadeBean.getBusinessLogic().getUserTransfers(authBean.getUser().getEmail());
 			}
 		} catch (NotEnoughMoneyException e) {
 			String msg = bundle.getString("money.notEnoughMoney");
