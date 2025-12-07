@@ -4,6 +4,10 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	template="/WEB-INF/facelets/templates/Txantiloia.xhtml">
+	
+	<ui:define name="styles">
+		<h:outputStylesheet library="css" name="transfers.css" />
+	</ui:define>
 
 	<ui:define name="content">
 		<f:event type="postAddToView"
@@ -59,14 +63,17 @@
 			</h:panelGrid>
 
 			<p:spacer height="20" />
-			<p:dataTable id="transferTable" var="transfer" value="#{manageMoneyBean.transferList}" scrollable="true" scrollHeight="250">
-				<p:column headerText="Proba">
+			<p:dataTable id="transferTable" var="transfer"
+				value="#{manageMoneyBean.transferList}" scrollable="true"
+				scrollHeight="250">
+				<p:column headerText="#{msg['money.table.amount']}">
 					<h:outputText value="#{transfer.amount}" />
 				</p:column>
-				<p:column headerText="Proba">
-					<h:outputText value="#{transfer.type}" />
+				<p:column headerText="#{msg['money.table.type']}">
+					<h:outputText value="#{msg[transfer.type]}" styleClass="#{transfer.type}" />
 				</p:column>
 			</p:dataTable>
+
 
 			<p:spacer height="20" />
 			<p:panel header="#{msg['money.statistics']}" rendered="false">

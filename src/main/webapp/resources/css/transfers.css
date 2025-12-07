@@ -1,0 +1,18 @@
+.DEPOSIT {
+	color: blue;
+}
+.WITHDRAWAL {
+	color: red;
+}
+.RESERVATION_REQUEST {
+	color: brown;
+}
+.RESERVATION_ACCEPT {
+	color: green;
+}
+.RESERVATION_REJECT {
+	color: rgb(192, 97, 203);
+}
+.RESERVATION_FINISHED {
+	color: rgb(152, 106, 68);
+}
