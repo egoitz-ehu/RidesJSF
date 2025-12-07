@@ -47,6 +47,20 @@ public class Ride {
 		this.reservations = new ArrayList<Reservation>();
 		this.transferList = new ArrayList<Transfer>();
 	}
+	
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Ride)) return false;
+        Ride other = (Ride) o;
+        return id != null && id.equals(other.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
 
 	public Long getId() {
 		return id;

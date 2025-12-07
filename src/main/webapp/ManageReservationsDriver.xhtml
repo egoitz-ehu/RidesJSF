@@ -1,13 +1,56 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	template="/WEB-INF/facelets/templates/Txantiloia.xhtml">
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    template="/WEB-INF/facelets/templates/Txantiloia.xhtml">
 
-	<ui:define name="content">
-		<f:event type="postAddToView"
-			listener="#{languageBean.initializeLocaleForView}" />
-		<h1>Hola</h1>
-	</ui:define>
+    <ui:define name="content">
+        <f:event type="postAddToView" listener="#{languageBean.initializeLocaleForView}" />
+        <h:form>
+            <p:dataTable id="reservationTable"
+                         var="reservation"
+                         value="#{manageReservationsDriverBean.reservations}"
+                         sortBy="#{reservation.ride.id}">
+
+                <p:headerRow field="ride.id" expandable="true">
+                    <p:column colspan="3">
+                        <div class="inline-flex align-items-center" style="vertical-align: middle">
+                            <h:outputText styleClass="ml-2" value="🚌 #{reservation.ride.departingCity} → #{reservation.ride.arrivalCity} (#{reservation.ride.rideDate})" >
+                                <f:convertDateTime pattern="yyyy-MM-dd" />
+                            </h:outputText>
+                            <span style="margin-left:1rem">
+                                <b>Asientos:</b> #{reservation.ride.availableSeats}
+                                <b>Precio:</b> #{reservation.ride.pricePerSeat} €
+                                <b>Conductor:</b> #{reservation.ride.driver.name}
+                            </span>
+                        </div>
+                    </p:column>
+                </p:headerRow>
+
+                <p:column headerText="Fecha de reserva">
+                    <h:outputText value="#{reservation.createDate}" >
+                        <f:convertDateTime pattern="yyyy-MM-dd" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Plazas">
+                    <h:outputText value="#{reservation.nPlaces}"/>
+                </p:column>
+
+                <p:column headerText="Precio total">
+                    <h:outputText value="#{reservation.totalPrice}"/>
+                </p:column>
+                
+                <p:summaryRow>
+                    <p:column colspan="2" style="text-align:right">
+                        <h:outputText value="Reservas en el viaje:"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{manageReservationsDriverBean.getTotalReservations(reservation.ride.id)}" />
+                    </p:column>
+                </p:summaryRow>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
 </ui:composition>
