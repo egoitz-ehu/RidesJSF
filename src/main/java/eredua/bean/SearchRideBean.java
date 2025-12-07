@@ -103,10 +103,10 @@ public class SearchRideBean implements Serializable {
 	private void checkAndLoadAvailableDates() {
 		if (departingCity != null && !departingCity.isEmpty() && arrivalCity != null && !arrivalCity.isEmpty()) {
 
-			Date dateToCheck = (currentViewDate != null) ? currentViewDate : new Date();
+			//Date dateToCheck = (currentViewDate != null) ? currentViewDate : new Date();
 
 			List<Date> availableDates = FacadeBean.getBusinessLogic().getThisMonthDatesWithRides(departingCity,
-					arrivalCity, dateToCheck);
+					arrivalCity);
 
 			if (availableDates == null) {
 				availableDates = new ArrayList<>();
@@ -115,8 +115,7 @@ public class SearchRideBean implements Serializable {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			this.availableDatesStr = availableDates.stream().map(date -> sdf.format(date)).collect(Collectors.toList())
 					.toString();
-			System.out.println(this.availableDatesStr);
-			 PrimeFaces.current().ajax().update("searchForm:activeDatesData");
+			PrimeFaces.current().ajax().update("searchForm:activeDatesData");
 		} else {
 			this.availableDatesStr = "";
 		}

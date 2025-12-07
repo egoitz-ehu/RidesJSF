@@ -55,19 +55,17 @@
 								<p:ajax event="change"
 									listener="#{searchRideBean.onArrivalCityChange}"
 									update="rideDate activeDatesData"
-									oncomplete="$('#searchForm\\:rideDate').datepicker('refresh');" />
+									oncomplete="reloadCalendarDates()" />
 							</p:selectOneMenu>
 						</div>
+						<!-- Second row: one column for calendar -->
 						<div class="ui-g-12">
 							<p:outputLabel for="rideDate" value="#{msg['fetchRide.date']}" />
 							<p:calendar id="rideDate" value="#{searchRideBean.rideDate}"
 								mode="inline" showButtonPanel="true"
 								beforeShowDay="egunakAztertu">
-								<p:ajax event="viewChange"
-									listener="#{searchRideBean.onMonthChange}"
-									update="activeDatesData"
-									oncomplete="reloadCalendarDates();"/>
 							</p:calendar>
+
 						</div>
 					</div>
 					<div style="text-align: center; margin-top: 20px;">

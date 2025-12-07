@@ -91,6 +91,20 @@ public class HibernateDataAccess {
 	    System.out.println(results);
 	    return results;
 	}
+	
+	public List<Date> getThisMonthDatesWithRides(String from, String to) {
+	    String jpql = "SELECT DISTINCT r.rideDate FROM Ride r " +
+	                  "WHERE r.departingCity = :fromCity " +
+	                  "AND r.arrivalCity = :toCity "
+	                  + "AND r.rideDate >= CURDATE()";
+	    
+	    TypedQuery<Date> query = db.createQuery(jpql, Date.class);
+	    query.setParameter("fromCity", from);
+	    query.setParameter("toCity", to);
+	    
+	    List<Date> results = query.getResultList();
+	    return results;
+	}
 
 
 	public Ride createRide(String from, String to, Date date, int nPlaces, double price, String driverEmail)
