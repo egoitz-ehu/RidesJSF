@@ -1,8 +1,10 @@
 package eredua.bean;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import domain.Transfer;
 import exceptions.NotEnoughMoneyException;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
@@ -20,11 +22,14 @@ public class ManageMoneyBean implements Serializable {
 	private double currentBalance;
 	private double amountToAdd;
 	private double amountToWithdraw;
+	private List<Transfer> transferList;
 	
 	@PostConstruct
 	public void init() {
 		try {
 			this.currentBalance = FacadeBean.getBusinessLogic().getUserBalance(authBean.getUser().getEmail());
+			this.transferList = FacadeBean.getBusinessLogic().getUserTransfers(authBean.getUser().getEmail());
+			System.out.println(transferList);
 		} catch (Exception e) {
 			this.currentBalance = 0.0;
 		}
@@ -85,6 +90,12 @@ public class ManageMoneyBean implements Serializable {
 	public void setAmountToWithdraw(double amountToWithdraw) {
 		this.amountToWithdraw = amountToWithdraw;
 	}
-	
-	
+
+	public List<Transfer> getTransferList() {
+		return transferList;
+	}
+
+	public void setTransferList(List<Transfer> transferList) {
+		this.transferList = transferList;
+	}
 }

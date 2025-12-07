@@ -14,7 +14,10 @@ public class Transfer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	private double amount;
+	private double oldAmount;
+	
 	@ManyToOne(fetch=FetchType.LAZY)
 	private User user;
 	
@@ -31,27 +34,30 @@ public class Transfer {
 		
 	}
 	
-	public Transfer(double amount, User user, TransferType type) {
+	public Transfer(double amount, User user, TransferType type, double oldAmount) {
 		this.amount=amount;
 		this.user=user;
 		this.type=type;
 		this.ride=null;
+		this.oldAmount=oldAmount;
 	}
 	
-	public Transfer(double amount, User user, TransferType type, Reservation reservation) {
+	public Transfer(double amount, User user, TransferType type, Reservation reservation, double oldAmount) {
 		this.amount=amount;
 		this.user=user;
 		this.type=type;
 		this.ride=reservation.getRide();
 		this.reservation=reservation;
+		this.oldAmount=oldAmount;
 	}
 	
-	public Transfer(double amount, User user, TransferType type, Ride ride, Reservation reservation) {
+	public Transfer(double amount, User user, TransferType type, Ride ride, Reservation reservation, double oldAmount) {
 		this.amount=amount;
 		this.user=user;
 		this.type=type;
 		this.ride=ride;
 		this.reservation=reservation;
+		this.oldAmount=oldAmount;
 	}
 
 
@@ -101,5 +107,13 @@ public class Transfer {
 
 	public void setReservation(Reservation reservation) {
 		this.reservation = reservation;
+	}
+
+	public double getOldAmount() {
+		return oldAmount;
+	}
+
+	public void setOldAmount(double oldAmount) {
+		this.oldAmount = oldAmount;
 	}
 }

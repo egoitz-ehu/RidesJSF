@@ -93,9 +93,9 @@ public abstract class User {
 		}
 	}
 	
-	public Transfer createTransfer(double amount, TransferType type) {
+	public Transfer createTransfer(double amount, TransferType type, double oldAmount) {
 		if(amount>0 && type!=null) {
-			Transfer transfer = new Transfer(amount, this, type);
+			Transfer transfer = new Transfer(amount, this, type, oldAmount);
 			return transfer;
 		} else {
 			return null;

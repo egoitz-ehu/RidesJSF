@@ -206,8 +206,9 @@ public class HibernateDataAccess {
 				db.getTransaction().rollback();
 				return;
 			}
-			u.setMoney(u.getMoney()+amount);
-			u.createTransfer(amount, TransferType.DEPOSIT);
+			double oldAmount = u.getMoney();
+			u.setMoney(oldAmount+amount);
+			u.createTransfer(amount, TransferType.DEPOSIT, oldAmount);
 			db.persist(u);
 			db.getTransaction().commit();
 		} catch(Exception e) {
@@ -224,8 +225,9 @@ public class HibernateDataAccess {
 				db.getTransaction().rollback();
 				throw new NotEnoughMoneyException();
 			}
-			u.setMoney(u.getMoney()-amount);
-			u.createTransfer(amount, TransferType.WITHDRAWAL);
+			double oldAmount = u.getMoney();
+			u.setMoney(oldAmount-amount);
+			u.createTransfer(amount, TransferType.WITHDRAWAL, u.getMoney());
 			db.persist(u);
 			db.getTransaction().commit();
 			return true;
@@ -250,8 +252,16 @@ public class HibernateDataAccess {
 	
 	public List<Transfer> getUserTransfers(String userEmail) {
 		if(userEmail==null) return new ArrayList<Transfer>();
-		User u = db.find(User.class, userEmail);
-		if(u==null) return new ArrayList<Transfer>();
-		return u.getTransferList();
+		try {
+			db.getTransaction().begin();
+			User u = db.find(User.class, userEmail);
+			if(u==null)return new ArrayList<Transfer>();
+			// Lista kargatu, lazy estrategia erabiltzen delako
+			u.getTransferList().size();
+			List<Transfer> transferList = u.getTransferList();
+			return transferList;
+		} catch(Exception e) {
+			return new ArrayList<Transfer>();
+		}
 	}
 }

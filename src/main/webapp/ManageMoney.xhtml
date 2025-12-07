@@ -59,6 +59,14 @@
 			</h:panelGrid>
 
 			<p:spacer height="20" />
+			<p:dataTable var="transfer" value="#{manageMoneyBean.transferList}" scrollable="true" scrollHeight="250">
+				<p:column headerText="Proba">
+					<h:outputText value="#{transfer.amount}" />
+				</p:column>
+				<p:column headerText="Proba">
+					<h:outputText value="#{transfer.type}" />
+				</p:column>
+			</p:dataTable>
 
 			<p:spacer height="20" />
 			<p:panel header="#{msg['money.statistics']}" rendered="false">
