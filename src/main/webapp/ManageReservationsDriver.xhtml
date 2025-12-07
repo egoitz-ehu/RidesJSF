@@ -41,15 +41,6 @@
                 <p:column headerText="Precio total">
                     <h:outputText value="#{reservation.totalPrice}"/>
                 </p:column>
-                
-                <p:summaryRow>
-                    <p:column colspan="2" style="text-align:right">
-                        <h:outputText value="Reservas en el viaje:"/>
-                    </p:column>
-                    <p:column>
-                        <h:outputText value="#{manageReservationsDriverBean.getTotalReservations(reservation.ride.id)}" />
-                    </p:column>
-                </p:summaryRow>
             </p:dataTable>
         </h:form>
     </ui:define>
