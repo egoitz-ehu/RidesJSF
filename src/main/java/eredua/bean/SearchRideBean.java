@@ -115,6 +115,8 @@ public class SearchRideBean implements Serializable {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			this.availableDatesStr = availableDates.stream().map(date -> sdf.format(date)).collect(Collectors.toList())
 					.toString();
+			System.out.println(this.availableDatesStr);
+			 PrimeFaces.current().ajax().update("searchForm:activeDatesData");
 		} else {
 			this.availableDatesStr = "";
 		}

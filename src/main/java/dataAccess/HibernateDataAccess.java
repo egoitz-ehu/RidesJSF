@@ -1,6 +1,7 @@
 package dataAccess;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -64,23 +65,33 @@ public class HibernateDataAccess {
 	}
 
 	public List<Date> getThisMonthDatesWithRides(String from, String to, Date date) {
+	    System.out.println(date);
 	    
-	    Date startDate = UtilDate.firstDayMonth(date);
-	    Date endDate = UtilDate.lastDayMonth(date);
+	    Calendar cal = Calendar.getInstance();
+	    cal.setTime(date);
+	    int year = cal.get(Calendar.YEAR);
+	    int month = cal.get(Calendar.MONTH);
+	    
+	    System.out.println("YEAR: " + year + ", MONTH: " + month);
 
 	    String jpql = "SELECT DISTINCT r.rideDate FROM Ride r " +
 	                  "WHERE r.departingCity = :fromCity " +
 	                  "AND r.arrivalCity = :toCity " +
-	                  "AND r.rideDate BETWEEN :startDate AND :endDate";
+	                  "AND YEAR(r.rideDate) = :year " +
+	                  "AND MONTH(r.rideDate) = :month";
 	    
 	    TypedQuery<Date> query = db.createQuery(jpql, Date.class);
 	    query.setParameter("fromCity", from);
 	    query.setParameter("toCity", to);
-	    query.setParameter("startDate", startDate);
-	    query.setParameter("endDate", endDate);
-
-	    return query.getResultList();
+	    query.setParameter("year", year);
+	    query.setParameter("month", month + 1);
+	    
+	    List<Date> results = query.getResultList();
+	    System.out.println("FOUND: " + results.size() + " dates");
+	    System.out.println(results);
+	    return results;
 	}
+
 
 	public Ride createRide(String from, String to, Date date, int nPlaces, double price, String driverEmail)
 			throws RideAlreadyExistException, RideMustBeLaterThanTodayException {
