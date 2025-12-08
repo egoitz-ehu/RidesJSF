@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,6 +36,9 @@ public class Reservation {
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = Transfer.class, mappedBy = "reservation")
 	private List<Transfer> transferList;
 	
+	@Enumerated(EnumType.STRING)
+	private ReservationState state;
+	
 	public Reservation() {
 	}
 	
@@ -44,6 +49,7 @@ public class Reservation {
 		this.nPlaces = nPlaces;
 		this.totalPrice = totalPrice;
 		this.transferList = new ArrayList<Transfer>();
+		this.state = ReservationState.WAITING;
 	}
 
 	public Long getId() {
@@ -101,4 +107,14 @@ public class Reservation {
 	public void setTransferList(List<Transfer> transferList) {
 		this.transferList = transferList;
 	}
+
+	public ReservationState getState() {
+		return state;
+	}
+
+	public void setState(ReservationState state) {
+		this.state = state;
+	}
+	
+	
 }
