@@ -11,35 +11,35 @@
             <p:dataTable id="reservationTable"
                          var="reservation"
                          value="#{manageReservationsDriverBean.reservations}"
-                         sortBy="#{reservation.ride.id}">
+                         sortBy="#{reservation.ride.id}"
+                         emptyMessage="#{msg['manageBookingDriver.empty']}">
 
                 <p:headerRow field="ride.id" expandable="true">
-                    <p:column colspan="3">
+                    <p:column>
                         <div class="inline-flex align-items-center" style="vertical-align: middle">
-                            <h:outputText styleClass="ml-2" value="🚌 #{reservation.ride.departingCity} → #{reservation.ride.arrivalCity} (#{reservation.ride.rideDate})" >
+                            <h:outputText styleClass="ml-2" value="#{reservation.ride.departingCity} → #{reservation.ride.arrivalCity} (#{reservation.ride.rideDate})" >
                                 <f:convertDateTime pattern="yyyy-MM-dd" />
                             </h:outputText>
-                            <span style="margin-left:1rem">
-                                <b>Asientos:</b> #{reservation.ride.availableSeats}
-                                <b>Precio:</b> #{reservation.ride.pricePerSeat} €
-                                <b>Conductor:</b> #{reservation.ride.driver.name}
-                            </span>
                         </div>
                     </p:column>
                 </p:headerRow>
 
-                <p:column headerText="Fecha de reserva">
+                <p:column headerText="#{msg['manageBookingDriver.date']}">
                     <h:outputText value="#{reservation.createDate}" >
                         <f:convertDateTime pattern="yyyy-MM-dd" />
                     </h:outputText>
                 </p:column>
 
-                <p:column headerText="Plazas">
+                <p:column headerText="#{msg['manageBookingDriver.places']}">
                     <h:outputText value="#{reservation.nPlaces}"/>
                 </p:column>
 
-                <p:column headerText="Precio total">
+                <p:column headerText="#{msg['manageBookingDriver.totalPrice']}">
                     <h:outputText value="#{reservation.totalPrice}"/>
+                </p:column>
+                
+                <p:column headerText="#{msg['manageBookingDriver.traveler']}">
+                	<h:outputText value="#{reservation.traveler.name}"/>
                 </p:column>
             </p:dataTable>
         </h:form>
