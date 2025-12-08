@@ -29,7 +29,7 @@ public class Ride {
 
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = Reservation.class, mappedBy = "ride", cascade = CascadeType.PERSIST)
 	private List<Reservation> reservations;
-	
+
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = Transfer.class, mappedBy = "ride")
 	private List<Transfer> transferList;
 
@@ -47,20 +47,21 @@ public class Ride {
 		this.reservations = new ArrayList<Reservation>();
 		this.transferList = new ArrayList<Transfer>();
 	}
-	
+
 	@Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Ride)) return false;
-        Ride other = (Ride) o;
-        return id != null && id.equals(other.id);
-    }
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (!(o instanceof Ride))
+			return false;
+		Ride other = (Ride) o;
+		return id != null && id.equals(other.id);
+	}
 
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
-
+	@Override
+	public int hashCode() {
+		return id != null ? id.hashCode() : 0;
+	}
 
 	public Long getId() {
 		return id;
@@ -125,7 +126,7 @@ public class Ride {
 	public void setReservations(List<Reservation> reservations) {
 		this.reservations = reservations;
 	}
-	
+
 	public List<Transfer> getTransferList() {
 		return transferList;
 	}
@@ -135,10 +136,10 @@ public class Ride {
 	}
 
 	public Reservation createReservation(Date createDate, Traveler t, int nPlaces) {
-		double totalPrice = nPlaces*pricePerSeat;
-		Reservation r = new Reservation(createDate,this,t,nPlaces,totalPrice);
+		double totalPrice = nPlaces * pricePerSeat;
+		Reservation r = new Reservation(createDate, this, t, nPlaces, totalPrice);
 		this.reservations.add(r);
-		this.availableSeats-=nPlaces;
+		this.availableSeats -= nPlaces;
 		t.moveMoneyToFrozen(totalPrice);
 		return r;
 	}

@@ -115,6 +115,8 @@ public class HibernateDataAccess {
 			db.getTransaction().rollback();
 			return null;
 		}
+		//lazy denez kargatu
+		driver.getRides().size();
 		if (driver.doesRideExists(from, to, date)) {
 			db.getTransaction().rollback();
 			throw new RideAlreadyExistException("Driver already has a equal ride");

@@ -83,15 +83,18 @@ public class RideBean implements Serializable {
 	}
 	
 	public void createRide() {
+		ResourceBundle bundle = ResourceBundle.getBundle("messages", FacesContext.getCurrentInstance().getViewRoot().getLocale());
 		try {
 			String email = authBean.getUser().getEmail();
 			FacadeBean.getBusinessLogic().createRide(departingCity, arrivalCity, rideDate, seats, price, email);
-			ResourceBundle bundle = ResourceBundle.getBundle("messages", FacesContext.getCurrentInstance().getViewRoot().getLocale());
 	        String msg = bundle.getString("createRide.rideCreatedMessage");
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", msg));
-		} catch (RideMustBeLaterThanTodayException | RideAlreadyExistException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (RideMustBeLaterThanTodayException e) {
+			String msg = bundle.getString("createRide.rideMustBeFutureDate");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", msg));
+		} catch(RideAlreadyExistException e) {
+			String msg = bundle.getString("createRide.rideAlreadyExists");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", msg));
 		}
 	}
 
