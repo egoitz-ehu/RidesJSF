@@ -15,15 +15,28 @@
 
 		<p:growl id="messages" showDetail="true" life="5000" />
 
-		<p:dataTable id="transferTable" var="transfer"
-			value="#{manageMoneyBean.transferList}" scrollable="true"
-			scrollHeight="250">
+		<p:dataTable id="reservationsTable" var="reservation"
+			value="#{manageReservationsTravelerBean.reservations}" scrollable="true"
+			scrollHeight="400">
+			
 			<p:column headerText="#{msg['money.table.amount']}">
-				<h:outputText value="#{transfer.amount}" />
+				<h:outputText value="#{reservation.ride.departingCity}" />
 			</p:column>
-			<p:column headerText="#{msg['money.table.type']}">
-				<h:outputText value="#{msg[transfer.type]}"
-					styleClass="#{transfer.type}" />
+			
+			<p:column headerText="#{msg['money.table.amount']}">
+				<h:outputText value="#{reservation.ride.arrivalCity}" />
+			</p:column>
+			
+			<p:column headerText="#{msg['money.table.amount']}">
+				<h:outputText value="#{reservation.ride.rideDate}">
+					<f:convertDateTime pattern="yyyy-MM-dd" />
+				</h:outputText>
+			</p:column>
+			
+			<p:column headerText="#{msg['money.table.amount']}">
+				<h:outputText value="#{reservation.createDate}">
+					<f:convertDateTime pattern="yyyy-MM-dd" />
+				</h:outputText>
 			</p:column>
 		</p:dataTable>
 	</ui:define>
