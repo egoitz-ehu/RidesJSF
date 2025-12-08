@@ -47,4 +47,6 @@ public interface BLFacade {
 	public List<Reservation> getTravelerReservations(String travelerEmail);
 	
 	public void acceptReservation(Long id);
+	
+	public void rejectReservation(Long id);
 }

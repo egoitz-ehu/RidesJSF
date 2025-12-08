@@ -16,7 +16,9 @@ public class Transfer {
 	private Long id;
 	
 	private double amount;
-	private double oldAmount;
+	
+	private double money;
+	private double frozen;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	private User user;
@@ -34,30 +36,33 @@ public class Transfer {
 		
 	}
 	
-	public Transfer(double amount, User user, TransferType type, double oldAmount) {
+	public Transfer(double amount, User user, TransferType type, double oldMoney, double oldFrozen) {
 		this.amount=amount;
 		this.user=user;
 		this.type=type;
 		this.ride=null;
-		this.oldAmount=oldAmount;
+		this.money=oldMoney;
+		this.frozen=oldFrozen;
 	}
 	
-	public Transfer(double amount, User user, TransferType type, Reservation reservation, double oldAmount) {
+	public Transfer(double amount, User user, TransferType type, Reservation reservation, double oldMoney, double oldFrozen) {
 		this.amount=amount;
 		this.user=user;
 		this.type=type;
 		this.ride=reservation.getRide();
 		this.reservation=reservation;
-		this.oldAmount=oldAmount;
+		this.money=oldMoney;
+		this.frozen=oldFrozen;
 	}
 	
-	public Transfer(double amount, User user, TransferType type, Ride ride, Reservation reservation, double oldAmount) {
+	public Transfer(double amount, User user, TransferType type, Ride ride, Reservation reservation, double oldMoney, double oldFrozen) {
 		this.amount=amount;
 		this.user=user;
 		this.type=type;
 		this.ride=ride;
 		this.reservation=reservation;
-		this.oldAmount=oldAmount;
+		this.money=oldMoney;
+		this.frozen=oldFrozen;
 	}
 
 
@@ -109,11 +114,21 @@ public class Transfer {
 		this.reservation = reservation;
 	}
 
-	public double getOldAmount() {
-		return oldAmount;
+	public double getOldMoney() {
+		return money;
 	}
 
-	public void setOldAmount(double oldAmount) {
-		this.oldAmount = oldAmount;
+	public void setOldMoney(double oldMoney) {
+		this.money = oldMoney;
 	}
+
+	public double getOldFrozen() {
+		return frozen;
+	}
+
+	public void setOldFrozen(double oldFrozen) {
+		this.frozen = oldFrozen;
+	}
+	
+	
 }

@@ -214,7 +214,8 @@ public class HibernateDataAccess {
 			}
 			Reservation reservation = r.createReservation(date, t, places);
 			t.addReservation(reservation);
-			t.createTransfer(totalPrice, TransferType.RESERVATION_REQUEST, oldAmount);
+			t.moveMoneyToFrozen(totalPrice);
+			t.createTransfer(totalPrice, TransferType.RESERVATION_REQUEST, t.getMoney(), t.getFrozenMoney());
 			db.persist(r);
 			db.getTransaction().commit();
 			return reservation;
@@ -236,7 +237,7 @@ public class HibernateDataAccess {
 			}
 			double oldAmount = u.getMoney();
 			u.setMoney(oldAmount + amount);
-			u.createTransfer(amount, TransferType.DEPOSIT, oldAmount);
+			u.createTransfer(amount, TransferType.DEPOSIT, u.getMoney(), u.getFrozenMoney());
 			db.persist(u);
 			db.getTransaction().commit();
 		} catch (Exception e) {
@@ -256,7 +257,7 @@ public class HibernateDataAccess {
 			}
 			double oldAmount = u.getMoney();
 			u.setMoney(oldAmount - amount);
-			u.createTransfer(amount, TransferType.WITHDRAWAL, oldAmount);
+			u.createTransfer(amount, TransferType.WITHDRAWAL, u.getMoney(), u.getFrozenMoney());
 			db.persist(u);
 			db.getTransaction().commit();
 			return true;
@@ -333,12 +334,27 @@ public class HibernateDataAccess {
 			double amount = reservation.getTotalPrice();
 			Traveler t = reservation.getTraveler();
 			t.removeFrozenMoney(amount);
-			t.createTransfer(amount, TransferType.RESERVATION_ACCEPT_TRAVELER, t.getFrozenMoney());
+			t.createTransfer(amount, TransferType.RESERVATION_ACCEPT_TRAVELER, t.getMoney(), t.getFrozenMoney());
 			Driver d = reservation.getRide().getDriver();
 			d.addFrozenMoney(amount);
-			d.createTransfer(amount, TransferType.RESERVATION_ACCEPT_DRIVER, t.getFrozenMoney());
+			d.createTransfer(amount, TransferType.RESERVATION_ACCEPT_DRIVER, d.getMoney(), d.getFrozenMoney());
 			db.persist(d);
 			db.getTransaction().commit();
+		} catch(Exception e) {
+			db.getTransaction().rollback();
+		}
+	}
+	
+	public void rejectReservation(Long reservationId) {
+		try {
+			db.getTransaction().begin();
+			Reservation reservation = db.find(Reservation.class, reservationId);
+			reservation.setState(ReservationState.REJECTED);
+			double amount = reservation.getTotalPrice();
+			reservation.getRide().setAvailableSeats(reservation.getRide().getAvailableSeats()+reservation.getnPlaces());
+			Traveler t = reservation.getTraveler();
+			t.moveFrozenToMoney(amount);
+			t.createTransfer(amount, TransferType.RESERVATION_REJECT, t.getMoney(), t.getFrozenMoney());
 		} catch(Exception e) {
 			db.getTransaction().rollback();
 		}
