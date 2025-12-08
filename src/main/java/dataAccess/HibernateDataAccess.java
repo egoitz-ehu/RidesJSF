@@ -11,6 +11,7 @@ import javax.persistence.TypedQuery;
 
 import domain.Driver;
 import domain.Reservation;
+import domain.ReservationState;
 import domain.Ride;
 import domain.Transfer;
 import domain.TransferType;
@@ -321,6 +322,25 @@ public class HibernateDataAccess {
 			return reservations;
 		} catch(Exception e) {
 			return new ArrayList<Reservation>();
+		}
+	}
+	
+	public void acceptReservation(Long reservationId) {
+		try {
+			db.getTransaction().begin();
+			Reservation reservation = db.find(Reservation.class, reservationId);
+			reservation.setState(ReservationState.ACCEPTED);
+			double amount = reservation.getTotalPrice();
+			Traveler t = reservation.getTraveler();
+			t.removeFrozenMoney(amount);
+			t.createTransfer(amount, TransferType.RESERVATION_ACCEPT_TRAVELER, t.getFrozenMoney());
+			Driver d = reservation.getRide().getDriver();
+			d.addFrozenMoney(amount);
+			d.createTransfer(amount, TransferType.RESERVATION_ACCEPT_DRIVER, t.getFrozenMoney());
+			db.persist(d);
+			db.getTransaction().commit();
+		} catch(Exception e) {
+			db.getTransaction().rollback();
 		}
 	}
 }

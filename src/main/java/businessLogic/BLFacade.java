@@ -45,4 +45,6 @@ public interface BLFacade {
 	public List<Reservation> getDriverReservations(String userEmail);
 	
 	public List<Reservation> getTravelerReservations(String travelerEmail);
+	
+	public void acceptReservation(Long id);
 }

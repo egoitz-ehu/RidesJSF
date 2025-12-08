@@ -106,4 +106,23 @@ public abstract class User {
 			return null;
 		}
 	}
+	
+	public void removeFrozenMoney(double amount) {
+		if(amount<=this.frozenMoney && amount>0) {
+			this.frozenMoney-=amount;
+		}
+	}
+	
+	public void addFrozenMoney(double amount) {
+		if(amount>0) {
+			this.frozenMoney+=amount;
+		}
+	}
+	
+	public void moveFrozenToMoney(double amount) {
+		if(amount>0 && frozenMoney>=amount) {
+			this.money+=amount;
+			this.frozenMoney-=amount;
+		}
+	}
 }
