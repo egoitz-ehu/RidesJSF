@@ -25,6 +25,7 @@ public class AuthFilter implements Filter {
         PRIVATE_PAGES.add("/ManageReservationsDriver.xhtml");
         PRIVATE_PAGES.add("/Sarrera.xhtml");
         PRIVATE_PAGES.add("/SearchRide.xhtml");
+        PRIVATE_PAGES.add("/ManageReservationsTraveler.xhtml");
     }
 
     @Override
