@@ -330,6 +330,9 @@ public class HibernateDataAccess {
 		try {
 			db.getTransaction().begin();
 			Reservation reservation = db.find(Reservation.class, reservationId);
+			if(!reservation.getState().equals(ReservationState.WAITING)) {
+				db.getTransaction().rollback();
+			}
 			reservation.setState(ReservationState.ACCEPTED);
 			double amount = reservation.getTotalPrice();
 			Traveler t = reservation.getTraveler();
@@ -349,6 +352,9 @@ public class HibernateDataAccess {
 		try {
 			db.getTransaction().begin();
 			Reservation reservation = db.find(Reservation.class, reservationId);
+			if(!reservation.getState().equals(ReservationState.WAITING)) {
+				db.getTransaction().rollback();
+			}
 			reservation.setState(ReservationState.REJECTED);
 			double amount = reservation.getTotalPrice();
 			Ride r = reservation.getRide();

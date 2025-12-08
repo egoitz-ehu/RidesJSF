@@ -45,19 +45,25 @@
 				</p:column>
 
 				<p:column headerText="#{msg['manageBookingDriver.status']}">
-					<div style="display: flex; gap: 0.5rem;">
-						<p:commandButton icon="pi pi-check"
-							styleClass="p-button p-button-rounded"
-							style="background-color: #2ecc71; border-color: #2ecc71;"
-							action="#{manageReservationsDriverBean.accept(reservation)}"
-							update="reservationTable" title="Aceptar" />
+					<h:panelGroup rendered="#{reservation.state=='WAITING'}">
+						<div style="display: flex; gap: 0.5rem;">
+							<p:commandButton icon="pi pi-check"
+								styleClass="p-button p-button-rounded"
+								style="background-color: #2ecc71; border-color: #2ecc71;"
+								action="#{manageReservationsDriverBean.accept(reservation)}"
+								update="reservationTable" title="Aceptar" />
 
-						<p:commandButton icon="pi pi-times"
-							styleClass="p-button p-button-rounded"
-							style="background-color: #e74c3c; border-color: #e74c3c;"
-							action="#{manageReservationsDriverBean.reject(reservation)}"
-							update="reservationTable" title="Rechazar" />
-					</div>
+							<p:commandButton icon="pi pi-times"
+								styleClass="p-button p-button-rounded"
+								style="background-color: #e74c3c; border-color: #e74c3c;"
+								action="#{manageReservationsDriverBean.reject(reservation)}"
+								update="reservationTable" title="Rechazar" />
+						</div>
+					</h:panelGroup>
+					
+					<h:panelGroup rendered="#{reservation.state!='WAITING'}">
+						<h:outputText value="#{reservation.state}" />
+					</h:panelGroup>
 				</p:column>
 			</p:dataTable>
 		</h:form>
