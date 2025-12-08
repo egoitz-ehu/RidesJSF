@@ -351,10 +351,13 @@ public class HibernateDataAccess {
 			Reservation reservation = db.find(Reservation.class, reservationId);
 			reservation.setState(ReservationState.REJECTED);
 			double amount = reservation.getTotalPrice();
-			reservation.getRide().setAvailableSeats(reservation.getRide().getAvailableSeats()+reservation.getnPlaces());
+			Ride r = reservation.getRide();
+			r.setAvailableSeats(r.getAvailableSeats()+reservation.getnPlaces());
 			Traveler t = reservation.getTraveler();
 			t.moveFrozenToMoney(amount);
 			t.createTransfer(amount, TransferType.RESERVATION_REJECT, t.getMoney(), t.getFrozenMoney());
+			db.persist(r);
+			db.getTransaction().commit();
 		} catch(Exception e) {
 			db.getTransaction().rollback();
 		}
