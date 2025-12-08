@@ -4,6 +4,10 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	template="/WEB-INF/facelets/templates/Txantiloia.xhtml">
+	
+	<ui:define name="styles">
+		<h:outputStylesheet library="css" name="reservationStates.css" />
+	</ui:define>
 
 	<ui:define name="content">
 		<f:event type="postAddToView"
@@ -60,9 +64,10 @@
 								update="reservationTable" title="Rechazar" />
 						</div>
 					</h:panelGroup>
-					
+
 					<h:panelGroup rendered="#{reservation.state!='WAITING'}">
-						<h:outputText value="#{reservation.state}" />
+						<h:outputText value="#{reservation.state}"
+							styleClass="state-box #{reservation.state == 'ACCEPTED' ? 'state-accepted' : (reservation.state == 'REJECTED' ? 'state-rejected' : '')}" />
 					</h:panelGroup>
 				</p:column>
 			</p:dataTable>

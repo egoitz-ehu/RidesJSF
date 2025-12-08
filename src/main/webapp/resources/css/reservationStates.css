@@ -1,0 +1,19 @@
+.state-box {
+	display: inline-block;
+	padding: 0.5rem 1rem;
+	border-radius: 0.5rem;
+	color: white;
+	font-weight: bold;
+	min-width: 80px;
+	text-align: center;
+}
+
+.state-accepted {
+	background-color: #2ecc71;
+	border: 2px solid #27ae60;
+}
+
+.state-rejected {
+	background-color: #e74c3c;
+	border: 2px solid #c0392b;
+}
