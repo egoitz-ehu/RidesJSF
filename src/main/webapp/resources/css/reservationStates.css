@@ -4,7 +4,7 @@
 	border-radius: 0.5rem;
 	color: white;
 	font-weight: bold;
-	min-width: 80px;
+	width: 150px;
 	text-align: center;
 }
 
@@ -16,4 +16,9 @@
 .state-rejected {
 	background-color: #e74c3c;
 	border: 2px solid #c0392b;
+}
+
+.state-waiting {
+	background-color: rgb(246, 211, 45);
+	border: 2px solid rgb(229, 165, 10);
 }

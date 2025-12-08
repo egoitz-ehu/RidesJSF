@@ -66,7 +66,7 @@
 					</h:panelGroup>
 
 					<h:panelGroup rendered="#{reservation.state!='WAITING'}">
-						<h:outputText value="#{reservation.state}"
+						<h:outputText value="#{msg['status.' += reservation.state]}"
 							styleClass="state-box #{reservation.state == 'ACCEPTED' ? 'state-accepted' : (reservation.state == 'REJECTED' ? 'state-rejected' : '')}" />
 					</h:panelGroup>
 				</p:column>

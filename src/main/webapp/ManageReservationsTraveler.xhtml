@@ -6,7 +6,7 @@
 	template="/WEB-INF/facelets/templates/Txantiloia.xhtml">
 
 	<ui:define name="styles">
-		<h:outputStylesheet library="css" name="transfers.css" />
+		<h:outputStylesheet library="css" name="reservationStates.css" />
 	</ui:define>
 
 	<ui:define name="content">
@@ -16,27 +16,32 @@
 		<p:growl id="messages" showDetail="true" life="5000" />
 
 		<p:dataTable id="reservationsTable" var="reservation"
-			value="#{manageReservationsTravelerBean.reservations}" scrollable="true"
-			scrollHeight="400">
-			
-			<p:column headerText="#{msg['money.table.amount']}">
+			value="#{manageReservationsTravelerBean.reservations}"
+			scrollable="true" scrollHeight="400">
+
+			<p:column headerText="#{msg['manageBookingTraveler.from']}">
 				<h:outputText value="#{reservation.ride.departingCity}" />
 			</p:column>
-			
-			<p:column headerText="#{msg['money.table.amount']}">
+
+			<p:column headerText="#{msg['manageBookingTraveler.to']}">
 				<h:outputText value="#{reservation.ride.arrivalCity}" />
 			</p:column>
-			
-			<p:column headerText="#{msg['money.table.amount']}">
+
+			<p:column headerText="#{msg['manageBookingTraveler.date']}">
 				<h:outputText value="#{reservation.ride.rideDate}">
 					<f:convertDateTime pattern="yyyy-MM-dd" />
 				</h:outputText>
 			</p:column>
-			
-			<p:column headerText="#{msg['money.table.amount']}">
+
+			<p:column headerText="#{msg['manageBookingTraveler.createDate']}">
 				<h:outputText value="#{reservation.createDate}">
 					<f:convertDateTime pattern="yyyy-MM-dd" />
 				</h:outputText>
+			</p:column>
+
+			<p:column headerText="#{msg['manageBookingTraveler.state']}">
+				<h:outputText value="#{msg['status.' += reservation.state]}"
+					styleClass="state-box #{reservation.state == 'ACCEPTED' ? 'state-accepted' : (reservation.state == 'REJECTED' ? 'state-rejected' : 'state-waiting')}" />
 			</p:column>
 		</p:dataTable>
 	</ui:define>
