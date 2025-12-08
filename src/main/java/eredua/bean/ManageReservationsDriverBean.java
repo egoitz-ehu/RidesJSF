@@ -22,6 +22,14 @@ public class ManageReservationsDriverBean implements Serializable{
 	public void init() {
 		this.reservations = FacadeBean.getBusinessLogic().getDriverReservations(authBean.getUser().getEmail());
 	}
+	
+	public void accept(Reservation reservation) {
+		System.out.println("Accepting reservation: " + reservation.getId());
+	}
+	
+	public void reject(Reservation reservation) {
+		System.out.println("Rejecting reservation: " + reservation.getId());
+	}
 
 	public List<Reservation> getReservations() {
 		return reservations;
@@ -30,6 +38,4 @@ public class ManageReservationsDriverBean implements Serializable{
 	public void setReservations(List<Reservation> reservations) {
 		this.reservations = reservations;
 	}
-	
-	
 }
