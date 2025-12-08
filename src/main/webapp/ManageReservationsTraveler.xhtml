@@ -4,7 +4,7 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	template="/WEB-INF/facelets/templates/Txantiloia.xhtml">
-	
+
 	<ui:define name="styles">
 		<h:outputStylesheet library="css" name="transfers.css" />
 	</ui:define>
@@ -14,7 +14,17 @@
 			listener="#{languageBean.initializeLocaleForView}" />
 
 		<p:growl id="messages" showDetail="true" life="5000" />
-		
-		
+
+		<p:dataTable id="transferTable" var="transfer"
+			value="#{manageMoneyBean.transferList}" scrollable="true"
+			scrollHeight="250">
+			<p:column headerText="#{msg['money.table.amount']}">
+				<h:outputText value="#{transfer.amount}" />
+			</p:column>
+			<p:column headerText="#{msg['money.table.type']}">
+				<h:outputText value="#{msg[transfer.type]}"
+					styleClass="#{transfer.type}" />
+			</p:column>
+		</p:dataTable>
 	</ui:define>
 </ui:composition>

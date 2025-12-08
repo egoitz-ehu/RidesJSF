@@ -43,4 +43,6 @@ public interface BLFacade {
 	public List<Transfer> getUserTransfers(String userEmail);
 	
 	public List<Reservation> getDriverReservations(String userEmail);
+	
+	public List<Reservation> getTravelerReservations(String travelerEmail);
 }

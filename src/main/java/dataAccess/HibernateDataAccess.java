@@ -298,6 +298,8 @@ public class HibernateDataAccess {
 	}
 
 	public List<Reservation> getDriverReservations(String driverEmail) {
+		if (driverEmail == null)
+			return new ArrayList<Reservation>();
 		try {
 			TypedQuery<Reservation> q = db.createQuery(
 					"SELECT res FROM Reservation res WHERE res.ride.driver.email = :email", Reservation.class);
@@ -305,6 +307,19 @@ public class HibernateDataAccess {
 			List<Reservation> reservations = q.getResultList();
 			return reservations;
 		} catch (Exception e) {
+			return new ArrayList<Reservation>();
+		}
+	}
+	
+	public List<Reservation> getTravelerReservations(String travelerEmail) {
+		if (travelerEmail == null)
+			return new ArrayList<Reservation>();
+		try {
+			TypedQuery<Reservation> q = db.createQuery("SELECT res FROM Reservation res WHERE res.traveler.email=:email", Reservation.class);
+			q.setParameter("email", travelerEmail);
+			List<Reservation> reservations = q.getResultList();
+			return reservations;
+		} catch(Exception e) {
 			return new ArrayList<Reservation>();
 		}
 	}

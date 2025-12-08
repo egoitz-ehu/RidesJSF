@@ -138,4 +138,12 @@ public class BLFacadeImplementation implements BLFacade {
 		dataAccess.close();
 		return reservations;
 	}
+
+	@Override
+	public List<Reservation> getTravelerReservations(String travelerEmail) {
+		dataAccess.open();
+		List<Reservation> reservations = dataAccess.getTravelerReservations(travelerEmail);
+		dataAccess.close();
+		return reservations;
+	}
 }
