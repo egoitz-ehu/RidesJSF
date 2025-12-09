@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -32,6 +34,8 @@ public class Transfer {
 	@ManyToOne(fetch=FetchType.LAZY)
 	private Reservation reservation;
 	
+	private Date date;
+	
 	public Transfer() {
 		
 	}
@@ -43,6 +47,7 @@ public class Transfer {
 		this.ride=null;
 		this.money=oldMoney;
 		this.frozen=oldFrozen;
+		this.date = new Date();
 	}
 	
 	public Transfer(double amount, User user, TransferType type, Reservation reservation, double oldMoney, double oldFrozen) {
@@ -53,6 +58,7 @@ public class Transfer {
 		this.reservation=reservation;
 		this.money=oldMoney;
 		this.frozen=oldFrozen;
+		this.date = new Date();
 	}
 	
 	public Transfer(double amount, User user, TransferType type, Ride ride, Reservation reservation, double oldMoney, double oldFrozen) {
@@ -63,8 +69,8 @@ public class Transfer {
 		this.reservation=reservation;
 		this.money=oldMoney;
 		this.frozen=oldFrozen;
+		this.date = new Date();
 	}
-
 
 	public Long getId() {
 		return id;
@@ -80,6 +86,22 @@ public class Transfer {
 
 	public void setAmount(double amount) {
 		this.amount = amount;
+	}
+
+	public double getMoney() {
+		return money;
+	}
+
+	public void setMoney(double money) {
+		this.money = money;
+	}
+
+	public double getFrozen() {
+		return frozen;
+	}
+
+	public void setFrozen(double frozen) {
+		this.frozen = frozen;
 	}
 
 	public User getUser() {
@@ -114,21 +136,11 @@ public class Transfer {
 		this.reservation = reservation;
 	}
 
-	public double getOldMoney() {
-		return money;
+	public Date getDate() {
+		return date;
 	}
 
-	public void setOldMoney(double oldMoney) {
-		this.money = oldMoney;
+	public void setDate(Date date) {
+		this.date = date;
 	}
-
-	public double getOldFrozen() {
-		return frozen;
-	}
-
-	public void setOldFrozen(double oldFrozen) {
-		this.frozen = oldFrozen;
-	}
-	
-	
 }
