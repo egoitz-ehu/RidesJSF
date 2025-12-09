@@ -4,7 +4,7 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	template="/WEB-INF/facelets/templates/Txantiloia.xhtml">
-	
+
 	<ui:define name="styles">
 		<h:outputStylesheet library="css" name="transfers.css" />
 	</ui:define>
@@ -18,11 +18,15 @@
 		<p:panel header="#{msg['money.manageMoney']}">
 
 			<p:panel id="currentMoney" header="#{msg['money.currentBalance']}">
-				<h:panelGrid columns="2">
-					<h:outputText value="#{manageMoneyBean.currentBalance}">
-						<f:convertNumber type="currency" currencySymbol="€" />
-					</h:outputText>
-				</h:panelGrid>
+				<h:outputText value="#{msg['money.currentMoney']}: " />
+				<h:outputText value="#{manageMoneyBean.currentBalance}">
+					<f:convertNumber type="currency" currencySymbol="€" />
+				</h:outputText>
+				<br />
+				<h:outputText value="#{msg['money.currentFrozenMoney']}: " />
+				<h:outputText value="#{manageMoneyBean.frozenMoney}">
+					<f:convertNumber type="currency" currencySymbol="€" />
+				</h:outputText>
 			</p:panel>
 
 			<p:spacer height="20" />
@@ -70,7 +74,8 @@
 					<h:outputText value="#{transfer.amount}" />
 				</p:column>
 				<p:column headerText="#{msg['money.table.type']}">
-					<h:outputText value="#{msg[transfer.type]}" styleClass="#{transfer.type}" />
+					<h:outputText value="#{msg[transfer.type]}"
+						styleClass="#{transfer.type}" />
 				</p:column>
 			</p:dataTable>
 

@@ -368,4 +368,15 @@ public class HibernateDataAccess {
 			db.getTransaction().rollback();
 		}
 	}
+	
+	public User getUser(String userEmail) {
+		if (userEmail == null)
+			return null;
+		try {
+			User u = db.find(User.class, userEmail);
+			return u;
+		} catch (Exception e) {
+			return null;
+		}
+	}
 }

@@ -52,7 +52,7 @@ public class BLFacadeImplementation implements BLFacade {
 		dataAccess.close();
 		return dates;
 	}
-	
+
 	@Override
 	public List<Date> getThisMonthDatesWithRides(String from, String to) {
 		dataAccess.open();
@@ -77,7 +77,7 @@ public class BLFacadeImplementation implements BLFacade {
 			User u = dataAccess.register(email, name, password, isDriver);
 			dataAccess.close();
 			return u;
-		} catch(UserAlreadyRegistered e) {
+		} catch (UserAlreadyRegistered e) {
 			dataAccess.close();
 			throw e;
 		}
@@ -159,5 +159,13 @@ public class BLFacadeImplementation implements BLFacade {
 		dataAccess.open();
 		dataAccess.rejectReservation(id);
 		dataAccess.close();
+	}
+
+	@Override
+	public User getUser(String email) {
+		dataAccess.open();
+		User u = dataAccess.getUser(email);
+		dataAccess.close();
+		return u;
 	}
 }
