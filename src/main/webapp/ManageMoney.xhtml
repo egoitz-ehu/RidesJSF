@@ -71,7 +71,9 @@
 				value="#{manageMoneyBean.transferList}" scrollable="true"
 				scrollHeight="250">
 				<p:column headerText="#{msg['money.table.amount']}">
-					<h:outputText value="#{transfer.amount}" />
+					<h:outputText value="#{transfer.amount}">
+						<f:convertNumber type="currency" currencySymbol="€" />
+					</h:outputText>
 				</p:column>
 				<p:column headerText="#{msg['money.table.type']}">
 					<h:outputText value="#{msg[transfer.type]}"

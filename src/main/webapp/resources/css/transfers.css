@@ -1,18 +1,21 @@
 .DEPOSIT {
-	color: blue;
+	color: #2ecc40;
 }
 .WITHDRAWAL {
-	color: red;
+	color: #ff4136;
 }
 .RESERVATION_REQUEST {
-	color: brown;
+	color: #ffb700;
 }
-.RESERVATION_ACCEPT {
-	color: green;
+.RESERVATION_ACCEPT_TRAVELER {
+	color: #0074d9;
+}
+.RESERVATION_ACCEPT_DRIVER {
+	color: #2ed9c3;
 }
 .RESERVATION_REJECT {
-	color: rgb(192, 97, 203);
+	color: #767676;
 }
 .RESERVATION_FINISHED {
-	color: rgb(152, 106, 68);
+	color: #a17dc3;
 }
