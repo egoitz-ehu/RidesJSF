@@ -96,6 +96,7 @@ public class ManageMoneyBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", msg));
 			this.currentBalance = FacadeBean.getBusinessLogic().getUserBalance(authBean.getUser().getEmail());
 			this.transferList = FacadeBean.getBusinessLogic().getUserTransfers(authBean.getUser().getEmail());
+			createLineChart();
 		} catch (Exception e) {
 			String msg = bundle.getString("money.errorWithdraw");
 			FacesContext.getCurrentInstance().addMessage(null,
@@ -119,6 +120,7 @@ public class ManageMoneyBean implements Serializable {
 						new FacesMessage(FacesMessage.SEVERITY_INFO, "", msg));
 				this.currentBalance = FacadeBean.getBusinessLogic().getUserBalance(authBean.getUser().getEmail());
 				this.transferList = FacadeBean.getBusinessLogic().getUserTransfers(authBean.getUser().getEmail());
+				createLineChart();
 			}
 		} catch (NotEnoughMoneyException e) {
 			String msg = bundle.getString("money.notEnoughMoney");

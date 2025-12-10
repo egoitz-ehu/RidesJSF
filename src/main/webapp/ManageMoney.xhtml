@@ -43,7 +43,8 @@
 
 							<p:commandButton value="#{msg['money.depositButton']}"
 								action="#{manageMoneyBean.addMoney}"
-								update=":withdrawMoneyForm @form :messages :currentMoney :transferTable :statisticsPanel" />
+								update=":withdrawMoneyForm @form :messages :currentMoney :transferTable :statisticsPanel">
+							</p:commandButton>
 						</h:panelGrid>
 					</p:panel>
 				</h:form>
@@ -84,7 +85,8 @@
 
 			<p:spacer height="20" />
 			<p:panel header="#{msg['money.statistics']}" id="statisticsPanel">
-				<p:lineChart  model="#{manageMoneyBean.lineModel}" style="width:100%; height:400px"/>
+				<p:lineChart model="#{manageMoneyBean.lineModel}"
+					style="width:100%; height:400px" />
 			</p:panel>
 
 		</p:panel>
