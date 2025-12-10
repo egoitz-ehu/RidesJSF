@@ -19,3 +19,18 @@
 .RESERVATION_FINISHED {
 	color: #a17dc3;
 }
+
+.balance-panel {
+    text-align: center !important;
+    font-size: 1.5em !important;
+    color: #fff !important;
+    border-radius: 10px !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+    padding: 20px 0 !important;
+}
+.current-balance {
+    background: #43a047 !important;
+}
+.frozen-balance {
+    background: #fbc02d !important;
+}

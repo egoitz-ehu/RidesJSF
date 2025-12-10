@@ -17,17 +17,27 @@
 
 		<p:panel header="#{msg['money.manageMoney']}">
 
-			<p:panel id="currentMoney" header="#{msg['money.currentBalance']}">
-				<h:outputText value="#{msg['money.currentMoney']}: " />
-				<h:outputText value="#{manageMoneyBean.currentBalance}">
-					<f:convertNumber type="currency" currencySymbol="€" />
-				</h:outputText>
-				<br />
-				<h:outputText value="#{msg['money.currentFrozenMoney']}: " />
-				<h:outputText value="#{manageMoneyBean.frozenMoney}">
-					<f:convertNumber type="currency" currencySymbol="€" />
-				</h:outputText>
-			</p:panel>
+			<h:panelGrid columns="2" style="width: 100%; margin-bottom: 20px;">
+				<h:panelGroup layout="block"
+					styleClass="balance-panel current-balance">
+					<h:outputText value="#{msg['money.currentMoney']}"
+						style="display:block; font-weight:bold; margin-bottom:8px;" />
+					<h:outputText value="#{manageMoneyBean.currentBalance}"
+						id="currentMoney">
+						<f:convertNumber type="currency" currencySymbol="€" />
+					</h:outputText>
+				</h:panelGroup>
+				<h:panelGroup layout="block"
+					styleClass="balance-panel frozen-balance">
+					<h:outputText value="#{msg['money.currentFrozenMoney']}"
+						style="display:block; font-weight:bold; margin-bottom:8px;" />
+					<h:outputText value="#{manageMoneyBean.frozenMoney}"
+						id="frozenMoney">
+						<f:convertNumber type="currency" currencySymbol="€" />
+					</h:outputText>
+				</h:panelGroup>
+			</h:panelGrid>
+
 
 			<p:spacer height="20" />
 
@@ -73,7 +83,7 @@
 				scrollHeight="250" sortMode="single">
 				<p:column headerText="proba" sortBy="#{transfer.date}">
 					<h:outputText value="#{transfer.date}">
-						<f:convertDateTime pattern="yyyy/MM/dd"/>
+						<f:convertDateTime pattern="yyyy/MM/dd" />
 					</h:outputText>
 				</p:column>
 				<p:column headerText="#{msg['money.table.amount']}">
