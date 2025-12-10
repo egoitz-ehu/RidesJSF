@@ -86,6 +86,15 @@ public class AuthBean implements Serializable {
 			return "sarrera";
 		}
 	}
+	
+	public String logout() {
+		this.user=null;
+		this.name="";
+		this.email="";
+		this.password="";
+		this.confirmPassword="";
+		return "logout";
+	}
 
 	// Getters and Setters
 	public String getEmail() {

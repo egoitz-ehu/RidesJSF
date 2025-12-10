@@ -18,17 +18,19 @@
 				<f:facet name="subtitle">
 					#{msg["sarrera.home"]}
 				</f:facet>
-				<h:form id="mainForm">
+				<h:panelGroup rendered="#{authBean.driver}">
 					<div
 						style="display: flex; justify-content: center; gap: 20px; margin-bottom: 30px;">
 						<p:commandButton value="#{msg['sarrera.createRide']}"
 							action="createRide" icon="pi pi-plus"
 							styleClass="ui-button-success" />
-						<p:commandButton value="#{msg['sarrera.fetchRide']}"
-							action="fetchRide" icon="pi pi-search"
-							styleClass="ui-button-info" />
 					</div>
-				</h:form>
+				</h:panelGroup>
+
+				<h:panelGroup rendered="#{authBean.traveler}">
+					<p:commandButton value="#{msg['sarrera.fetchRide']}"
+						action="fetchRide" icon="pi pi-search" styleClass="ui-button-info" />
+				</h:panelGroup>
 			</p:card>
 		</div>
 	</ui:define>

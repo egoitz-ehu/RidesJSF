@@ -57,6 +57,10 @@ https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_3_0.xsd"
 			<from-outcome>manageReservationsTraveler</from-outcome>
             <to-view-id>/ManageReservationsTraveler.xhtml</to-view-id>
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>logout</from-outcome>
+			<to-view-id>/Entry.xhtml</to-view-id>
+		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
