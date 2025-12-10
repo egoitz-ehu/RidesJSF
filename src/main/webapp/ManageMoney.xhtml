@@ -70,7 +70,12 @@
 			<p:spacer height="20" />
 			<p:dataTable id="transferTable" var="transfer"
 				value="#{manageMoneyBean.transferList}" scrollable="true"
-				scrollHeight="250">
+				scrollHeight="250" sortMode="single">
+				<p:column headerText="proba" sortBy="#{transfer.date}">
+					<h:outputText value="#{transfer.date}">
+						<f:convertDateTime pattern="yyyy/MM/dd"/>
+					</h:outputText>
+				</p:column>
 				<p:column headerText="#{msg['money.table.amount']}">
 					<h:outputText value="#{transfer.amount}">
 						<f:convertNumber type="currency" currencySymbol="€" />
