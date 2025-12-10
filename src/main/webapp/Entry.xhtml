@@ -14,10 +14,10 @@
 			style="display: flex; flex-direction: column; align-items: center; width: 100%;">
 			<h1 class="typewriter" style="width: 100%; margin-bottom: 30px;">#{msg['entry.title']}</h1>
 			<h:form>
-				<p:panel header="Welcome">
+				<p:panel>
 					<div style="display: flex; gap: 10px; justify-content: center;">
-						<p:commandButton value="Register" action="register" />
-						<p:commandButton value="Login" action="login" />
+						<p:commandButton value="#{msg['entry.register']}" action="register" />
+						<p:commandButton value="#{msg['entry.login']}" action="login" />
 					</div>
 				</p:panel>
 			</h:form>
