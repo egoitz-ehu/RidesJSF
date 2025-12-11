@@ -27,7 +27,10 @@
     border-radius: 10px !important;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
     padding: 20px 0 !important;
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
 }
+
 .current-balance {
     background: #43a047 !important;
 }

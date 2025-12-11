@@ -17,7 +17,8 @@
 
 		<p:panel header="#{msg['money.manageMoney']}">
 
-			<h:panelGrid columns="2" style="width: 100%; margin-bottom: 20px;">
+			<h:panelGroup layout="block"
+				style="display: flex; width: 100%; gap: 16px; margin-bottom: 20px;">
 				<h:panelGroup layout="block"
 					styleClass="balance-panel current-balance">
 					<h:outputText value="#{msg['money.currentMoney']}"
@@ -36,9 +37,7 @@
 						<f:convertNumber type="currency" currencySymbol="€" />
 					</h:outputText>
 				</h:panelGroup>
-			</h:panelGrid>
-
-
+			</h:panelGroup>
 			<p:spacer height="20" />
 
 			<h:panelGrid columns="2" style="width: 100%;">
