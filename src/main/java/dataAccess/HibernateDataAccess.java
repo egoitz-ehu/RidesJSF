@@ -326,7 +326,7 @@ public class HibernateDataAccess {
 		}
 	}
 	
-	public void acceptReservation(Long reservationId) {
+	public Reservation acceptReservation(Long reservationId) {
 		try {
 			db.getTransaction().begin();
 			Reservation reservation = db.find(Reservation.class, reservationId);
@@ -343,12 +343,14 @@ public class HibernateDataAccess {
 			d.createTransfer(amount, TransferType.RESERVATION_ACCEPT_DRIVER, d.getMoney(), d.getFrozenMoney());
 			db.persist(d);
 			db.getTransaction().commit();
+			return reservation;
 		} catch(Exception e) {
 			db.getTransaction().rollback();
+			return null;
 		}
 	}
 	
-	public void rejectReservation(Long reservationId) {
+	public Reservation rejectReservation(Long reservationId) {
 		try {
 			db.getTransaction().begin();
 			Reservation reservation = db.find(Reservation.class, reservationId);
@@ -364,8 +366,10 @@ public class HibernateDataAccess {
 			t.createTransfer(amount, TransferType.RESERVATION_REJECT, t.getMoney(), t.getFrozenMoney());
 			db.persist(r);
 			db.getTransaction().commit();
+			return reservation;
 		} catch(Exception e) {
 			db.getTransaction().rollback();
+			return null;
 		}
 	}
 	

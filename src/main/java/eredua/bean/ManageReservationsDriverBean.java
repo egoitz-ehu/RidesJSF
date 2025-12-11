@@ -24,11 +24,27 @@ public class ManageReservationsDriverBean implements Serializable{
 	}
 	
 	public void accept(Reservation reservation) {
-		FacadeBean.getBusinessLogic().acceptReservation(reservation.getId());
+		Reservation r = FacadeBean.getBusinessLogic().acceptReservation(reservation.getId());
+		if(r != null) {
+			for (int i = 0; i < reservations.size(); i++) {
+				if (reservations.get(i).getId().equals(r.getId())) {
+					reservations.set(i, r);
+					break;
+				}
+			}
+		}
 	}
 	
 	public void reject(Reservation reservation) {
-		FacadeBean.getBusinessLogic().rejectReservation(reservation.getId());
+		Reservation r= FacadeBean.getBusinessLogic().rejectReservation(reservation.getId());
+		if(r != null) {
+			for (int i = 0; i < reservations.size(); i++) {
+				if (reservations.get(i).getId().equals(r.getId())) {
+					reservations.set(i, r);
+					break;
+				}
+			}
+		}
 	}
 
 	public List<Reservation> getReservations() {

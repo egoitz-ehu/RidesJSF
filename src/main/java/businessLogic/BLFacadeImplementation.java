@@ -148,17 +148,19 @@ public class BLFacadeImplementation implements BLFacade {
 	}
 
 	@Override
-	public void acceptReservation(Long id) {
+	public Reservation acceptReservation(Long id) {
 		dataAccess.open();
-		dataAccess.acceptReservation(id);
+		Reservation r = dataAccess.acceptReservation(id);
 		dataAccess.close();
+		return r;
 	}
 
 	@Override
-	public void rejectReservation(Long id) {
+	public Reservation rejectReservation(Long id) {
 		dataAccess.open();
-		dataAccess.rejectReservation(id);
+		Reservation r = dataAccess.rejectReservation(id);
 		dataAccess.close();
+		return r;
 	}
 
 	@Override
