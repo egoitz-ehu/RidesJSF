@@ -51,4 +51,6 @@ public interface BLFacade {
 	public Reservation rejectReservation(Long id);
 	
 	public User getUser(String email);
+	
+	public void deleteUser(String email);
 }

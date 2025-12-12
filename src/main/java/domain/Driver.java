@@ -13,7 +13,7 @@ import util.UtilDate;
 
 @Entity
 public class Driver extends User {
-	@OneToMany(fetch = FetchType.LAZY, targetEntity = Ride.class, mappedBy = "driver", cascade = CascadeType.PERSIST)
+	@OneToMany(fetch = FetchType.LAZY, targetEntity = Ride.class, mappedBy = "driver", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
 	private List<Ride> rides;
 
 	public Driver() {

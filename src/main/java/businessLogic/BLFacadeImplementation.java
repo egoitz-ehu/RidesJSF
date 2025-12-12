@@ -170,4 +170,11 @@ public class BLFacadeImplementation implements BLFacade {
 		dataAccess.close();
 		return u;
 	}
+
+	@Override
+	public void deleteUser(String email) {
+		dataAccess.open();
+		dataAccess.deleteUser(email);
+		dataAccess.close();
+	}
 }

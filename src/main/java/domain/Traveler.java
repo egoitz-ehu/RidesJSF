@@ -10,7 +10,7 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Traveler extends User {
-	@OneToMany(fetch = FetchType.LAZY, targetEntity = Reservation.class, mappedBy = "traveler")
+	@OneToMany(fetch = FetchType.LAZY, targetEntity = Reservation.class, mappedBy = "traveler", cascade=CascadeType.REMOVE)
 	private List<Reservation> reservations;
 	
 	public Traveler() {

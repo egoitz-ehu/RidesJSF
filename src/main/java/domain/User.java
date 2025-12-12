@@ -22,7 +22,7 @@ public abstract class User {
 	private double money;
 	private double frozenMoney;
 	
-	@OneToMany(fetch=FetchType.LAZY, targetEntity = Transfer.class, mappedBy = "user", cascade=CascadeType.PERSIST)
+	@OneToMany(fetch=FetchType.LAZY, targetEntity = Transfer.class, mappedBy = "user", cascade= {CascadeType.PERSIST, CascadeType.REMOVE })
 	private List<Transfer> transferList;
 	
 	public User() {

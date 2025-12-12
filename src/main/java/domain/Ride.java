@@ -27,7 +27,7 @@ public class Ride {
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Driver driver;
 
-	@OneToMany(fetch = FetchType.LAZY, targetEntity = Reservation.class, mappedBy = "ride", cascade = CascadeType.PERSIST)
+	@OneToMany(fetch = FetchType.LAZY, targetEntity = Reservation.class, mappedBy = "ride", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
 	private List<Reservation> reservations;
 
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = Transfer.class, mappedBy = "ride")

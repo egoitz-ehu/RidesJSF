@@ -383,4 +383,80 @@ public class HibernateDataAccess {
 			return null;
 		}
 	}
+	
+	public void deleteUser(String userEmail) {
+		if(userEmail==null) return;
+		try {
+			db.getTransaction().begin();
+			Driver d = db.createQuery(
+				    "SELECT DISTINCT d FROM Driver d " +
+				    "LEFT JOIN FETCH d.rides r " +
+				    "LEFT JOIN FETCH r.reservations " +
+				    "WHERE d.userEmail = :userEmail", Driver.class)
+				    .setParameter("userEmail", userEmail)
+				    .getResultStream()
+				    .findFirst()
+				    .orElse(null);
+			if(d==null) {
+				Traveler t = db.createQuery(
+					    "SELECT DISTINCT t FROM Traveler t " +
+					    "LEFT JOIN FETCH t.reservations r " +
+					    "LEFT JOIN FETCH r.ride " +
+					    "WHERE t.userEmail = :userEmail", Traveler.class)
+					    .setParameter("userEmail", userEmail)
+					    .getResultStream()
+					    .findFirst()
+					    .orElse(null);
+				if(t==null) {
+					db.getTransaction().rollback();
+					return;
+				}
+				this.deleteTraveler(t);
+			} else {
+				this.deleteDriver(d);
+			}
+			db.getTransaction().commit();
+		} catch(Exception e) {
+			db.getTransaction().rollback();
+		}
+	}
+		
+	// beharrezkoa da transakzio baten barnean deitzea
+	private void deleteDriver(Driver d) {
+		//lazy denez kargatu
+		d.getRides().size();
+		List<Ride> rides = d.getRides();
+		for(Ride r: rides) {
+			//lazy denez kargatu
+			r.getReservations().size();
+			for(Reservation re: r.getReservations()) {
+				if(re.getState().equals(ReservationState.ACCEPTED)) {
+					double price = re.getTotalPrice();
+					Traveler t = re.getTraveler();
+					t.createTransfer(price, TransferType.RIDE_CANCELED, t.getMoney(), t.getFrozenMoney());
+					t.setMoney(t.getMoney()+price);
+				}
+			}
+		}
+		db.remove(d);
+	}
+	
+	// beharrezkoa da transakzio baten barnean deitzea
+	private void deleteTraveler(Traveler t) {
+		//lazy denez kargatu
+		t.getReservations();
+		List<Reservation> reservation = t.getReservations();
+		for(Reservation r: reservation) {
+			if(r.getState().equals(ReservationState.ACCEPTED)) {
+				Ride ride = r.getRide();
+				int places = r.getnPlaces();
+				double amount = r.getTotalPrice();
+				ride.setAvailableSeats(ride.getAvailableSeats()+places);
+				Driver d = ride.getDriver();
+				d.createTransfer(amount, TransferType.RESERVATION_CANCELED, d.getMoney(), d.getFrozenMoney());
+				d.removeFrozenMoney(amount);
+			}
+		}
+		db.remove(t);
+	}
 }
