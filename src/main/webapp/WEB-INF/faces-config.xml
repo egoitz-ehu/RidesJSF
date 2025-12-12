@@ -73,6 +73,10 @@ https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_3_0.xsd"
 			<from-outcome>login</from-outcome>
 			<to-view-id>/Login.xhtml</to-view-id>
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>denaIkusi</from-outcome>
+			<to-view-id>/BidaiaGuztiakData.xthml</to-view-id>
+		</navigation-case>
 	</navigation-rule>
 	
 	<navigation-rule>
@@ -96,6 +100,14 @@ https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_3_0.xsd"
 		<navigation-case>
 			<from-outcome>sarrera</from-outcome>
 			<to-view-id>/Sarrera.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<from-view-id>/BidaiaGuztiakData.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>bidaiakIkusi</from-outcome>
+			<to-view-id>/BidaiaGuztiakIkusi.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 </faces-config>

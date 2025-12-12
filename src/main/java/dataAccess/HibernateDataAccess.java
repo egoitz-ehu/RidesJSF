@@ -383,4 +383,12 @@ public class HibernateDataAccess {
 			return null;
 		}
 	}
+	
+	public List<Ride> getDateAllRides(Date date) {
+		TypedQuery<Ride> q = db.createQuery(
+				"SELECT r FROM Ride r WHERE r.rideDate=:data", Ride.class);
+		q.setParameter("data", date);
+		List<Ride> rides = q.getResultList();
+		return rides;
+	}
 }

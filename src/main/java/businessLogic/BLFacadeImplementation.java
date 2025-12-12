@@ -170,4 +170,12 @@ public class BLFacadeImplementation implements BLFacade {
 		dataAccess.close();
 		return u;
 	}
+
+	@Override
+	public List<Ride> getDateAllRides(Date date) {
+		dataAccess.open();
+		List<Ride> rides = dataAccess.getDateAllRides(date);
+		dataAccess.close();
+		return rides;
+	}
 }
