@@ -26,6 +26,22 @@
 				icon="pi pi-wallet" />
 			<p:menuitem value="#{msg['menu.logout']}" action="#{authBean.logout}"
 				icon="pi pi-sign-out" />
+			<p:menuitem value="#{msg['menu.deleteAccount']}"
+				icon="pi pi-user-minus"
+				onclick="PF('deleteDialog').show();return false;" />
 		</p:menu>
+		<p:dialog widgetVar="deleteDialog"
+			header="#{msg['dialog.deleteAccount']}" modal="true" closable="false">
+			<h:form id="deleteAccountFormDriver">
+				<h:outputText value="#{msg['dialog.deleteAccountConfirm']}" />
+				<br />
+				<br />
+				<p:commandButton value="#{msg['dialog.yes']}"
+					action="#{authBean.deleteAccount}"
+					oncomplete="PF('deleteDialog').hide();" />
+				<p:commandButton value="#{msg['dialog.no']}" type="button"
+					onclick="PF('deleteDialog').hide();" />
+			</h:form>
+		</p:dialog>
 	</div>
 </ui:composition>

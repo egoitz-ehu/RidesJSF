@@ -95,6 +95,11 @@ public class AuthBean implements Serializable {
 		this.confirmPassword="";
 		return "logout";
 	}
+	
+	public String deleteAccount() {
+		FacadeBean.getBusinessLogic().deleteUser(this.user.getEmail());
+		return this.logout();
+	}
 
 	// Getters and Setters
 	public String getEmail() {

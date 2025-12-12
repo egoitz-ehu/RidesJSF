@@ -388,25 +388,9 @@ public class HibernateDataAccess {
 		if(userEmail==null) return;
 		try {
 			db.getTransaction().begin();
-			Driver d = db.createQuery(
-				    "SELECT DISTINCT d FROM Driver d " +
-				    "LEFT JOIN FETCH d.rides r " +
-				    "LEFT JOIN FETCH r.reservations " +
-				    "WHERE d.userEmail = :userEmail", Driver.class)
-				    .setParameter("userEmail", userEmail)
-				    .getResultStream()
-				    .findFirst()
-				    .orElse(null);
+			Driver d = db.find(Driver.class, userEmail);
 			if(d==null) {
-				Traveler t = db.createQuery(
-					    "SELECT DISTINCT t FROM Traveler t " +
-					    "LEFT JOIN FETCH t.reservations r " +
-					    "LEFT JOIN FETCH r.ride " +
-					    "WHERE t.userEmail = :userEmail", Traveler.class)
-					    .setParameter("userEmail", userEmail)
-					    .getResultStream()
-					    .findFirst()
-					    .orElse(null);
+				Traveler t = db.find(Traveler.class, userEmail);
 				if(t==null) {
 					db.getTransaction().rollback();
 					return;
@@ -433,8 +417,13 @@ public class HibernateDataAccess {
 				if(re.getState().equals(ReservationState.ACCEPTED)) {
 					double price = re.getTotalPrice();
 					Traveler t = re.getTraveler();
-					t.createTransfer(price, TransferType.RIDE_CANCELED, t.getMoney(), t.getFrozenMoney());
 					t.setMoney(t.getMoney()+price);
+					t.createTransfer(price, TransferType.RIDE_CANCELED, t.getMoney(), t.getFrozenMoney());
+				} else if(re.getState().equals(ReservationState.WAITING)) {
+					Traveler t = re.getTraveler();
+					double price = re.getTotalPrice();
+					t.moveFrozenToMoney(price);
+					t.createTransfer(price, TransferType.RIDE_CANCELED, t.getMoney(), t.getFrozenMoney());
 				}
 			}
 		}
@@ -453,8 +442,8 @@ public class HibernateDataAccess {
 				double amount = r.getTotalPrice();
 				ride.setAvailableSeats(ride.getAvailableSeats()+places);
 				Driver d = ride.getDriver();
-				d.createTransfer(amount, TransferType.RESERVATION_CANCELED, d.getMoney(), d.getFrozenMoney());
 				d.removeFrozenMoney(amount);
+				d.createTransfer(amount, TransferType.RESERVATION_CANCELED, d.getMoney(), d.getFrozenMoney());
 			}
 		}
 		db.remove(t);

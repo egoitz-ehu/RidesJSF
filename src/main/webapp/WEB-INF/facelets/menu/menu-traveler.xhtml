@@ -16,14 +16,32 @@
 </style>
 	<div class="full-width-menu">
 		<p:menu style="width: 100%;">
-			<p:menuitem value="#{msg['menu.home']}" outcome="home" icon="pi pi-home" />
+			<p:menuitem value="#{msg['menu.home']}" outcome="home"
+				icon="pi pi-home" />
 			<p:menuitem value="#{msg['menu.fetchRide']}" outcome="fetchRide"
 				icon="pi pi-search" />
 			<p:menuitem value="#{msg['menu.manageMoney']}" outcome="manageMoney"
 				icon="pi pi-wallet" />
-			<p:menuitem value="#{msg['menu.manageReservations']}" outcome="manageReservationsTraveler" icon="pi pi-cog" />
+			<p:menuitem value="#{msg['menu.manageReservations']}"
+				outcome="manageReservationsTraveler" icon="pi pi-cog" />
 			<p:menuitem value="#{msg['menu.logout']}" action="#{authBean.logout}"
 				icon="pi pi-sign-out" />
+			<p:menuitem value="#{msg['menu.deleteAccount']}"
+				icon="pi pi-user-minus"
+				onclick="PF('deleteDialog').show();return false;" />
 		</p:menu>
+		<p:dialog widgetVar="deleteDialog"
+			header="#{msg['dialog.deleteAccount']}" modal="true" closable="false">
+			<h:form id="deleteAccountForm">
+				<h:outputText value="#{msg['dialog.deleteAccountConfirm']}" />
+				<br />
+				<br />
+				<p:commandButton value="#{msg['dialog.yes']}"
+					action="#{authBean.deleteAccount}"
+					ajax="false" />
+				<p:commandButton value="#{msg['dialog.no']}" type="button"
+					onclick="PF('deleteDialog').hide();" />
+			</h:form>
+		</p:dialog>
 	</div>
 </ui:composition>
