@@ -36,11 +36,14 @@
 				<h:outputText value="#{msg['dialog.deleteAccountConfirm']}" />
 				<br />
 				<br />
-				<p:commandButton value="#{msg['dialog.yes']}"
-					action="#{authBean.deleteAccount}"
-					oncomplete="PF('deleteDialog').hide();" />
-				<p:commandButton value="#{msg['dialog.no']}" type="button"
-					onclick="PF('deleteDialog').hide();" />
+				<p:panelGrid columns="2" style="margin-top:10px;column-gap:16px;">
+					<p:commandButton value="#{msg['dialog.yes']}"
+						action="#{authBean.deleteAccount}" ajax="false"
+						styleClass="ui-button-danger" />
+					<p:commandButton value="#{msg['dialog.no']}" type="button"
+						onclick="PF('deleteDialog').hide();"
+						styleClass="ui-button-secondary" />
+				</p:panelGrid>
 			</h:form>
 		</p:dialog>
 	</div>
