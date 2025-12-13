@@ -116,7 +116,7 @@ public class HibernateDataAccess {
 			db.getTransaction().rollback();
 			return null;
 		}
-		//lazy denez kargatu
+		// lazy denez kargatu
 		driver.getRides().size();
 		if (driver.doesRideExists(from, to, date)) {
 			db.getTransaction().rollback();
@@ -190,39 +190,34 @@ public class HibernateDataAccess {
 			throws NotAvailableSeatsException, NotEnoughMoneyException {
 		if (date == null || travelerEmail == null || places <= 0)
 			return null;
-		try {
-			db.getTransaction().begin();
-			Ride r = db.find(Ride.class, rideId);
-			if (r == null) {
-				db.getTransaction().rollback();
-				return null;
-			}
-			if (r.getAvailableSeats() < places) {
-				db.getTransaction().rollback();
-				throw new NotAvailableSeatsException();
-			}
-			Traveler t = db.find(Traveler.class, travelerEmail);
-			if (t == null) {
-				db.getTransaction().rollback();
-				return null;
-			}
-			double totalPrice = places * r.getPricePerSeat();
-			double oldAmount = t.getMoney();
-			if (totalPrice > oldAmount) {
-				db.getTransaction().rollback();
-				throw new NotEnoughMoneyException();
-			}
-			Reservation reservation = r.createReservation(date, t, places);
-			t.addReservation(reservation);
-			t.moveMoneyToFrozen(totalPrice);
-			t.createTransfer(totalPrice, TransferType.RESERVATION_REQUEST, t.getMoney(), t.getFrozenMoney());
-			db.persist(r);
-			db.getTransaction().commit();
-			return reservation;
-		} catch (Exception e) {
+		db.getTransaction().begin();
+		Ride r = db.find(Ride.class, rideId);
+		if (r == null) {
 			db.getTransaction().rollback();
 			return null;
 		}
+		if (r.getAvailableSeats() < places) {
+			db.getTransaction().rollback();
+			throw new NotAvailableSeatsException();
+		}
+		Traveler t = db.find(Traveler.class, travelerEmail);
+		if (t == null) {
+			db.getTransaction().rollback();
+			return null;
+		}
+		double totalPrice = places * r.getPricePerSeat();
+		double oldAmount = t.getMoney();
+		if (totalPrice > oldAmount) {
+			db.getTransaction().rollback();
+			throw new NotEnoughMoneyException();
+		}
+		Reservation reservation = r.createReservation(date, t, places);
+		t.addReservation(reservation);
+		t.moveMoneyToFrozen(totalPrice);
+		t.createTransfer(totalPrice, TransferType.RESERVATION_REQUEST, t.getMoney(), t.getFrozenMoney());
+		db.persist(r);
+		db.getTransaction().commit();
+		return reservation;
 	}
 
 	public void depositMoney(String userEmail, double amount) {
@@ -312,25 +307,26 @@ public class HibernateDataAccess {
 			return new ArrayList<Reservation>();
 		}
 	}
-	
+
 	public List<Reservation> getTravelerReservations(String travelerEmail) {
 		if (travelerEmail == null)
 			return new ArrayList<Reservation>();
 		try {
-			TypedQuery<Reservation> q = db.createQuery("SELECT res FROM Reservation res WHERE res.traveler.email=:email", Reservation.class);
+			TypedQuery<Reservation> q = db
+					.createQuery("SELECT res FROM Reservation res WHERE res.traveler.email=:email", Reservation.class);
 			q.setParameter("email", travelerEmail);
 			List<Reservation> reservations = q.getResultList();
 			return reservations;
-		} catch(Exception e) {
+		} catch (Exception e) {
 			return new ArrayList<Reservation>();
 		}
 	}
-	
+
 	public Reservation acceptReservation(Long reservationId) {
 		try {
 			db.getTransaction().begin();
 			Reservation reservation = db.find(Reservation.class, reservationId);
-			if(!reservation.getState().equals(ReservationState.WAITING)) {
+			if (!reservation.getState().equals(ReservationState.WAITING)) {
 				db.getTransaction().rollback();
 			}
 			reservation.setState(ReservationState.ACCEPTED);
@@ -344,35 +340,35 @@ public class HibernateDataAccess {
 			db.persist(d);
 			db.getTransaction().commit();
 			return reservation;
-		} catch(Exception e) {
+		} catch (Exception e) {
 			db.getTransaction().rollback();
 			return null;
 		}
 	}
-	
+
 	public Reservation rejectReservation(Long reservationId) {
 		try {
 			db.getTransaction().begin();
 			Reservation reservation = db.find(Reservation.class, reservationId);
-			if(!reservation.getState().equals(ReservationState.WAITING)) {
+			if (!reservation.getState().equals(ReservationState.WAITING)) {
 				db.getTransaction().rollback();
 			}
 			reservation.setState(ReservationState.REJECTED);
 			double amount = reservation.getTotalPrice();
 			Ride r = reservation.getRide();
-			r.setAvailableSeats(r.getAvailableSeats()+reservation.getnPlaces());
+			r.setAvailableSeats(r.getAvailableSeats() + reservation.getnPlaces());
 			Traveler t = reservation.getTraveler();
 			t.moveFrozenToMoney(amount);
 			t.createTransfer(amount, TransferType.RESERVATION_REJECT, t.getMoney(), t.getFrozenMoney());
 			db.persist(r);
 			db.getTransaction().commit();
 			return reservation;
-		} catch(Exception e) {
+		} catch (Exception e) {
 			db.getTransaction().rollback();
 			return null;
 		}
 	}
-	
+
 	public User getUser(String userEmail) {
 		if (userEmail == null)
 			return null;
@@ -383,15 +379,16 @@ public class HibernateDataAccess {
 			return null;
 		}
 	}
-	
+
 	public void deleteUser(String userEmail) {
-		if(userEmail==null) return;
+		if (userEmail == null)
+			return;
 		try {
 			db.getTransaction().begin();
 			Driver d = db.find(Driver.class, userEmail);
-			if(d==null) {
+			if (d == null) {
 				Traveler t = db.find(Traveler.class, userEmail);
-				if(t==null) {
+				if (t == null) {
 					db.getTransaction().rollback();
 					return;
 				}
@@ -400,50 +397,56 @@ public class HibernateDataAccess {
 				this.deleteDriver(d);
 			}
 			db.getTransaction().commit();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			db.getTransaction().rollback();
 		}
 	}
-		
+
 	// beharrezkoa da transakzio baten barnean deitzea
 	private void deleteDriver(Driver d) {
-		//lazy denez kargatu
+		// lazy denez kargatu
 		d.getRides().size();
 		List<Ride> rides = d.getRides();
-		for(Ride r: rides) {
-			//lazy denez kargatu
+		for (Ride r : rides) {
+			// lazy denez kargatu
 			r.getReservations().size();
-			for(Reservation re: r.getReservations()) {
-				if(re.getState().equals(ReservationState.ACCEPTED)) {
+			for (Reservation re : r.getReservations()) {
+				if (re.getState().equals(ReservationState.ACCEPTED)) {
 					double price = re.getTotalPrice();
 					Traveler t = re.getTraveler();
-					t.setMoney(t.getMoney()+price);
+					t.setMoney(t.getMoney() + price);
 					t.createTransfer(price, TransferType.RIDE_CANCELED, t.getMoney(), t.getFrozenMoney());
-				} else if(re.getState().equals(ReservationState.WAITING)) {
+					db.persist(t);
+				} else if (re.getState().equals(ReservationState.WAITING)) {
 					Traveler t = re.getTraveler();
 					double price = re.getTotalPrice();
 					t.moveFrozenToMoney(price);
 					t.createTransfer(price, TransferType.RIDE_CANCELED, t.getMoney(), t.getFrozenMoney());
+					db.persist(t);
 				}
 			}
 		}
 		db.remove(d);
 	}
-	
+
 	// beharrezkoa da transakzio baten barnean deitzea
 	private void deleteTraveler(Traveler t) {
-		//lazy denez kargatu
-		t.getReservations();
+		// lazy denez kargatu
+		t.getReservations().size();
 		List<Reservation> reservation = t.getReservations();
-		for(Reservation r: reservation) {
-			if(r.getState().equals(ReservationState.ACCEPTED)) {
+		for (Reservation r : reservation) {
+			if (r.getState().equals(ReservationState.ACCEPTED)) {
 				Ride ride = r.getRide();
 				int places = r.getnPlaces();
 				double amount = r.getTotalPrice();
-				ride.setAvailableSeats(ride.getAvailableSeats()+places);
+				ride.setAvailableSeats(ride.getAvailableSeats() + places);
 				Driver d = ride.getDriver();
 				d.removeFrozenMoney(amount);
 				d.createTransfer(amount, TransferType.RESERVATION_CANCELED, d.getMoney(), d.getFrozenMoney());
+			} else if (r.getState().equals(ReservationState.WAITING)) {
+				Ride ride = r.getRide();
+				int places = r.getnPlaces();
+				ride.setAvailableSeats(ride.getAvailableSeats() + places);
 			}
 		}
 		db.remove(t);

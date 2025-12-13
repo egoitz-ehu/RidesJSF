@@ -79,8 +79,9 @@
 			<p:spacer height="20" />
 			<p:dataTable id="transferTable" var="transfer"
 				value="#{manageMoneyBean.transferList}" scrollable="true"
-				scrollHeight="250" sortMode="single">
-				<p:column headerText="proba" sortBy="#{transfer.date}">
+				scrollHeight="250" sortMode="single"
+				emptyMessage="#{msg['table.notFound']}">
+				<p:column headerText="#{msg['money.table.date']}" sortBy="#{transfer.date}">
 					<h:outputText value="#{transfer.date}">
 						<f:convertDateTime pattern="yyyy/MM/dd" />
 					</h:outputText>

@@ -19,6 +19,12 @@
 .RESERVATION_FINISHED {
 	color: #a17dc3;
 }
+.RIDE_CANCELED {
+	color: rgb(181, 131, 90);
+}
+.RESERVATION_CANCELED {
+	color: rgb(217, 164, 33);
+}
 
 .balance-panel {
     text-align: center !important;

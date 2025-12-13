@@ -13,6 +13,7 @@ import exceptions.NotEnoughMoneyException;
 import exceptions.RideAlreadyExistException;
 import exceptions.RideMustBeLaterThanTodayException;
 import exceptions.UserAlreadyRegistered;
+import util.HashUtil;
 
 public class BLFacadeImplementation implements BLFacade {
 	private HibernateDataAccess dataAccess;
@@ -74,7 +75,8 @@ public class BLFacadeImplementation implements BLFacade {
 	public User register(String email, String name, String password, boolean isDriver) throws UserAlreadyRegistered {
 		dataAccess.open();
 		try {
-			User u = dataAccess.register(email, name, password, isDriver);
+			String hashedPassword = HashUtil.hashPassword(password);
+			User u = dataAccess.register(email, name, hashedPassword, isDriver);
 			dataAccess.close();
 			return u;
 		} catch (UserAlreadyRegistered e) {
@@ -86,7 +88,8 @@ public class BLFacadeImplementation implements BLFacade {
 	@Override
 	public User login(String email, String password) {
 		dataAccess.open();
-		User u = dataAccess.login(email, password);
+		String hashedPassword = HashUtil.hashPassword(password);
+		User u = dataAccess.login(email, hashedPassword);
 		dataAccess.close();
 		return u;
 	}

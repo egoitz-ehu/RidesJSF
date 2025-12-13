@@ -16,6 +16,8 @@ import org.primefaces.event.DateViewChangeEvent;
 
 import domain.Reservation;
 import domain.Ride;
+import exceptions.NotAvailableSeatsException;
+import exceptions.NotEnoughMoneyException;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
@@ -142,14 +144,19 @@ public class SearchRideBean implements Serializable {
 			Reservation reservation = FacadeBean.getBusinessLogic().createReservation(new Date(),
 					this.selectedRide.getId(), authBean.getUser().getEmail(), numberOfSeats);
 			if(reservation == null) {
-				throw new Exception("Reservation failed");
+				String msgBody = bundle.getString("booking.error");
+				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, null, msgBody));
+			} else {
+				String msgBody = bundle.getString("booking.success");
+				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, null, msgBody));
+				success = true;
+				this.selectedRide.setAvailableSeats(this.selectedRide.getAvailableSeats() - numberOfSeats);
 			}
-			String msgBody = bundle.getString("booking.success");
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, null, msgBody));
-			success = true;
-			this.selectedRide.setAvailableSeats(this.selectedRide.getAvailableSeats() - numberOfSeats);
-		} catch (Exception e) {
-			String msgBody = bundle.getString("booking.error");
+		} catch(NotEnoughMoneyException e) {
+			String msgBody = bundle.getString("booking.error.notEnoughMoney");
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, null, msgBody));
+		} catch(NotAvailableSeatsException e) {
+			String msgBody = bundle.getString("booking.error.notAvailableSeats");
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, null, msgBody));
 		}
 		this.selectedRide = null;

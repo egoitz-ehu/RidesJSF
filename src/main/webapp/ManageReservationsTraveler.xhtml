@@ -17,7 +17,8 @@
 
 		<p:dataTable id="reservationsTable" var="reservation"
 			value="#{manageReservationsTravelerBean.reservations}"
-			scrollable="true" scrollHeight="400">
+			scrollable="true" scrollHeight="400"
+			emptyMessage="#{msg['table.notFound']}">
 
 			<p:column headerText="#{msg['manageBookingTraveler.from']}">
 				<h:outputText value="#{reservation.ride.departingCity}" />
